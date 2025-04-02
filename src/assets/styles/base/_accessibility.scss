@@ -1,0 +1,121 @@
+// Essential accessibility styles for WCAG 2.2 Level AA compliance
+
+// Focus styles
+:focus {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+// Skip to main content link
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  z-index: z("modal");
+  padding: spacing(2);
+  background-color: $color-background;
+  color: $color-text;
+  text-decoration: none;
+
+  &:focus {
+    left: 0;
+    top: 0;
+  }
+}
+
+// Screen reader only text
+.sr-only {
+  @include visually-hidden;
+}
+
+// Ensure interactive elements have sufficient size
+button,
+input,
+select,
+textarea,
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+// Ensure form controls have visible labels
+label {
+  display: inline-block;
+  margin-bottom: spacing(1);
+}
+
+// Ensure text can be resized without breaking layout
+html {
+  text-size-adjust: 100%;
+}
+
+// High contrast mode support
+@media (forced-colors: active) {
+  * {
+    border-color: currentColor;
+  }
+
+  a:link {
+    color: LinkText;
+  }
+
+  a:visited {
+    color: VisitedText;
+  }
+
+  a:active {
+    color: ActiveText;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Ensure sufficient color contrast
+.text-contrast-high {
+  color: $color-text;
+}
+
+// Ensure content is properly structured with headings
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+// Ensure images have alt text
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Ensure tables are accessible
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: spacing(2);
+}
+
+th, td {
+  padding: spacing(2);
+  text-align: left;
+  border-bottom: 1px solid $color-surface;
+}
+
+th {
+  font-weight: 700;
+  background-color: $color-surface;
+}
+
+// Ensure form controls have visible focus states
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}

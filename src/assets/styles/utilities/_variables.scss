@@ -1,0 +1,29 @@
+// Color variables
+$color-primary: #6366f1;
+$color-secondary: #4f46e5;
+$color-text: #1f2937;
+$color-background: #ffffff;
+$color-surface: #f3f4f6;
+
+// Typography
+$font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+// Spacing
+$spacing-unit: 0.25rem;
+$container-max: 65rem;
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Z-index
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;

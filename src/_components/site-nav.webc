@@ -1,0 +1,148 @@
+<template>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/" class="site-logo">
+        <svg webc:load="svg/heht-logo.svg" aria-label="HEHT"></svg>
+      </a>
+
+      <button type="button"
+              class="menu-toggle"
+              aria-label="Toggle menu"
+              aria-expanded="false"
+              @click="toggleMenu()">
+        All Episodes
+      </button>
+    </nav>
+
+    <div class="mobile-menu" aria-hidden="true">
+      <episode-list :episodes="episodes"></episode-list>
+    </div>
+  </header>
+</template>
+
+<style>
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg-gradient);
+  backdrop-filter: blur(8px);
+}
+
+.site-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.site-logo {
+  color: var(--yellow);
+  height: 2rem;
+  display: block;
+}
+
+.site-logo svg {
+  height: 100%;
+  width: auto;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-color);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem;
+}
+
+.mobile-menu[aria-hidden="false"] {
+  transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+}
+</style>
+
+<script>
+class SiteNav extends HTMLElement {
+  constructor() {
+    super();
+    this.isMenuOpen = false;
+  }
+
+  connectedCallback() {
+    this.menuToggle = this.querySelector('.menu-toggle');
+    this.mobileMenu = this.querySelector('.mobile-menu');
+
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    this.menuToggle?.addEventListener('click', () => this.toggleMenu());
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.isMenuOpen) {
+        this.closeMenu();
+      }
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (this.isMenuOpen && !this.contains(e.target)) {
+        this.closeMenu();
+      }
+    });
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    this.menuToggle.setAttribute('aria-expanded', this.isMenuOpen);
+    this.mobileMenu.setAttribute('aria-hidden', !this.isMenuOpen);
+
+    if (this.isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+    this.menuToggle.setAttribute('aria-expanded', false);
+    this.mobileMenu.setAttribute('aria-hidden', true);
+    document.body.style.overflow = '';
+  }
+
+  static get observedAttributes() {
+    return ['episodes'];
+  }
+}
+
+customElements.define('site-nav', SiteNav);
+</script>

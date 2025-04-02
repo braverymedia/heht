@@ -1,0 +1,239 @@
+<template>
+  <div class="audio-player" :data-src="src" :data-title="title" :data-episode="episode">
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" :style="--progress: '0%'"></div>
+      </div>
+      <div class="time-display">
+        <span class="current-time">00:00</span>
+        <span class="duration">44:21</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button type="button" class="skip-back" aria-label="Skip back 10 seconds">
+        <svg webc:load="svg/skip-back.svg"></svg>
+        <span>10</span>
+      </button>
+
+      <button type="button" class="play-pause" aria-label="Play">
+        <svg webc:load="svg/play.svg" class="play-icon"></svg>
+        <svg webc:load="svg/pause.svg" class="pause-icon"></svg>
+      </button>
+
+      <button type="button" class="playback-speed" aria-label="Playback speed" aria-haspopup="true">
+        <span>1×</span>
+      </button>
+    </div>
+  </div>
+</template>
+
+<style>
+.audio-player {
+  --primary-color: #6366f1;
+  --text-color: #f8fafc;
+  --bg-color: rgba(0, 0, 0, 0.5);
+  --progress-height: 4px;
+
+  background: var(--bg-color);
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--text-color);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.progress-container {
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  height: var(--progress-height);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: calc(var(--progress-height) / 2);
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: calc(var(--progress-height) / 2);
+  width: var(--progress);
+  transition: width 0.1s linear;
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.play-pause {
+  width: 3rem;
+  height: 3rem;
+  background: var(--primary-color);
+}
+
+.play-pause:hover {
+  background: var(--primary-color);
+  filter: brightness(1.1);
+}
+
+.pause-icon {
+  display: none;
+}
+
+[data-playing="true"] .play-icon {
+  display: none;
+}
+
+[data-playing="true"] .pause-icon {
+  display: block;
+}
+
+.skip-back {
+  position: relative;
+}
+
+.skip-back span {
+  position: absolute;
+  font-size: 0.75rem;
+}
+
+.playback-speed span {
+  font-weight: 500;
+}
+
+svg {
+  width: 24px;
+  height: 24px;
+}
+
+.play-pause svg {
+  width: 32px;
+  height: 32px;
+}
+</style>
+
+<script>
+class AudioPlayer extends HTMLElement {
+  constructor() {
+    super();
+    this.audio = new Audio();
+    this.isPlaying = false;
+    this.currentSpeed = 1;
+    this.speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+  }
+
+  connectedCallback() {
+    this.audio.src = this.dataset.src;
+    this.setupEventListeners();
+    this.setupAudioEvents();
+  }
+
+  setupEventListeners() {
+    const playPauseBtn = this.querySelector('.play-pause');
+    const skipBackBtn = this.querySelector('.skip-back');
+    const speedBtn = this.querySelector('.playback-speed');
+    const progressBar = this.querySelector('.progress-bar');
+
+    playPauseBtn?.addEventListener('click', () => this.togglePlay());
+    skipBackBtn?.addEventListener('click', () => this.skipBack());
+    speedBtn?.addEventListener('click', () => this.cyclePlaybackSpeed());
+    progressBar?.addEventListener('click', (e) => this.seek(e));
+  }
+
+  setupAudioEvents() {
+    this.audio.addEventListener('timeupdate', () => this.updateProgress());
+    this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+    this.audio.addEventListener('ended', () => this.onEnded());
+  }
+
+  togglePlay() {
+    if (this.isPlaying) {
+      this.audio.pause();
+    } else {
+      this.audio.play();
+    }
+    this.isPlaying = !this.isPlaying;
+    this.dataset.playing = this.isPlaying;
+  }
+
+  skipBack() {
+    this.audio.currentTime = Math.max(0, this.audio.currentTime - 10);
+  }
+
+  cyclePlaybackSpeed() {
+    const currentIndex = this.speedOptions.indexOf(this.currentSpeed);
+    const nextIndex = (currentIndex + 1) % this.speedOptions.length;
+    this.currentSpeed = this.speedOptions[nextIndex];
+    this.audio.playbackRate = this.currentSpeed;
+    this.querySelector('.playback-speed span').textContent = `${this.currentSpeed}×`;
+  }
+
+  seek(event) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const percent = (event.clientX - rect.left) / rect.width;
+    this.audio.currentTime = percent * this.audio.duration;
+  }
+
+  updateProgress() {
+    const percent = (this.audio.currentTime / this.audio.duration) * 100;
+    this.querySelector('.progress-fill').style.setProperty('--progress', `${percent}%`);
+    this.querySelector('.current-time').textContent = this.formatTime(this.audio.currentTime);
+  }
+
+  updateDuration() {
+    this.querySelector('.duration').textContent = this.formatTime(this.audio.duration);
+  }
+
+  onEnded() {
+    this.isPlaying = false;
+    this.dataset.playing = false;
+  }
+
+  formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  disconnectedCallback() {
+    this.audio.pause();
+    this.audio.src = '';
+  }
+}
+
+customElements.define('audio-player', AudioPlayer);
+</script>

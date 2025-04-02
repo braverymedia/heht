@@ -1,0 +1,31 @@
+{
+	"title": "Higher Ed Hot Takes",
+	"description": "Take a hard look at the hype surrounding AI in higher education. Join Joel G Goodman and explore smarter, more sustainable ways to leverage technology without compromising strategy, UX, or humanity.",
+	"siteUrl": "https://higheredhottakes.com",
+	"language": "en-US",
+	"copyright": "© 2025 Bravery Media",
+	"author": "Joel G Goodman",
+	"category": "Education",
+	"subcategory": "Higher Education",
+	"explicit": false,
+	"type": "episodic",
+	"complete": false,
+	"block": false,
+	"episodeUrlBase": "https://pod-cdn.bravery.co/heht/",
+	"image": {
+		"url": "/assets/img/podcast-cover.jpg",
+		"title": "Higher Ed Hot Takes Cover Art"
+	},
+	"owner": {
+		"name": "Bravery Media",
+		"email": "joel@bravery.co"
+	},
+	"social": {
+		"bluesky": "@joelgoodman.co",
+		"mastodon": "@joelgoodman@mastodon.social"
+	},
+	"feedSettings": {
+		"path": "/feed/podcast.xml",
+		"id": "https://higheredhottakes.com"
+	}
+}

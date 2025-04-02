@@ -1,0 +1,5 @@
+{
+	"layout": "layouts/episode.njk",
+	"permalink": "episodes/{{ episode.episodeNumber | padStart(3, '0') }}-{{ title | slugify }}/",
+	"tags": "podcastEpisode"
+}

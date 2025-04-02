@@ -1,0 +1,105 @@
+// Basic header styles
+.site-header {
+  background-color: $color-background;
+  border-bottom: 1px solid $color-surface;
+  padding: spacing(2) 0;
+
+  @include respond-to("md") {
+    padding: spacing(3) 0;
+  }
+
+  .container {
+    @include container;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: rem(24);
+    font-weight: 700;
+    color: $color-text;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  .nav-toggle {
+    display: block;
+    background: none;
+    border: none;
+    padding: spacing(1);
+    cursor: pointer;
+
+    @include respond-to("md") {
+      display: none;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      fill: $color-text;
+    }
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: $color-background;
+    border-bottom: 1px solid $color-surface;
+    padding: spacing(2);
+    z-index: z("dropdown");
+
+    @include respond-to("md") {
+      display: block;
+      position: static;
+      border-bottom: none;
+      padding: 0;
+    }
+
+    &.is-open {
+      display: block;
+    }
+
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      @include respond-to("md") {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .nav-item {
+      margin-bottom: spacing(2);
+
+      @include respond-to("md") {
+        margin-bottom: 0;
+        margin-left: spacing(3);
+      }
+    }
+
+    .nav-link {
+      display: block;
+      color: $color-text;
+      text-decoration: none;
+      font-weight: 500;
+
+      &:hover, &:focus {
+        color: $color-primary;
+      }
+
+      &.is-active {
+        color: $color-primary;
+        font-weight: 700;
+      }
+    }
+  }
+}

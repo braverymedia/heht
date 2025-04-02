@@ -1,0 +1,115 @@
+<template>
+  <form class="newsletter-form" method="post" action="https://app.loops.so/api/newsletter-form/YOUR_FORM_ENDPOINT">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" name="firstName" required>
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" id="lastName" name="lastName" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <input type="hidden" name="mailingLists" value="clxw13yb8004y0ml459zv0z3c">
+
+    <button type="submit" class="submit-button">Subscribe</button>
+  </form>
+</template>
+
+<style>
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100%;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.form-group input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 2px rgba(255, 200, 0, 0.2);
+}
+
+.submit-button {
+  background-color: var(--yellow);
+  color: var(--text-color);
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.submit-button:hover {
+  background-color: var(--yellow-dark);
+}
+
+.submit-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 200, 0, 0.4);
+}
+
+@media (min-width: 640px) {
+  .newsletter-form {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+
+  .form-group {
+    flex: 1 1 200px;
+  }
+
+  .submit-button {
+    flex: 0 0 auto;
+  }
+}
+</style>
+
+<script>
+class NewsletterForm extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.form = this.querySelector('form');
+    this.form.addEventListener('submit', this.handleSubmit.bind(this));
+  }
+
+  handleSubmit(event) {
+    // You can add additional validation or handling here if needed
+    // The form will submit to Loops.so by default
+  }
+}
+
+customElements.define('newsletter-form', NewsletterForm);
+</script>

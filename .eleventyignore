@@ -1,0 +1,10 @@
+README.md
+_docs/
+node_modules/
+.git/
+.env
+.env.*
+package.json
+package-lock.json
+.gitignore
+.DS_Store

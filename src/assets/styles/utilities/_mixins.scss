@@ -1,0 +1,56 @@
+// Responsive breakpoints
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == "sm" {
+    @media (min-width: $breakpoint-sm) { @content; }
+  } @else if $breakpoint == "md" {
+    @media (min-width: $breakpoint-md) { @content; }
+  } @else if $breakpoint == "lg" {
+    @media (min-width: $breakpoint-lg) { @content; }
+  } @else if $breakpoint == "xl" {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+}
+
+// Focus styles for accessibility
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+// Container
+@mixin container {
+  width: 100%;
+  max-width: $container-max;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-unit * 4;
+  padding-right: $spacing-unit * 4;
+}
+
+// Visually hidden (for screen readers)
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Flexbox helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

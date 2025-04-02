@@ -1,0 +1,80 @@
+---
+layout: layouts/base.njk
+---
+{%- set episodeNumber = episode.number | padStart(3, '0') -%}
+<article class="episode h-entry" itemscope itemtype="http://schema.org/PodcastEpisode">
+  <header class="episode-header">
+    <div class="episode-meta">
+      <time class="dt-published" datetime="{{ page.date | htmlDateString }}" itemprop="datePublished">
+        {{ page.date | readableDate }}
+      </time>
+      <span class="episode-number">Episode {{ episodeNumber }}</span>
+      {% if episode.duration %}
+        <span class="episode-duration" itemprop="timeRequired">{{ episode.duration }}</span>
+      {% endif %}
+    </div>
+
+    <h1 class="p-name" itemprop="name">{{ title }}</h1>
+
+    {% if description %}
+      <p class="p-summary" itemprop="description">{{ description }}</p>
+    {% endif %}
+  </header>
+
+  <div class="episode-player">
+    <audio-player
+      src="{{ episode.audioUrl }}"
+      title="{{ title }}"
+      episode="{{ episodeNumber }}"
+      duration="{{ episode.duration }}"
+    ></audio-player>
+  </div>
+
+  <div class="episode-content e-content" itemprop="articleBody">
+    {{ content | safe }}
+  </div>
+
+  {% if episode.shownotes %}
+    <section class="episode-notes">
+      <h2>Show Notes</h2>
+      {{ episode.shownotes | markdownify | safe }}
+    </section>
+  {% endif %}
+
+  <footer class="episode-footer">
+    <div class="episode-share">
+      <h2>Share this episode</h2>
+      <share-buttons
+        title="{{ title }}"
+        url="{{ page.url | absoluteUrl(metadata.url) }}"
+      ></share-buttons>
+    </div>
+
+    {% if episode.transcript %}
+      <div class="episode-transcript">
+        <h2>Transcript</h2>
+        {{ episode.transcript | markdownify | safe }}
+      </div>
+    {% endif %}
+  </footer>
+</article>
+
+{% block jsonLd %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastEpisode",
+  "name": "{{ title }}",
+  "datePublished": "{{ page.date | htmlDateString }}",
+  "description": "{{ description }}",
+  "duration": "{{ episode.duration }}",
+  "episodeNumber": "{{ episode.number }}",
+  "url": "{{ page.url | absoluteUrl(metadata.url) }}",
+  "partOfSeries": {
+    "@type": "PodcastSeries",
+    "name": "{{ podcast.title }}",
+    "url": "{{ podcast.siteUrl }}"
+  }
+}
+</script>
+{% endblock %}
