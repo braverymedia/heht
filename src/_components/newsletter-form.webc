@@ -1,5 +1,5 @@
 <template>
-  <form class="newsletter-form" method="post" action="https://app.loops.so/api/newsletter-form/YOUR_FORM_ENDPOINT">
+  <form class="newsletter-form" method="post" action="https://app.loops.so/api/newsletter-form/clmf0qar501k6mb0npy4e33r8">
     <div class="form-group">
       <label for="firstName">First Name</label>
       <input type="text" id="firstName" name="firstName" required>

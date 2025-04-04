@@ -1,0 +1,34 @@
+button {
+    --bg: rgba(0, 0, 0, 0.30);
+    display: inline-flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    background: transparent;
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        border-radius: 39px;
+        background-color: var(--bg);
+        mix-blend-mode: overlay;
+        backdrop-filter: blur(20px);
+        transition: all 0.15s ease;
+    }
+    &:hover:after {
+        filter: hue-rotate(10deg) brightness(2);
+    }
+    &.cta {
+        --bg: #22068C;
+        color: #00FFB2;
+        text-align: center;
+        font-size: var(--type-xs);
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+}

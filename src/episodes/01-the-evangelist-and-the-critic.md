@@ -13,6 +13,7 @@ episode:
   size: 42541056
   duration: 2661
   type: audio/mpeg
+permalink: /episodes/001-the-evangelist-and-the-critic/
 ---
 
 In this inaugural episode of Higher Ed Hot Takes, we dive deep into the complex relationship between artificial intelligence and higher education. As institutions rush to embrace AI, we need to ask: Are we moving too fast? Are we considering the full implications of these technologies?

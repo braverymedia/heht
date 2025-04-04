@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" webc:keep>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title @text="title ? `${title} - ${podcast.title}` : podcast.title"></title>
+
+  <!-- Meta tags -->
+  <meta name="description" :content="description || podcast.description">
+  <meta name="author" :content="podcast.author">
+
+  <!-- Open Graph -->
+  <meta property="og:title" :content="title ? `${title} - ${podcast.title}` : podcast.title">
+  <meta property="og:description" :content="description || podcast.description">
+  <meta property="og:type" content="website">
+  <meta property="og:url" :content="page.url | absoluteUrl(podcast.siteUrl)">
+  <meta property="og:image" :content="podcast.image.url | absoluteUrl(podcast.siteUrl)">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" :content="podcast.social.twitter">
+
+  <!-- Feeds -->
+  <link rel="alternate" type="application/rss+xml" :title="podcast.title" :href="'/feed.xml' | absoluteUrl(podcast.siteUrl)">
+  <link rel="alternate" type="application/json" :title="podcast.title" :href="'/feed.json' | absoluteUrl(podcast.siteUrl)">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/styles/main.css" webc:keep>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+
+  <!-- WebC Components -->
+  <style @raw="getBundle('css')" webc:keep></style>
+  <script @raw="getBundle('js')" webc:keep></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <site-nav :episodes="JSON.stringify(transformedEpisodes)"></site-nav>
+
+  <main id="main" tabindex="-1">
+    <slot></slot>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span @text="podcast.copyright"></span></p>
+    <nav aria-label="Footer navigation">
+      <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Use</a></li>
+          <li><a href="/feed.xml">RSS Feed</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+  <slot name="jsonLd"></slot>
+</body>
+</html>
+
+<script webc:setup>
+const transformedEpisodes = collections.episodes.map(episode => ({
+  url: episode.url,
+  data: {
+    title: episode.data.title,
+    episode: {
+      episodeNumber: episode.data.episode?.episodeNumber,
+      duration: episode.data.episode?.duration
+    }
+  }
+}));
+</script>
+
+<script>
+class BaseLayout extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    // Handle view transitions if supported
+    if (document.startViewTransition) {
+      document.addEventListener('click', async (e) => {
+        const link = e.target.closest('a:not([data-no-ajax])');
+        if (link) {
+          e.preventDefault();
+          const response = await fetch(link.href);
+          const html = await response.text();
+
+          document.startViewTransition(() => {
+            document.querySelector('main').innerHTML =
+              new DOMParser().parseFromString(html, 'text/html')
+                .querySelector('main').innerHTML;
+          });
+        }
+      });
+    }
+  }
+}
+
+customElements.define('base-layout', BaseLayout);
+</script>

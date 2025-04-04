@@ -2,4 +2,4 @@
 permalink: /feed/podcast.xml
 eleventyExcludeFromCollections: true
 ---
-{% include "podcast-feed.njk" %}
+<podcast-feed></podcast-feed>

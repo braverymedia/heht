@@ -1,146 +1,191 @@
-<template>
-  <header class="site-header">
-    <nav class="site-nav" aria-label="Main navigation">
-      <a href="/" class="site-logo">
-        <svg webc:load="svg/heht-logo.svg" aria-label="HEHT"></svg>
-      </a>
+<header class="toolbar">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a href="/" class="site-logo">
+      <heht-logo aria-label="HEHT"></heht-logo>
+    </a>
 
+    <div class="nav-links">
+      <a href="/about/" class="nav-link">About</a>
       <button type="button"
-              class="menu-toggle"
-              aria-label="Toggle menu"
+              class="nav-link"
+              aria-label="Toggle episode list"
               aria-expanded="false"
               @click="toggleMenu()">
-        All Episodes
+        Episodes
       </button>
-    </nav>
-
-    <div class="mobile-menu" aria-hidden="true">
-      <episode-list :episodes="episodes"></episode-list>
     </div>
-  </header>
-</template>
+  </nav>
+  <button type="button" class="cta" aria-label="Subscribe to newsletter"
+    @click="openNewsletterModal()">
+    <icon-heart-envelope></icon-heart-envelope>
+    Subscribe
+  </button>
+  <div class="mobile-menu" aria-hidden="true">
+    <episode-list :episodes="JSON.stringify(parsedEpisodes)"></episode-list>
+  </div>
+
+  <div class="desktop-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>All Episodes</h2>
+    </div>
+    <episode-list :episodes="JSON.stringify(parsedEpisodes)"></episode-list>
+    <button type="button" class="drawer-close" aria-label="Close drawer" @click="closeDrawer()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="newsletter-modal" aria-hidden="true" role="dialog" aria-labelledby="newsletter-modal-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="newsletter-modal-title">Subscribe to our Newsletter</h2>
+        <button type="button" class="modal-close" aria-label="Close modal" @click="closeNewsletterModal()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <newsletter-form></newsletter-form>
+    </div>
+  </div>
+</header>
 
 <style>
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: var(--bg-gradient);
-  backdrop-filter: blur(8px);
-}
-
-.site-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-.site-logo {
-  color: var(--yellow);
-  height: 2rem;
-  display: block;
-}
-
-.site-logo svg {
-  height: 100%;
-  width: auto;
-}
-
-.menu-toggle {
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.5rem;
-  cursor: pointer;
-}
-
-.mobile-menu {
-  position: fixed;
-  top: var(--header-height);
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--bg-color);
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 1rem;
-}
-
-.mobile-menu[aria-hidden="false"] {
-  transform: translateX(0);
-}
-
-@media (min-width: 768px) {
-  .menu-toggle {
-    display: none;
+  .site-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-
-  .mobile-menu {
-    display: none;
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem clamp(1rem, 4vw, 3rem);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    font-size: var(--type-sm);
   }
-}
+  .site-nav {
+    display: flex;
+    gap: 4rem;
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex: 1 1 auto;
+    }
+  }
+  a.nav-link,
+  button.nav-link,
+  .nav-link {
+    text-decoration: none !important;
+    color: var(--color-white) !important;
+    padding: 0 !important;
+    &:hover {
+      color: var(--color-green) !important;
+    }
+    &:after {
+      display: none !important;
+    }
+  }
 </style>
+
+<script webc:setup>
+const parsedEpisodes = episodes ? JSON.parse(episodes) : [];
+</script>
 
 <script>
 class SiteNav extends HTMLElement {
   constructor() {
     super();
-    this.isMenuOpen = false;
+    this.mobileMenu = null;
+    this.desktopDrawer = null;
+    this.menuToggle = null;
+    this.newsletterModal = null;
   }
 
   connectedCallback() {
-    this.menuToggle = this.querySelector('.menu-toggle');
     this.mobileMenu = this.querySelector('.mobile-menu');
+    this.desktopDrawer = this.querySelector('.desktop-drawer');
+    this.menuToggle = this.querySelector('.nav-link[aria-label="Toggle episode list"]');
+    this.newsletterModal = this.querySelector('.newsletter-modal');
 
-    this.setupEventListeners();
-  }
+    this.menuToggle.addEventListener('click', () => this.toggleMenu());
 
-  setupEventListeners() {
-    this.menuToggle?.addEventListener('click', () => this.toggleMenu());
-
-    // Close menu on escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.isMenuOpen) {
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!this.contains(e.target) &&
+          (this.mobileMenu.getAttribute('aria-hidden') === 'false' ||
+           this.desktopDrawer.getAttribute('aria-hidden') === 'false')) {
         this.closeMenu();
       }
     });
 
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (this.isMenuOpen && !this.contains(e.target)) {
-        this.closeMenu();
+    // Close newsletter modal when clicking outside
+    this.newsletterModal.addEventListener('click', (e) => {
+      if (e.target === this.newsletterModal) {
+        this.closeNewsletterModal();
+      }
+    });
+
+    // Close newsletter modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.newsletterModal.getAttribute('aria-hidden') === 'false') {
+        this.closeNewsletterModal();
       }
     });
   }
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-    this.menuToggle.setAttribute('aria-expanded', this.isMenuOpen);
-    this.mobileMenu.setAttribute('aria-hidden', !this.isMenuOpen);
+    const isMobile = window.innerWidth <= 768;
+    const menu = isMobile ? this.mobileMenu : this.desktopDrawer;
+    const isOpen = menu.getAttribute('aria-hidden') === 'false';
 
-    if (this.isMenuOpen) {
-      document.body.style.overflow = 'hidden';
+    if (isOpen) {
+      this.closeMenu();
     } else {
-      document.body.style.overflow = '';
+      this.openMenu();
     }
   }
 
+  openMenu() {
+    const isMobile = window.innerWidth <= 768;
+    const menu = isMobile ? this.mobileMenu : this.desktopDrawer;
+
+    menu.setAttribute('aria-hidden', 'false');
+    this.menuToggle.setAttribute('aria-expanded', 'true');
+
+    // Prevent scrolling when menu is open
+    document.body.style.overflow = 'hidden';
+  }
+
   closeMenu() {
-    this.isMenuOpen = false;
-    this.menuToggle.setAttribute('aria-expanded', false);
-    this.mobileMenu.setAttribute('aria-hidden', true);
+    const isMobile = window.innerWidth <= 768;
+    const menu = isMobile ? this.mobileMenu : this.desktopDrawer;
+
+    menu.setAttribute('aria-hidden', 'true');
+    this.menuToggle.setAttribute('aria-expanded', 'false');
+
+    // Restore scrolling
     document.body.style.overflow = '';
   }
 
-  static get observedAttributes() {
-    return ['episodes'];
+  openNewsletterModal() {
+    this.newsletterModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeNewsletterModal() {
+    this.newsletterModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  closeDrawer() {
+    this.closeMenu();
   }
 }
 

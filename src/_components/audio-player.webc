@@ -2,11 +2,11 @@
   <div class="audio-player" :data-src="src" :data-title="title" :data-episode="episode">
     <div class="progress-container">
       <div class="progress-bar">
-        <div class="progress-fill" :style="--progress: '0%'"></div>
+        <div class="progress-fill" style="--progress: 0%"></div>
       </div>
       <div class="time-display">
         <span class="current-time">00:00</span>
-        <span class="duration">44:21</span>
+        <span class="duration">{{ duration }}</span>
       </div>
     </div>
 
@@ -107,42 +107,52 @@ button:hover {
 
 .play-pause:hover {
   background: var(--primary-color);
-  filter: brightness(1.1);
+  opacity: 0.9;
+}
+
+.play-icon, .pause-icon {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .pause-icon {
   display: none;
 }
 
-[data-playing="true"] .play-icon {
+.playing .play-icon {
   display: none;
 }
 
-[data-playing="true"] .pause-icon {
+.playing .pause-icon {
   display: block;
 }
 
-.skip-back {
-  position: relative;
-}
-
-.skip-back span {
-  position: absolute;
+.skip-back, .playback-speed {
   font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.playback-speed span {
-  font-weight: 500;
+.skip-back svg, .playback-speed svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
-svg {
-  width: 24px;
-  height: 24px;
-}
+@media (max-width: 768px) {
+  .audio-player {
+    padding: 0.75rem;
+  }
 
-.play-pause svg {
-  width: 32px;
-  height: 32px;
+  .controls {
+    gap: 1rem;
+  }
+
+  .play-pause {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 }
 </style>
 
@@ -150,34 +160,70 @@ svg {
 class AudioPlayer extends HTMLElement {
   constructor() {
     super();
-    this.audio = new Audio();
+    this.audio = null;
     this.isPlaying = false;
-    this.currentSpeed = 1;
-    this.speedOptions = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+    this.currentTime = 0;
+    this.duration = 0;
+    this.playbackRate = 1;
+    this.progressFill = null;
+    this.currentTimeDisplay = null;
+    this.durationDisplay = null;
+    this.playPauseButton = null;
+    this.progressBar = null;
+    this.skipBackButton = null;
+    this.playbackSpeedButton = null;
   }
 
   connectedCallback() {
-    this.audio.src = this.dataset.src;
+    this.setupAudio();
+    this.setupControls();
     this.setupEventListeners();
-    this.setupAudioEvents();
+  }
+
+  setupAudio() {
+    this.audio = new Audio();
+    this.audio.src = this.getAttribute('data-src');
+    this.audio.preload = 'metadata';
+
+    this.audio.addEventListener('loadedmetadata', () => {
+      this.duration = this.audio.duration;
+      this.updateDurationDisplay();
+    });
+
+    this.audio.addEventListener('timeupdate', () => {
+      this.currentTime = this.audio.currentTime;
+      this.updateProgress();
+      this.updateCurrentTimeDisplay();
+    });
+
+    this.audio.addEventListener('ended', () => {
+      this.isPlaying = false;
+      this.updatePlayPauseButton();
+    });
+  }
+
+  setupControls() {
+    this.progressFill = this.querySelector('.progress-fill');
+    this.currentTimeDisplay = this.querySelector('.current-time');
+    this.durationDisplay = this.querySelector('.duration');
+    this.playPauseButton = this.querySelector('.play-pause');
+    this.progressBar = this.querySelector('.progress-bar');
+    this.skipBackButton = this.querySelector('.skip-back');
+    this.playbackSpeedButton = this.querySelector('.playback-speed');
   }
 
   setupEventListeners() {
-    const playPauseBtn = this.querySelector('.play-pause');
-    const skipBackBtn = this.querySelector('.skip-back');
-    const speedBtn = this.querySelector('.playback-speed');
-    const progressBar = this.querySelector('.progress-bar');
+    this.playPauseButton.addEventListener('click', () => this.togglePlay());
 
-    playPauseBtn?.addEventListener('click', () => this.togglePlay());
-    skipBackBtn?.addEventListener('click', () => this.skipBack());
-    speedBtn?.addEventListener('click', () => this.cyclePlaybackSpeed());
-    progressBar?.addEventListener('click', (e) => this.seek(e));
-  }
+    this.progressBar.addEventListener('click', (e) => {
+      const rect = this.progressBar.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      this.seekTo(percent);
+    });
 
-  setupAudioEvents() {
-    this.audio.addEventListener('timeupdate', () => this.updateProgress());
-    this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
-    this.audio.addEventListener('ended', () => this.onEnded());
+    this.skipBackButton.addEventListener('click', () => this.skipBack());
+
+    this.playbackSpeedButton.addEventListener('click', () => this.togglePlaybackSpeed());
   }
 
   togglePlay() {
@@ -187,51 +233,58 @@ class AudioPlayer extends HTMLElement {
       this.audio.play();
     }
     this.isPlaying = !this.isPlaying;
-    this.dataset.playing = this.isPlaying;
+    this.updatePlayPauseButton();
+  }
+
+  updatePlayPauseButton() {
+    if (this.isPlaying) {
+      this.playPauseButton.classList.add('playing');
+      this.playPauseButton.setAttribute('aria-label', 'Pause');
+    } else {
+      this.playPauseButton.classList.remove('playing');
+      this.playPauseButton.setAttribute('aria-label', 'Play');
+    }
+  }
+
+  seekTo(percent) {
+    const time = this.duration * percent;
+    this.audio.currentTime = time;
+  }
+
+  updateProgress() {
+    const percent = (this.currentTime / this.duration) * 100;
+    this.progressFill.style.setProperty('--progress', `${percent}%`);
+  }
+
+  updateCurrentTimeDisplay() {
+    this.currentTimeDisplay.textContent = this.formatTime(this.currentTime);
+  }
+
+  updateDurationDisplay() {
+    this.durationDisplay.textContent = this.formatTime(this.duration);
+  }
+
+  formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   }
 
   skipBack() {
     this.audio.currentTime = Math.max(0, this.audio.currentTime - 10);
   }
 
-  cyclePlaybackSpeed() {
-    const currentIndex = this.speedOptions.indexOf(this.currentSpeed);
-    const nextIndex = (currentIndex + 1) % this.speedOptions.length;
-    this.currentSpeed = this.speedOptions[nextIndex];
-    this.audio.playbackRate = this.currentSpeed;
-    this.querySelector('.playback-speed span').textContent = `${this.currentSpeed}×`;
+  togglePlaybackSpeed() {
+    const speeds = [0.75, 1, 1.25, 1.5, 2];
+    const currentIndex = speeds.indexOf(this.playbackRate);
+    const nextIndex = (currentIndex + 1) % speeds.length;
+    this.playbackRate = speeds[nextIndex];
+    this.audio.playbackRate = this.playbackRate;
+    this.playbackSpeedButton.querySelector('span').textContent = `${this.playbackRate}×`;
   }
 
-  seek(event) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const percent = (event.clientX - rect.left) / rect.width;
-    this.audio.currentTime = percent * this.audio.duration;
-  }
-
-  updateProgress() {
-    const percent = (this.audio.currentTime / this.audio.duration) * 100;
-    this.querySelector('.progress-fill').style.setProperty('--progress', `${percent}%`);
-    this.querySelector('.current-time').textContent = this.formatTime(this.audio.currentTime);
-  }
-
-  updateDuration() {
-    this.querySelector('.duration').textContent = this.formatTime(this.audio.duration);
-  }
-
-  onEnded() {
-    this.isPlaying = false;
-    this.dataset.playing = false;
-  }
-
-  formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }
-
-  disconnectedCallback() {
-    this.audio.pause();
-    this.audio.src = '';
+  static get observedAttributes() {
+    return ['src', 'title', 'episode', 'duration'];
   }
 }
 

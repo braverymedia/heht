@@ -1,14 +1,12 @@
-<template>
-  <div class="episode-list">
-    <template webc:for="episode of episodes">
-      <a :href="episode.url" class="episode-item">
-        <span class="episode-number">Episode {{ episode.data.episode.episodeNumber }}</span>
-        <span class="episode-title">{{ episode.data.title }}</span>
-        <span class="episode-duration">{{ formatDuration(episode.data.episode.duration) }}</span>
-      </a>
-    </template>
-  </div>
-</template>
+<div class="episode-list">
+  <template webc:for="episode of parsedEpisodes">
+    <a :href="episode.url" class="episode-item">
+      <span class="episode-number">Episode {{ padStart(episode.data.episode.episodeNumber, 3, '0') }}</span>
+      <span class="episode-title">{{ episode.data.title }}</span>
+      <span class="episode-duration">{{ formatDuration(episode.data.episode.duration) }}</span>
+    </a>
+  </template>
+</div>
 
 <style>
 .episode-list {
@@ -16,6 +14,7 @@
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+  padding: 1rem;
 }
 
 .episode-item {
@@ -53,27 +52,34 @@
 
 @media (min-width: 768px) {
   .episode-list {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 
   .episode-item {
-    flex: 1 1 300px;
-    min-width: 300px;
+    grid-template-columns: auto 1fr auto;
   }
 }
 </style>
+
+<script webc:setup>
+const parsedEpisodes = episodes ? JSON.parse(episodes) : [];
+
+function padStart(str, length, char) {
+  return String(str).padStart(length, char);
+}
+
+function formatDuration(seconds) {
+  if (!seconds) return "00:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+</script>
 
 <script>
 class EpisodeList extends HTMLElement {
   constructor() {
     super();
-  }
-
-  formatDuration(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   }
 
   static get observedAttributes() {

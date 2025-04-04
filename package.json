@@ -9,7 +9,11 @@
     "clean": "rm -rf _site",
     "debug": "DEBUG=Eleventy* npx @11ty/eleventy"
   },
-  "keywords": ["podcast", "eleventy", "education"],
+  "keywords": [
+    "podcast",
+    "eleventy",
+    "education"
+  ],
   "author": "",
   "license": "ISC",
   "description": "Higher Ed Hot Takes Podcast Website",
@@ -21,13 +25,14 @@
     "@11ty/is-land": "^4.0.0"
   },
   "devDependencies": {
+    "@11ty/eleventy-plugin-bundle": "^3.0.1",
+    "autoprefixer": "^10.4.19",
     "clean-css": "^5.3.3",
     "html-minifier": "^4.0.0",
-    "terser": "^5.29.2",
-    "sass": "^1.72.0",
     "postcss": "^8.4.35",
     "postcss-preset-env": "^9.5.0",
-    "autoprefixer": "^10.4.19"
+    "sass": "^1.72.0",
+    "terser": "^5.29.2"
   },
   "browserslist": [
     "last 2 versions",

@@ -1,5 +1,6 @@
 import pluginRss from "@11ty/eleventy-plugin-rss";
 import pluginWebc from "@11ty/eleventy-plugin-webc";
+import pluginBundle from "@11ty/eleventy-plugin-bundle";
 import Image from "@11ty/eleventy-img";
 import { minify } from "terser";
 import CleanCSS from "clean-css";
@@ -68,6 +69,7 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPlugin(pluginWebc, {
 		components: "src/_components/**/*.webc"
 	});
+	eleventyConfig.addPlugin(pluginBundle);
 
 	// Passthrough copy
 	eleventyConfig.addPassthroughCopy("src/assets");
@@ -82,7 +84,34 @@ export default async function (eleventyConfig) {
 	});
 
 	eleventyConfig.addFilter("episodeUrl", (filename, podcast) => {
+		if (!podcast || !podcast.episodeUrlBase) {
+			console.warn("Warning: podcast.episodeUrlBase is not defined");
+			return filename;
+		}
 		return new URL(filename, podcast.episodeUrlBase).toString();
+	});
+
+	eleventyConfig.addFilter("formatDuration", (seconds) => {
+		if (!seconds) return "00:00";
+		const mins = Math.floor(seconds / 60);
+		const secs = Math.floor(seconds % 60);
+		return `${mins}:${secs.toString().padStart(2, '0')}`;
+	});
+
+	eleventyConfig.addFilter("absoluteUrl", (path, base) => {
+		if (!base) {
+			console.warn("Warning: base URL is not defined");
+			return path;
+		}
+		return new URL(path, base).toString();
+	});
+
+	eleventyConfig.addFilter("slugify", (str) => {
+		if (!str) return "";
+		return str.toLowerCase()
+			.replace(/[^\w\s-]/g, '')
+			.replace(/[\s_-]+/g, '-')
+			.replace(/^-+|-+$/g, '');
 	});
 
 	eleventyConfig.addFilter("padStart", (str, length, char) => {
@@ -156,7 +185,11 @@ export default async function (eleventyConfig) {
 			data: "_data"
 		},
 		templateFormats: ["md", "njk", "html", "webc", "scss"],
-		markdownTemplateEngine: "njk",
-		htmlTemplateEngine: "njk"
+		markdownTemplateEngine: "webc",
+		htmlTemplateEngine: "webc",
+		pathPrefix: "/",
+		env: {
+			siteUrl: process.env.SITE_URL || "https://higheredhottakes.com"
+		}
 	};
 }

@@ -1,0 +1,31 @@
+html {
+  background-color: var(--color-pink);
+  min-height: 100dvh;
+}
+
+body {
+  background: radial-gradient(160.86% 142.28% at 50% 143.33%, rgba(16, 3, 70, 0.00) 35.1%, #100346 100%), radial-gradient(24.44% 70.72% at 50% 120.72%, #FFB325 46.15%, rgba(255, 179, 37, 0.00) 100%);
+  min-height: 100dvh;
+  width: 100dvw;
+  overflow: hidden;
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 100%;
+}
+.site-footer {
+  padding: 1.5rem clamp(1rem, 4vw, 3rem);
+  font-size: var(--type-xs);
+  display: flex;
+  gap: 1rem;
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+  }
+  p {margin: 0;}
+}

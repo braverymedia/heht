@@ -1,0 +1,5 @@
+<template>
+    <nav class="subscribe-bar">
+        <a href=""></a>
+    </nav>
+</template>
