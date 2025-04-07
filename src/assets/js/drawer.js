@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Format episode numbers
-  const formatEpisodeNumber = (number) => {
+  const formatnumber = (number) => {
     return number.toString().padStart(3, '0');
   };
 
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (number && number.dataset.number) {
-      number.textContent = `#${formatEpisodeNumber(number.dataset.number)}`;
+      number.textContent = `#${formatnumber(number.dataset.number)}`;
     }
   });
 });

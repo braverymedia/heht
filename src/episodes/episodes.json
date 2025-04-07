@@ -1,5 +1,5 @@
 {
-	"layout": "layouts/episode.webc",
+	"layout": "layouts/episode.njk",
 	"tags": ["episodes"],
-	"permalink": "/episodes/{{ episode.episodeNumber | padStart(3, '0') }}-{{ title | slugify }}/"
+	"permalink": "/episodes/{{ episode.number | padStart(3, '0') }}-{{ title | slugify }}/"
 }

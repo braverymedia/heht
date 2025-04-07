@@ -29,3 +29,12 @@ main {
   }
   p {margin: 0;}
 }
+.toolbar {
+  display: flex;
+  position: sticky;
+  top: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  z-index: 1000;
+}

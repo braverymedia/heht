@@ -1,0 +1,65 @@
+<header class="toolbar">
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="site-logo">
+      {% include '../assets/svg/heht-logo.svg' %}
+    </a>
+
+    <div class="nav-links">
+      <a href="/about/" class="nav-link">About</a>
+      <button type="button"
+              class="nav-link"
+              aria-label="Toggle episode list"
+              aria-expanded="false">
+        Episodes
+      </button>
+    </div>
+  </nav>
+  <button type="button" class="cta" aria-label="Subscribe to newsletter">
+    {% include '../assets/svg/icon-heart-envelope.svg' %}
+    Subscribe
+  </button>
+  
+  <div class="mobile-menu" aria-hidden="true" role="dialog" aria-labelledby="mobile-menu-title">
+    <h2 id="mobile-menu-title">All Episodes</h2>
+    <div class="episode-list">
+      {% for episode in collections.episodes %}
+        <div class="episode-list__item">
+          <a href="{{ episode.url }}" class="episode-list__link">
+            <span class="episode-list__number">{{ episode.number | padStart(3, '0') }}</span>
+            <span class="episode-list__title">{{ episode.title }}</span>
+            <span class="episode-list__duration">{{ episode.duration }}</span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="desktop-drawer" aria-hidden="true" role="dialog" aria-labelledby="desktop-drawer-title">
+    <div class="drawer-header">
+      <h2 id="desktop-drawer-title">All Episodes</h2>
+    </div>
+    <div class="episode-list">
+      {% for episode in collections.episodes %}
+        <div class="episode-list__item">
+          <a href="{{ episode.url }}" class="episode-list__link">
+            <span class="episode-list__number">{{ episode.number | padStart(3, '0') }}</span>
+            <span class="episode-list__title">{{ episode.title }}</span>
+            <span class="episode-list__duration">{{ episode.duration }}</span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    <button type="button" class="drawer-close" aria-label="Close drawer">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="newsletter-modal" aria-hidden="true" role="dialog" aria-labelledby="newsletter-modal-title">
+    <div class="modal-content">
+      {% include '../_components/newsletter-form.njk' %}
+    </div>
+  </div>
+</header>

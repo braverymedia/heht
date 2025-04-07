@@ -1,0 +1,11 @@
+<ul class="episode-list">
+  {% for episode in episodes %}
+    <li class="episode-list__item">
+      <a href="{{ episode.url }}" class="episode-list__link">
+        <span class="episode-list__number">{{ episode.number | padStart(3, '0') }}</span>
+        <span class="episode-list__title">{{ episode.title }}</span>
+        <span class="episode-list__duration">{{ episode.duration }}</span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>

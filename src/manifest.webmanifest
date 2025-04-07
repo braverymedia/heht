@@ -1,7 +1,7 @@
 {
   "name": "Higher Ed Hot Takes",
   "short_name": "HEHT",
-  "description": "Take a hard look at the hype surrounding AI in higher education.",
+  "description": "Take a hard look at the hype surrounding marketing in higher education.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

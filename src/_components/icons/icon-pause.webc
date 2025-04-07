@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+    <title>media-pause</title>
+    <g fill="currentColor">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M28 6H39V42H28V6Z" fill="currentColor"></path>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 6H20V42H9V6Z" fill="currentColor"></path>
+    </g>
+</svg>

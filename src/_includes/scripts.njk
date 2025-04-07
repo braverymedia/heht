@@ -1,0 +1,7 @@
+{% set js %}
+{% include "../assets/js/site-nav.js" %}
+{% include "../assets/js/newsletter-form.js" %}
+{% endset %}
+<script>
+  {{ js | jsmin | safe }}
+</script>

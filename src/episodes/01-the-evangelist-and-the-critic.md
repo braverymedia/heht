@@ -1,18 +1,20 @@
 ---
 title: The Evangelist and the Critic
 description: Take a hard look at the hype surrounding AI in higher education. Join Joel G Goodman and explore smarter, more sustainable ways to leverage technology without compromising strategy, UX, or humanity.
-date: 2024-04-02
+date: 2025-04-06
+number: 1
+audio:
+  filename: AUDIO_0155.mp3
+  size: 7268430
+  duration: 452
+  type: audio/mpeg
 tags:
   - AI
   - Higher Education
   - Technology
   - Strategy
-episode:
-  filename: 01-the-evangelist-and-the-critic.mp3
-  episodeNumber: 1
-  size: 42541056
-  duration: 2661
-  type: audio/mpeg
+cover:
+  image: src/assets/img/heht-episode-001.jpg
 permalink: /episodes/001-the-evangelist-and-the-critic/
 ---
 
@@ -25,13 +27,3 @@ In this inaugural episode of Higher Ed Hot Takes, we dive deep into the complex 
 - Balancing innovation with institutional values
 - Practical approaches to AI implementation
 - The importance of human-centered design in tech adoption
-
-## Resources Mentioned
-
-- [EDUCAUSE 2024 Top 10 IT Issues](https://www.educause.edu/research-and-publications/research/top-10-it-issues)
-- [Stanford HAI's AI Index Report](https://hai.stanford.edu/ai-index-2024)
-- [The Ethics of AI in Education](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics)
-
-## Guest Information
-
-This episode features a conversation between Joel G Goodman and leading experts in educational technology and institutional strategy.

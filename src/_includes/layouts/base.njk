@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} - {{ podcast.title }}{% else %}{{ podcast.title }}{% endif %}</title>
+
+  {% include "../../_components/meta.njk" %}
+
+  <!-- Styles -->
+  {% if env === 'production' %}
+    {% include "styles.njk" %}
+  {% else %}
+    <link rel="stylesheet" href="/assets/styles/main.css">
+  {% endif %}
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+
+  <!-- JavaScript -->
+  {% if env === 'production' %}
+    {% include "scripts.njk" %}
+  {% else %}
+    <script src="/assets/js/site-nav.js" defer></script>
+    <script src="/assets/js/newsletter-form.js" defer></script>
+  {% endif %}
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  {% include "../../_components/site-nav.njk" %}
+
+  <main id="main" tabindex="-1">
+    {% if collections.episodes and collections.episodes[0] %}
+      {% set latestEpisode = collections.episodes[0] %}
+      {% include "../../_components/audio-player.njk" %}
+    {% endif %}
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; {{ podcast.copyright }}</p>
+    <nav aria-label="Footer navigation">
+      <ul>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Use</a></li>
+        <li><a href="/feed.xml">RSS Feed</a></li>
+      </ul>
+    </nav>
+  </footer>
+</body>
+</html>

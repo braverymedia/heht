@@ -1,0 +1,58 @@
+  <div class="audio-player" 
+  data-episode-id="{{ episodeNumber }}"
+  data-src="{{ src }}"
+  data-is-playing="false"
+  data-playback-speed="1"
+  data-progress="0"
+  data-current-time="0:00"
+  data-duration="{{ duration }}"
+  data-status="Ready"
+  data-loading="true">
+  <div class="audio-player__controls">
+    <button class="audio-player__button audio-player__button--play-pause" aria-label="Play">
+      <div class="audio-player__icon audio-player__icon--play">
+        {% include '../assets/svg/play.svg' %}
+      </div>
+      <div class="audio-player__icon audio-player__icon--pause hidden">
+        {% include '../assets/svg/pause.svg' %}
+      </div>
+    </button>
+    <button class="audio-player__button audio-player__button--skip-back" aria-label="Skip back 10 seconds">
+      {% include '../assets/svg/icon-skip-back.svg' %}
+    </button>
+    <button class="audio-player__button audio-player__button--speed" aria-label="Change playback speed">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g class="one">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+          <circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="2"/>
+        </g>
+        <g class="two">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+          <circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="2"/>
+          <circle cx="20" cy="20" r="6" stroke="currentColor" stroke-width="2"/>
+        </g>
+        <g class="three">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/>
+          <circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="2"/>
+          <circle cx="20" cy="20" r="6" stroke="currentColor" stroke-width="2"/>
+          <circle cx="20" cy="20" r="3" stroke="currentColor" stroke-width="2"/>
+        </g>
+      </svg>
+    </button>
+  </div>
+  <div class="audio-player__progress">
+    <div class="audio-player__progress-bar" style="width: 0%"></div>
+  </div>
+  <div class="audio-player__time">
+    <span class="audio-player__current-time">0:00</span>
+    <span class="audio-player__duration">{{ duration }}</span>
+  </div>
+  <div class="audio-player__status">
+    <span class="audio-player__status-text">Ready</span>
+  </div>
+  {% if loading %}
+    <div class="audio-player__loading">
+      <div class="audio-player__loading-spinner"></div>
+    </div>
+  {% endif %}
+</div>

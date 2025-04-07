@@ -1,0 +1,16 @@
+{
+  "episodes": [
+    {
+      "number": 1,
+      "title": "Episode Title",
+      "duration": "00:30:00",
+      "audio": {
+        "filename": "episode-001.mp3",
+        "duration": 1800
+      },
+      "date": "2025-04-06",
+      "description": "Episode description goes here",
+      "transcript": "Transcript text goes here"
+    }
+  ]
+}

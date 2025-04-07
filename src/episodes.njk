@@ -1,0 +1,13 @@
+---
+layout: layouts/base.njk
+title: Episodes
+---
+
+<h1>Episodes</h1>
+<section class="episode-grid">
+  {% for episode in collections.episodes %}
+    {% set episodeData = episode.data %}
+    {% set isEpisodePage = true %}
+    {% include "./_components/episode.njk" %}
+  {% endfor %}
+</section>
