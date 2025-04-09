@@ -36,3 +36,94 @@ button {
         text-transform: uppercase;
     }
 }
+
+/* Subscribe Bar */
+.subscribe-bar {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    a {
+        text-decoration: none;
+        color: var(--color-white);
+        opacity: 0.7;
+        transition: all 0.15s ease;
+        &:hover {
+            color: var(--color-green);
+            opacity: 1;
+        }
+    }
+    svg {
+        height: 24px;
+        width: 24px;
+    }
+    @media ( width >= 768px) {
+        display: flex;
+        position: fixed;
+        left: 0;
+        height: 100%;
+        align-items: center;
+    }
+}
+/* Episode */
+.episode-number {
+    font-family: var(--font-accent);
+    font-size: var(--type-sm);
+    font-weight: 700;
+    letter-spacing: 0.88px;
+    span:first-of-type {
+        color: var(--color-green)
+    }
+}
+.episode-meta {
+    font-family: var(--font-accent);
+    font-size: var(--type-sm);
+    font-weight: 700;
+    letter-spacing: 0.88px;
+}
+.episode-title {
+    font-size: var(--type-lg);
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 0.16px;
+    line-height: 125.8%;
+    a {
+      text-decoration: none;
+      color: var(--color-white);
+      &:hover {
+        color: var(--color-green);
+      }
+    }
+}
+.episode-content {
+    font-family: var(--font-family);
+    font-size: var(--type-base);
+    line-height: 121.8%;
+}
+/* Audio Player */
+.audio-player {
+    &__controls {
+        display: flex;
+width: 265px;
+justify-content: center;
+align-items: center;
+gap: 45px;
+    }
+    &__button--play-pause {
+        width: 95px;
+        height: 95px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background-color: var(--color-blueviolet);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--color-green);
+        position: relative;
+        .audio-player__icon {
+            width: 28px;
+            position: absolute;
+        }
+    }
+}

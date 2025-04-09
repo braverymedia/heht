@@ -4,4 +4,8 @@ title: Higher Ed Hot Takes with Joel G Goodman
 permalink: /
 ---
 
-<episode :episodes="collections.episodes"></episode>
+{% if collections.episodes and collections.episodes[0] %}
+  {% set latestEpisode = collections.episodes[0] %}
+  {% set episode = latestEpisode %}
+  {% include "./_components/episode.njk" %}
+{% endif %}

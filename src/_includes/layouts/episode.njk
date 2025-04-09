@@ -1,53 +1,41 @@
 ---
 layout: layouts/base.njk
 ---
+
+{% set isEpisodePage = true %}
 <article class="episode h-entry" itemscope itemtype="http://schema.org/PodcastEpisode">
-  <header class="episode-header">
-    <div class="episode-meta">
-      <time class="dt-published" itemprop="datePublished" datetime="{{ date }}">{{ date }}</time>
-      {% if number %}
-        <span class="episode-number">Episode {{ number | padStart(3, '0') }}</span>
-      {% endif %}
-      {% if audio?.duration %}
-        <span class="episode-duration" itemprop="timeRequired">{{ audio.duration }}</span>
-      {% endif %}
-    </div>
+  <script type="application/ld+json">
+    {{ {
+      "@context": "https://schema.org",
+      "@type": "PodcastEpisode",
+      "name": title,
+      "datePublished": date,
+      "episodeNumber": number,
+      "duration": audio?.duration,
+      "description": description,
+      "url": url,
+      "partOfSeries": {
+        "@type": "PodcastSeries",
+        "name": podcast?.title,
+        "url": podcast?.siteUrl
+      }
+    } | json | safe }}
+  </script>
 
-    <h1 class="p-name" itemprop="name">{{ title }}</h1>
-
-    {% if description %}
-      <p class="p-summary" itemprop="description">{{ description }}</p>
-    {% endif %}
-  </header>
-
-  {% if content %}
-    <section class="episode-notes">
-      <h2>Show Notes and Transcript</h2>
-      <div>{{ content | safe }}</div>
-    </section>
-  {% endif %}
+  {% set episode = {
+    "url": url,
+    "title": title,
+    "date": date,
+    "number": number,
+    "duration": audio?.duration,
+    "description": description,
+    "transcript": transcript,
+    "cover": {
+      "image": cover.image
+    }
+  } %}
+  {% include "../../_components/episode.njk" %}
 </article>
-
-<script type="application/ld+json">
-{{ {
-  "@context": "https://schema.org",
-  "@type": "PodcastEpisode",
-  "name": title,
-  "datePublished": date,
-  "episodeNumber": number,
-  "duration": audio?.duration,
-  "description": description,
-  "url": url,
-  "partOfSeries": {
-    "@type": "PodcastSeries",
-    "name": podcast?.title,
-    "url": podcast?.siteUrl
-  }
-} | json | safe }}
-</script>
-
-<style>
-</style>
 
 <script>
 class EpisodeLayout extends HTMLElement {

@@ -4,9 +4,9 @@ description: Take a hard look at the hype surrounding AI in higher education. Jo
 date: 2025-04-06
 number: 1
 audio:
-  filename: AUDIO_0155.mp3
-  size: 7268430
-  duration: 452
+  filename: heht-001-the-evangelist-and-the-critic.mp3
+  size: 15902579
+  duration: 481
   type: audio/mpeg
 tags:
   - AI
@@ -14,7 +14,7 @@ tags:
   - Technology
   - Strategy
 cover:
-  image: src/assets/img/heht-episode-001.jpg
+  image: /assets/img/heht-episode-001.jpg
 permalink: /episodes/001-the-evangelist-and-the-critic/
 ---
 

@@ -1,27 +1,19 @@
 <nav class="subscribe-bar">
-  <div class="subscribe-bar__container">
-    <h2 class="subscribe-bar__title">Subscribe</h2>
-    <div class="subscribe-bar__links">
-      {% for platform, url in podcast.subscribe %}
-        {% if url %}
-          <a href="{{ url }}" class="subscribe-bar__link" target="_blank" rel="noopener noreferrer">
-            <span class="subscribe-bar__icon">
-              {% if platform == 'apple' %}
-                {% include '../assets/svg/apple-podcasts.svg' %}
-              {% elif platform == 'spotify' %}
-                {% include '../assets/svg/logo-spotify.svg' %}
-              {% elif platform == 'youtube' %}
-                {% include '../assets/svg/yt-music.svg' %}
-              {% elif platform == 'overcast' %}
-                {% include '../assets/svg/overcast.svg' %}
-              {% elif platform == 'rss' %}
-                {% include '../assets/svg/logo-rss.svg' %}
-              {% endif %}
-            </span>
-            <span class="subscribe-bar__text">{{ platform | capitalize }}</span>
-          </a>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
+  {% for platform, url in podcast.subscribe %}
+    {% if url %}
+      <a href="{{ url }}" class="subscribe-bar__link" title="Subscribe on {{ platform | capitalize }}">
+          {% if platform == 'apple' %}
+            {% include '../assets/svg/apple-podcasts.svg' %}
+          {% elif platform == 'spotify' %}
+            {% include '../assets/svg/logo-spotify.svg' %}
+          {% elif platform == 'youtube' %}
+            {% include '../assets/svg/yt-music.svg' %}
+          {% elif platform == 'overcast' %}
+            {% include '../assets/svg/overcast.svg' %}
+          {% elif platform == 'rss' %}
+            {% include '../assets/svg/logo-rss.svg' %}
+          {% endif %}
+      </a>
+    {% endif %}
+  {% endfor %}
 </nav>

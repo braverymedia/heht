@@ -28,10 +28,10 @@
 		"linkedin": ""
 	},
 	"subscribe": {
-		"apple": "",
-		"spotify": "",
-		"youtube": "",
-		"overcast": "",
+		"apple": "https://podcasts.apple.com",
+		"spotify": "https://open.spotify.com/",
+		"youtube": "https://www.youtube.com/",
+		"overcast": "https://overcast.fm/",
 		"rss": "/feed/podcast.xml"
 	},
 	"feedSettings": {

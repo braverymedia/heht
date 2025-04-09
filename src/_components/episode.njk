@@ -1,21 +1,9 @@
 <section class="episode" role="article">
-    <header class="episode-header">
-        <h2 class="episode-title">
-            <a href="{{ episode.url }}">{{ episode.title }}</a>
-        </h2>
-        <div class="episode-meta">
-            <time datetime="{{ episode.date }}">{{ episode.date }}</time>
-            {% if episode.duration %}
-                <span class="episode-duration">{{ episode.duration }}</span>
-            {% endif %}
-        </div>
-    </header>
-
-    {% if episode.coverImage %}
+    {% if episode.cover.image %}
         <figure class="episode-cover">
             <img
-                src="{{ episode.coverImage }}"
-                srcset="{{ episode.coverImage }} 500w, {{ episode.coverImage }} 1000w, {{ episode.coverImage }} 1500w"
+                src="{{ episode.cover.image }}"
+                srcset="{{ episode.cover.image }} 500w, {{ episode.cover.image }} 1000w, {{ episode.cover.image }} 1500w"
                 sizes="(max-width: 500px) 100vw, 500px"
                 alt="{{ episode.title }} cover art"
                 loading="lazy"
@@ -23,16 +11,27 @@
             />
         </figure>
     {% endif %}
-
-    <div class="episode-content">
-        {% if isEpisodePage %}
-            <p class="episode-description">{{ episode.description }}</p>
-        {% endif %}
-        
-        {% if episode.transcript %}
-            <div class="episode-transcript">
-                {{ episode.transcript | safe }}
+    <article id="episode-content">
+        <header class="episode-header">
+            <p class="episode-number">{%- if not isEpisodePage -%}<span>Latest / </span>{%- endif -%}<span>Episode {{ episode.number | padStart(3, '0') }}</span></p>
+            {% if isEpisodePage %}
+            <h1 class="episode-title">
+                <a href="{{ episode.url }}">{{ episode.title }}</a>
+            </h1>
+            {% else %}
+            <h2 class="episode-title">
+                <a href="{{ episode.url }}">{{ episode.title }}</a>
+            </h2>
+            {% endif %}
+            <div class="episode-meta">
+                Released <time datetime="{{ episode.date }}">{{ episode.date | readableDate }}</time> /
+                {% if episode.audio.duration %}
+                    <span class="episode-duration">Duration: {{ episode.audio.duration | formatDuration }}</span>
+                {% endif %}
             </div>
-        {% endif %}
-    </div>
+        </header>
+        <div class="episode-content">
+            <p class="episode-description">{{ episode.description }}</p>
+        </div>
+    </article>
 </section>

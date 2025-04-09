@@ -10,6 +10,8 @@ import autoprefixer from "autoprefixer";
 import postcssPresetEnv from "postcss-preset-env";
 import fs from "fs/promises";
 import path from "path";
+import markdownIt from "markdown-it";
+import container from "markdown-it-container";
 
 // Image processing configuration
 const imageConfig = {
@@ -287,6 +289,29 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addFilter("cssmin", function (code) {
 		return new CleanCSS({}).minify(code).styles;
 	});
+
+	// Transcript markdown block extension
+	const md = markdownIt({
+		html: true,
+		breaks: true
+	});
+
+	md.use(container, "transcript", {
+		render: function (tokens, idx) {
+			const token = tokens[idx];
+			if (token.nesting === 1) {
+				// Opening tag
+				return '<section class="episode-transcript">\n' +
+					   '<h2>Transcript</h2>\n' +
+					   '<div class="transcript-content">\n';
+			} else {
+				// Closing tag
+				return '</div>\n</section>\n';
+			}
+		}
+	});
+
+	eleventyConfig.setLibrary("md", md);
 
 	// Base Config
 	return {
