@@ -42,6 +42,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets/webfont");
   eleventyConfig.addPassthroughCopy("src/assets/audio");
   eleventyConfig.addPassthroughCopy("src/manifest.webmanifest");
+  eleventyConfig.addPassthroughCopy("src/favicon.svg");
 
   // Add SCSS template type
   eleventyConfig.addTemplateFormats("scss");
@@ -190,13 +191,13 @@ export default async function (eleventyConfig) {
   async function bundleJS() {
     try {
       console.log('Bundling JS:', { isProduction, NODE_ENV: process.env.NODE_ENV, ELEVENTY_ENV: process.env.ELEVENTY_ENV });
-      
+
       // Define plugins array for Rollup
       const plugins = [
         resolvePlugin(),
         commonjs()
       ];
-      
+
       const bundle = await rollup({
         input: resolve(__dirname, 'src/assets/js/index.js'),
         plugins
@@ -216,11 +217,11 @@ export default async function (eleventyConfig) {
 
       // Get the main chunk (the actual JS code)
       let jsContent = output.find(chunk => chunk.type === 'chunk').code;
-      
+
       // Write the output directly to file
       const outputPath = resolve(__dirname, '_site/assets/js/bundle.js');
       await fs.promises.writeFile(outputPath, jsContent);
-      
+
       // Use terser CLI for minification in production
       if (isProduction) {
         console.log('Minifying JS with terser CLI...');
@@ -229,15 +230,15 @@ export default async function (eleventyConfig) {
           // Create a temporary file for the unminified JS
           const tempPath = resolve(__dirname, '_site/assets/js/bundle.unmin.js');
           await fs.promises.rename(outputPath, tempPath);
-          
+
           // Run terser CLI command
           const terserCmd = `npx terser ${tempPath} --compress 'ecma=2020,passes=3,drop_console=true,drop_debugger=true,toplevel=true' --mangle 'toplevel=true' --format 'ecma=2020' --output ${outputPath}`;
           const { stdout, stderr } = await execPromise(terserCmd);
-          
+
           if (stderr) {
             console.error('Terser error:', stderr);
           }
-          
+
           // Clean up the temporary file
           await fs.promises.unlink(tempPath);
           console.log('JS minification completed');
@@ -246,7 +247,7 @@ export default async function (eleventyConfig) {
           throw error;
         }
       }
-      
+
       // If we have a sourcemap and we're not in production, write that too
       if (!isProduction) {
         const sourceMapChunk = output.find(chunk => chunk.fileName.endsWith('.map'));
