@@ -54,3 +54,12 @@ logs
 
 # Yarn Integrity file
 .yarn-integrity
+
+# Audio files
+*.mp3
+*.wav
+*.ogg
+*.m4a
+*.aac
+*.flac
+*.wma
