@@ -3,30 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% if site.env === "production" %}
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+  {% else %}
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+  {% endif %}
   <title>{% if title %}{{ title }} - {{ podcast.title }}{% else %}{{ podcast.title }}{% endif %}</title>
 
   {% include "../../_components/meta.njk" %}
 
   <!-- Styles -->
-  {% if env === 'production' %}
-    {% include "styles.njk" %}
-  {% else %}
-    <link rel="stylesheet" href="/assets/styles/main.css">
-  {% endif %}
+  <link rel="stylesheet" href="{{ '/assets/styles/main.css' | url }}">
 
   <!-- Favicon -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
-
-  <!-- JavaScript -->
-  {% if env === 'production' %}
-    {% include "scripts.njk" %}
-  {% else %}
-    <script src="/assets/js/site-nav.js" defer></script>
-    <script src="/assets/js/newsletter-form.js" defer></script>
-  {% endif %}
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
@@ -42,5 +37,12 @@
   {% endif %}
 
   {% include "../../_components/site-footer.njk" %}
+    <!-- JavaScript -->
+  {% if site.env === "production" %}
+    {% include "scripts.njk" %}
+  {% else %}
+    <script src="{{ '/assets/js/site-nav.js' | url }}?v={{ cacheBust }}" defer></script>
+    <script src="{{ '/assets/js/newsletter-form.js' | url }}?v={{ cacheBust }}" defer></script>
+  {% endif %}
 </body>
 </html>

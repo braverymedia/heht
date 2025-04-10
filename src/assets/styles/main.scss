@@ -1,6 +1,6 @@
-@use 'reset';
-@use 'config';
-@use 'a11y';
-@use 'type';
-@use 'structure';
-@use 'components';
+@use 'partials/reset';
+@use 'partials/config';
+@use 'partials/a11y';
+@use 'partials/type';
+@use 'partials/structure';
+@use 'partials/components';

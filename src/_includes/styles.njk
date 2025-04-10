@@ -1,6 +1,1 @@
-{% set css %}
-{% include "../assets/styles/main.css" %}
-{% endset %}
-<style>
-  {{ css | cssmin | safe }}
-</style>
+<style>{{ css | cssmin | safe }}</style>

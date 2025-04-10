@@ -59,7 +59,6 @@ button {
         width: 24px;
     }
     @media ( width >= 768px) {
-        display: flex;
         position: fixed;
         left: 0;
         height: 100%;
@@ -105,10 +104,10 @@ button {
 .audio-player {
     &__controls {
         display: flex;
-width: 265px;
-justify-content: center;
-align-items: center;
-gap: 45px;
+        width: 265px;
+        justify-content: center;
+        align-items: center;
+        gap: 45px;
     }
     &__button--play-pause {
         width: 95px;
@@ -126,4 +125,62 @@ gap: 45px;
             position: absolute;
         }
     }
+}
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    button:after {
+        background-color: var(--color-yellow);
+        mix-blend-mode: unset;
+    }
+    label {
+        font-size: var(--type-sm)
+    }
+    .form-messages {
+        margin-bottom: 1rem;
+
+        .form-success,
+        .form-error {
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-success {
+            background-color: #e6ffed;
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+
+        .form-error {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+    }
+
+    .form-group {
+        .error-message {
+            color: #ef4444;
+            font-size: 0.8rem;
+            display: block;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    input {
+        padding: 12px 16px;
+        border-radius: 25px;
+        border: 0;
+        box-shadow: 0;
+        margin-block-start: 8px;
+     }
 }

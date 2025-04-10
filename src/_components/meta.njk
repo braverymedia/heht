@@ -3,16 +3,12 @@
 <meta name="author" content="{{ podcast.author or 'Joel G Goodman' }}">
 
 <!-- Open Graph -->
-<meta property="og:title" content="{% if title %}{{ title }} - {{ podcast.title }}{% else %}{{ podcast.title }}{% endif %}">
+<meta property="og:title" content="{% if title %}{{ title }} - {{ podcast.title }}{% else %}{{ meta.opengraph.title }}{% endif %}">
 <meta property="og:description" content="{{ description or podcast.description or 'Higher Ed Hot Takes with Joel G Goodman' }}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="{{ (page.url or permalink or '/') | url | absoluteUrl(podcast.siteUrl) }}">
-<meta property="og:image" content="{{ podcast.image.url | url | absoluteUrl(podcast.siteUrl) }}">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:creator" content="{{ podcast.social.twitter or '@joelgoodman' }}">
+<meta property="og:url" content="{{ (page.url or permalink or '/') | absoluteUrl(podcast.siteUrl) }}">
+<meta property="og:image" content="{{ meta.opengraph.image | absoluteUrl(podcast.siteUrl) }}">
 
 <!-- Feeds -->
-<link rel="alternate" type="application/rss+xml" title="{{ podcast.title }}" href="{{ '/feed.xml' | url | absoluteUrl(podcast.siteUrl) }}">
-<link rel="alternate" type="application/json" title="{{ podcast.title }}" href="{{ '/feed.json' | url | absoluteUrl(podcast.siteUrl) }}">
+<link rel="alternate" type="application/rss+xml" title="{{ podcast.title }}" href="{{ '/feed.xml' | absoluteUrl(podcast.siteUrl) }}">
+<link rel="alternate" type="application/json" title="{{ podcast.title }}" href="{{ '/feed.json' | absoluteUrl(podcast.siteUrl) }}">

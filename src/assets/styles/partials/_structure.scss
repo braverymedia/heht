@@ -37,13 +37,14 @@ main {
   position: sticky;
   top: 0;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 40px clamp(1rem, 4vw, 3rem);
   z-index: 1000;
   .site-nav {
     display: flex;
     gap: 3rem;
     align-items: center;
+    justify-content: center;
   }
   .nav-links {
     display: flex;
@@ -70,15 +71,19 @@ main {
   }
 }
 
-.episode {
+.episode,
+.rfi {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2.5rem;
   padding-inline: 2rem;
+  .newsletter-form-container {
+    align-self: stretch;
+  }
   &-cover {
     aspect-ratio: 1;
-    width: 100%;
+    flex: 0 1 40%;
     border-radius: 5px;
     box-shadow: 0px 20px 60px -30px #000;
     overflow: hidden;
@@ -95,12 +100,15 @@ main {
   }
   @media ( width >= 768px) {
     flex-direction: row;
-   width: 90vw;
+    width: 90vw;
     &-cover {
-      flex: 1 0 390px;
+      flex-basis: 390px;
+      max-height: none;
     }
-    &-content {
+    &-content,
+    .newsletter-form-container {
       flex: 1 auto;
+      align-self: center;
     }
     &-header {
       text-align: left;
@@ -110,11 +118,13 @@ main {
     max-width: 58vw;
   }
 }
-
+.audio-player {
+  display: none;
+}
 // Layout
 @media ( width >= 768px) {
   .audio-player {
-    display: flex;
+    display: none;
     justify-content: center;
   }
 }

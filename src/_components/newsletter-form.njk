@@ -1,20 +1,34 @@
-<form class="newsletter-form" method="post" action="https://app.loops.so/api/newsletter-form/clmf0qar501k6mb0npy4e33r8">
+<div class="newsletter-form-container">
+  <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/clmf0qar501k6mb0npy4e33r8" method="POST">
+    <input type="hidden" name="formId" value="clmf0qar501k6mb0npy4e33r8">
+    <input type="hidden" name="userGroup" value="">
+    <input type="hidden" name="mailingLists" value="clxw13yb8004y0ml459zv0z3c">
+    <input type="hidden" id="ipAddress" name="ipAddress">
+
     <div class="form-group">
       <label for="firstName">First Name</label>
       <input type="text" id="firstName" name="firstName" required>
+      <span class="error-message"></span>
     </div>
 
     <div class="form-group">
       <label for="lastName">Last Name</label>
       <input type="text" id="lastName" name="lastName" required>
+      <span class="error-message"></span>
     </div>
 
     <div class="form-group">
       <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" required>
+      <input id="email" name="email" type="email" placeholder="you@example.com" required>
+      <span class="error-message"></span>
     </div>
 
-    <input type="hidden" name="mailingLists" value="clxw13yb8004y0ml459zv0z3c">
-
-    <button type="submit" class="submit-button">Subscribe</button>
-</form>
+    <button type="submit" class="newsletter-form-button">Subscribe</button>
+  </form>
+  <div class="newsletter-success" style="display: none;">
+    <p class="newsletter-success-message">Thanks for subscribing to Higher Ed Hot Takes!</p>
+  </div>
+  <div class="newsletter-error" style="display: none;">
+    <p class="newsletter-error-message">Oops! Something went wrong, please try again</p>
+  </div>
+</div>

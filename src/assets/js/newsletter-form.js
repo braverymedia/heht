@@ -1,109 +1,63 @@
-document.addEventListener('DOMContentLoaded', () => {
+export function initNewsletterForm() {
   const form = document.querySelector('.newsletter-form');
   if (!form) return;
 
-  // Add error message containers
-  const formGroups = form.querySelectorAll('.form-group');
-  formGroups.forEach(group => {
-    const errorSpan = document.createElement('span');
-    errorSpan.className = 'error-message';
-    group.appendChild(errorSpan);
-  });
+  const container = form.closest('.newsletter-form-container');
+  const firstName = form.querySelector('#firstName');
+  const lastName = form.querySelector('#lastName');
+  const email = form.querySelector('#email');
+  const ipAddress = form.querySelector('#ipAddress');
+  const success = container.querySelector('.newsletter-success');
+  const errorContainer = container.querySelector('.newsletter-error');
+  const errorMessage = container.querySelector('.newsletter-error-message');
+
+  // Get IP address
+  async function getIpAddress() {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const data = await response.json();
+      return data.ip;
+    } catch (error) {
+      console.error('Failed to get IP address:', error);
+      return '';
+    }
+  }
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Clear previous errors
-    formGroups.forEach(group => {
-      const error = group.querySelector('.error-message');
-      error.textContent = '';
-    });
-
-    // Get form data
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    // Validate form data
-    const errors = validateForm(data);
-    if (Object.keys(errors).length > 0) {
-      displayErrors(errors);
-      return;
-    }
-
-    // Show loading state
-    const submitButton = form.querySelector('.submit-button');
-    submitButton.disabled = true;
-    submitButton.textContent = 'Submitting...';
-
     try {
-      const response = await fetch('https://app.loops.so/api/newsletter-form/clmf0qar501k6mb0npy4e33r8', {
+      // Set IP address
+      ipAddress.value = await getIpAddress();
+
+      const formBody = `formId=clmf0qar501k6mb0npy4e33r8&userGroup=&mailingLists=clxw13yb8004y0ml459zv0z3c&firstName=${encodeURIComponent(firstName.value)}&lastName=${encodeURIComponent(lastName.value)}&email=${encodeURIComponent(email.value)}&ipAddress=${encodeURIComponent(ipAddress.value)}`;
+
+      const response = await fetch(event.target.action, {
         method: 'POST',
+        body: formBody,
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(data),
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to subscribe');
+      if (response.ok) {
+        success.style.display = 'flex';
+        form.reset();
+      } else {
+        const data = await response.json();
+        errorContainer.style.display = 'flex';
+        errorMessage.innerText = data.message || response.statusText;
       }
-
-      // Handle successful submission
-      form.reset();
-      showSuccessMessage();
     } catch (error) {
-      // Handle error
-      showError(error.message || 'An error occurred. Please try again.');
-    } finally {
-      // Reset button state
-      submitButton.disabled = false;
-      submitButton.textContent = 'Subscribe';
+      errorContainer.style.display = 'flex';
+      errorMessage.innerText = error.message || 'An error occurred. Please try again.';
     }
   });
-});
-
-function validateForm(data) {
-  const errors = {};
-  
-  if (!data.firstName) errors.firstName = 'First name is required';
-  if (!data.lastName) errors.lastName = 'Last name is required';
-  if (!data.email) errors.email = 'Email is required';
-  else if (!isValidEmail(data.email)) errors.email = 'Please enter a valid email address';
-
-  return errors;
 }
 
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-function displayErrors(errors) {
-  const formGroups = document.querySelectorAll('.form-group');
-  formGroups.forEach(group => {
-    const error = group.querySelector('.error-message');
-    error.textContent = '';
+// Initialize when DOM is loaded
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initNewsletterForm();
   });
-
-  Object.entries(errors).forEach(([field, message]) => {
-    const group = document.querySelector(`[for="${field}"]`).parentElement;
-    const error = group.querySelector('.error-message');
-    error.textContent = message;
-  });
-}
-
-function showError(message) {
-  const errorDiv = document.createElement('div');
-  errorDiv.className = 'form-error';
-  errorDiv.textContent = message;
-  form.insertBefore(errorDiv, form.firstChild);
-}
-
-function showSuccessMessage() {
-  const successDiv = document.createElement('div');
-  successDiv.className = 'form-success';
-  successDiv.textContent = 'Thank you for subscribing!';
-  form.insertBefore(successDiv, form.firstChild);
 }

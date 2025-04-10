@@ -43,7 +43,7 @@ function setupEventListeners() {
   
   // Add new listeners
   eventListeners = [
-    audio.addEventListener('error', handleError),
+    audio.addEventListener('error', handleAudioError),
     audio.addEventListener('loadedmetadata', handleMetadataLoaded),
     audio.addEventListener('timeupdate', updateProgress),
     audio.addEventListener('ended', handleEnded),
@@ -69,7 +69,7 @@ function cleanupEventListeners() {
 }
 
 // Error handling
-function handleError(event) {
+function handleAudioError(event) {
   error = event.target.error;
   status = "Error";
   updateUI();
@@ -226,13 +226,6 @@ function updateDuration() {
 function handleEnded() {
   isPlaying = false;
   status = "Finished";
-  updateUI();
-}
-
-// Handle errors
-function handleError() {
-  loading = false;
-  status = "Error loading audio";
   updateUI();
 }
 

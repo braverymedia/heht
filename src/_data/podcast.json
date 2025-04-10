@@ -1,6 +1,6 @@
 {
 	"title": "Higher Ed Hot Takes",
-	"description": "Take a hard look at the hype surrounding AI in higher education. Join Joel G Goodman and explore smarter, more sustainable ways to leverage technology without compromising strategy, UX, or humanity.",
+	"description": "The counterculture higher ed marketing podcast. Join Joel G Goodman and explore smarter, more sustainable ways to leverage technology without compromising strategy, UX, or humanity.",
 	"siteUrl": "https://higheredhottakes.com",
 	"language": "en-US",
 	"copyright": "2025 Bravery Media",
@@ -11,9 +11,9 @@
 	"type": "episodic",
 	"complete": false,
 	"block": false,
-	"episodeUrlBase": "https://pod-cdn.bravery.co/heht/",
+	"episodeUrlBase": "https://higheredhottakes.com/assets/audio/",
 	"image": {
-		"url": "/assets/img/podcast-cover.jpg",
+		"url": "/assets/img/heht-cover.jpg",
 		"title": "Higher Ed Hot Takes Cover Art"
 	},
 	"contact": {
@@ -22,10 +22,6 @@
 	"owner": {
 		"name": "Bravery Media",
 		"email": "joel@bravery.co"
-	},
-	"social": {
-		"bluesky": "https://bsky.app/profile/higheredhottakes.com",
-		"linkedin": ""
 	},
 	"subscribe": {
 		"apple": "https://podcasts.apple.com",
