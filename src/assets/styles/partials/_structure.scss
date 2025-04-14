@@ -119,12 +119,11 @@ main {
   }
 }
 .audio-player {
-  display: none;
+  display: flex;
 }
 // Layout
 @media ( width >= 768px) {
   .audio-player {
-    display: none;
     justify-content: center;
   }
 }

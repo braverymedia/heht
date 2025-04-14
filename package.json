@@ -6,7 +6,7 @@
 	"scripts": {
 		"clean": "rm -rf _site",
 		"build": "ELEVENTY_ENV=production npx @11ty/eleventy",
-		"dev": "npx @11ty/eleventy --watch",
+		"dev": "npx @11ty/eleventy --watch --serve",
 		"start": "npm run dev",
 		"debug": "DEBUG=Eleventy* npx @11ty/eleventy",
 		"process-images": "node scripts/process-images.js",

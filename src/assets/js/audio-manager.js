@@ -1,0 +1,210 @@
+// Global audio player instance and state
+let audioPlayerInstance = null;
+let currentEpisode = null;
+let audioElement = null;
+let isPlaying = false;
+
+// Initialize audio player with episode data
+document.addEventListener('DOMContentLoaded', () => {
+  initializeAudioPlayer();
+  
+  // Listen for page content updates (AJAX navigation)
+  document.addEventListener('pageContentUpdated', handlePageContentUpdated);
+});
+
+// Initialize the audio player
+function initializeAudioPlayer() {
+  // Get the current episode number from the URL if it exists
+  const episodeNumber = window.location.pathname.match(/episodes\/([0-9]+)/)?.[1];
+  
+  // Initialize the audio player
+  const audioPlayer = document.querySelector('.audio-player');
+  if (audioPlayer) {
+    // Check if we already have an active audio player
+    if (audioPlayerInstance && isPlaying) {
+      // Update the UI with current state but don't reinitialize
+      updatePlayerUI();
+    } else {
+      // Get episode data from the API
+      fetchEpisodeData(episodeNumber)
+        .then(episodeData => {
+          currentEpisode = episodeData;
+          audioPlayerInstance = window.audioPlayer.init(audioPlayer, episodeData);
+          audioElement = document.querySelector('audio');
+          
+          // Set up the audio element with the episode data
+          if (audioElement) {
+            audioElement.src = episodeData.audio.filename;
+            audioElement.title = episodeData.title;
+            
+            // Update the player UI to show the current episode
+            updatePlayerUI();
+          }
+        })
+        .catch(error => {
+          console.error('Error initializing audio player:', error);
+        });
+    }
+  }
+}
+
+// Handle page content updates from AJAX navigation
+function handlePageContentUpdated(event) {
+  // Get the episode number from the event detail if available
+  const episodeNumber = event.detail.episodeNumber || window.location.pathname.match(/episodes\/([0-9]+)/)?.[1];
+  
+  // If we have an audio player instance
+  if (audioPlayerInstance) {
+    // If nothing is currently playing, update the player with the current page's episode
+    if (!isPlaying) {
+      fetchEpisodeData(episodeNumber)
+        .then(episodeData => {
+          currentEpisode = episodeData;
+          updatePlayerWithEpisode(episodeData, false); // Don't autoplay, just update the UI
+        })
+        .catch(error => {
+          console.error('Error updating audio player:', error);
+        });
+    } else {
+      // If something is playing, just update the UI to reflect the current state
+      updatePlayerUI();
+    }
+  } else {
+    // Initialize the player if it doesn't exist
+    initializeAudioPlayer();
+  }
+}
+
+
+
+// Play a specific episode by ID
+async function playEpisode(episodeId) {
+  try {
+    const episodeData = await fetchEpisodeData(episodeId);
+    
+    // Update the current episode
+    currentEpisode = episodeData;
+    
+    // Update the player with the new episode
+    updatePlayerWithEpisode(episodeData, true);
+  } catch (error) {
+    console.error('Error playing episode:', error);
+  }
+}
+
+// Update the player with a new episode
+function updatePlayerWithEpisode(episodeData, autoPlay = false) {
+  if (!audioPlayerInstance) {
+    // Initialize the player if it doesn't exist
+    const audioPlayer = document.querySelector('.audio-player');
+    if (audioPlayer) {
+      audioPlayerInstance = window.audioPlayer.init(audioPlayer, episodeData);
+      audioElement = document.querySelector('audio');
+    }
+  } else {
+    // Update the existing player
+    const audioPlayer = document.querySelector('.audio-player');
+    
+    // Update data attributes
+    audioPlayer.setAttribute('data-src', episodeData.audio.filename);
+    audioPlayer.setAttribute('data-episode-id', episodeData.number);
+    audioPlayer.setAttribute('data-duration', episodeData.duration);
+    
+    // Update audio source
+    if (audioElement) {
+      audioElement.src = episodeData.audio.filename;
+      audioElement.title = episodeData.title;
+      
+      // Auto-play if requested
+      if (autoPlay) {
+        audioElement.play()
+          .then(() => {
+            isPlaying = true;
+            updatePlayerUI();
+          })
+          .catch(error => {
+            console.error('Error playing audio:', error);
+          });
+      }
+    }
+  }
+  
+  updatePlayerUI();
+}
+
+// Update the player UI based on current state
+function updatePlayerUI() {
+  const audioPlayer = document.querySelector('.audio-player');
+  if (!audioPlayer || !currentEpisode) return;
+  
+  // Update play/pause button
+  const playPauseButton = audioPlayer.querySelector('.audio-player__button--play-pause');
+  const playIcon = playPauseButton.querySelector('.audio-player__icon--play');
+  const pauseIcon = playPauseButton.querySelector('.audio-player__icon--pause');
+  
+  if (isPlaying) {
+    playIcon.classList.add('hidden');
+    pauseIcon.classList.remove('hidden');
+    playPauseButton.setAttribute('aria-label', 'Pause');
+    audioPlayer.setAttribute('data-is-playing', 'true');
+    audioPlayer.setAttribute('data-status', 'Playing');
+  } else {
+    playIcon.classList.remove('hidden');
+    pauseIcon.classList.add('hidden');
+    playPauseButton.setAttribute('aria-label', 'Play');
+    audioPlayer.setAttribute('data-is-playing', 'false');
+    audioPlayer.setAttribute('data-status', 'Paused');
+  }
+  
+  // Update episode info
+  const statusText = audioPlayer.querySelector('.audio-player__status-text');
+  if (statusText) {
+    statusText.textContent = isPlaying ? 'Playing' : 'Ready';
+  }
+}
+
+async function fetchEpisodeData(episodeNumber) {
+  try {
+    const response = await fetch('/api/episodes.json.js');
+    const episodesData = await response.json();
+    
+    // If we have a specific episode number, find that episode
+    if (episodeNumber) {
+      const episode = episodesData.episodes.find(ep => ep.number === parseInt(episodeNumber));
+      if (episode) {
+        return {
+          audio: episode.audio,
+          title: episode.title,
+          number: episode.number,
+          cover: episode.cover,
+          duration: episode.duration
+        };
+      }
+    }
+    
+    // If no specific episode or episode not found, use latest
+    return {
+      audio: episodesData.latestEpisode.audio,
+      title: episodesData.latestEpisode.title,
+      number: episodesData.latestEpisode.number,
+      cover: episodesData.latestEpisode.cover,
+      duration: episodesData.latestEpisode.duration
+    };
+  } catch (error) {
+    console.error('Error fetching episode data:', error);
+    throw error;
+  }
+}
+
+// Update the playing state
+function updatePlayingState(playing) {
+  isPlaying = playing;
+  updatePlayerUI();
+}
+
+// Export public methods
+window.audioManager = {
+  playEpisode,
+  getCurrentEpisode: () => currentEpisode,
+  updatePlayingState
+};

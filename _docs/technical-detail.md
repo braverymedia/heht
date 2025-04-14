@@ -9,8 +9,7 @@ Here's a technical specification for building a podcast site with 11ty + Nunjuck
 - **Static Generator**: Eleventy (11ty) v3.0+
 - **Template Engine**: Nunjucks (`njk`)
 - **Audio Handling**: Native HTML5 `<audio>` + JavaScript
-- **Hosting**: Static deployment (Netlify/Vercel/GitHub Pages)
-- **CDN**: Bunny.net Storage
+- **Hosting**: Static deployment (Bunny.net Storage via upload-to-bunny)
 - **Newsletter**: Loops.so
 
 ---
@@ -21,28 +20,43 @@ Here's a technical specification for building a podcast site with 11ty + Nunjuck
 src/
 ├── _components/          # Nunjucks components
 │   ├── audio-player.njk
-│   ├── episode-card.njk
-│   ├── global-player.njk
+│   ├── episode.njk
+│   ├── episode-list.njk
 │   ├── meta.njk
 │   ├── newsletter-form.njk
 │   ├── site-nav.njk
+│   ├── site-footer.njk
 │   └── subscribe-bar.njk
 ├── _data/
-│   ├── podcast.json      # Podcast metadata
-│   └── episodes.json     # Episode collection config
+│   ├── podcast.json            # Podcast metadata
+│   ├── meta.json               # Global Site Metadata
+│   ├── site.js                 # Environment data
+│   └── episodes.json           # Episode collection config
 ├── _includes/
 │   ├── layouts/
-│   │   ├── base.njk      # Main Layout
-│   │   └── episode.njk   # Podcast Episode Layout
-│   └── podcast-feed.njk  # RSS Feed template
+│   │   ├── base.njk            # Main Layout
+│   │   ├── issue.njk           # Newsletter Layout
+│   │   └── episode.njk         # Podcast Episode Layout
+│   ├── podcast-feed.njk        # RSS Feed template
+│   ├── styles.njk              # CSS styles partial
+│   └── scripts.njk             # Scripts partial
 ├── assets/
-│   ├── js/
-│   │   ├── site-nav.js
-│   │   └── newsletter-form.js
-│   └── svg/              # SVG icons
-├── episodes/             # Individual episode markdown
-│   └── *.md              # Episode pages
-└── *.njk                # Static pages
+│   ├── audio/                  # Podcast audio files
+│   ├── img/                    # Image files
+│   ├── js/                     # JavaScript files
+│   │   ├── index.js            # Main JavaScript file
+│   │   ├── site-nav.js         # Site navigation script
+│   │   ├── drawer.js           # Drawer menu script
+│   │   ├── newsletter-form.js  # Newsletter form script
+│   │   ├── audio-manager.js    # Audio Initialization script
+│   │   ├── audio-player.js     # Core Audio Player script
+│   │   └── newsletter-form.js  # Newsletter form script
+│   ├── styles/                 # CSS styles
+│   ├── webfont/                # Web fonts
+│   └── svg/                    # SVG icons
+├── episodes/                   # Individual episode markdown
+│   └── *.md                    # Episode pages
+└── *.njk                       # Static pages
 ```
 
 ---
@@ -80,17 +94,17 @@ src/
 
 - **Podcast Metadata**: JSON configuration
 - **Episodes**: Markdown files with frontmatter
-- **Collections**: 11ty collections for episode management
+- **Collections**: 11ty collections for episode and newsletter management
 - **Environment Variables**: For configuration and secrets
 
 ---
 
 ### **Performance Considerations**
 
-- **Image Optimization**: Using 11ty-img plugin
-- **JavaScript**: Separate files for better caching
-- **CSS**: Single main stylesheet with modular structure
-- **CDN**: Bunny.net for image delivery
+- **Image Optimization**: Using 11ty-img plugin that automatically processes `<img src="{{ image }}" alt="{{ alt }}" />` tags (supports Markdown)
+- **JavaScript**: Bundled in a single file for better caching
+- **CSS**: Single main stylesheet with modular structure. Inlined on production.
+- **CDN**: Bunny.net as static host and CDN.
 
 ---
 
@@ -116,7 +130,7 @@ src/
 
 - **Content Security**: Proper escaping
 - **JavaScript**: Secure form handling
-- **API Integration**: Secure authentication
+- **API Integration**: Secure authentication`
 
 ---
 

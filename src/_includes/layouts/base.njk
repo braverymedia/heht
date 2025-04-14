@@ -31,17 +31,18 @@
     {{ content | safe }}
   </main>
   {% include "../../_components/subscribe-bar.njk" %}
-  {% if collections.episodes %}
-    {% include "../../_components/audio-player.njk" %}
-  {% endif %}
+  {% include "../../_components/audio-player.njk" %}
 
   {% include "../../_components/site-footer.njk" %}
-    <!-- JavaScript -->
+  <!-- JavaScript -->
   {% if site.env === "production" %}
-    {% include "scripts.njk" %}
+    <script src="{{ '/assets/js/bundle.js' | url }}?v={{ cacheBust }}" defer></script>
   {% else %}
     <script src="{{ '/assets/js/site-nav.js' | url }}?v={{ cacheBust }}" defer></script>
     <script src="{{ '/assets/js/newsletter-form.js' | url }}?v={{ cacheBust }}" defer></script>
+    <script src="{{ '/assets/js/audio-player.js' | url }}?v={{ cacheBust }}" defer></script>
+    <script src="{{ '/assets/js/audio-manager.js' | url }}?v={{ cacheBust }}" defer></script>
+    <script src="{{ '/assets/js/navigation.js' | url }}?v={{ cacheBust }}" defer></script>
   {% endif %}
 </body>
 </html>

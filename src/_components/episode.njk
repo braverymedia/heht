@@ -1,17 +1,29 @@
 <section class="episode" role="article">
     {% if episode.cover.image %}
         <figure class="episode-cover">
-            <img
-                src="{{ episode.cover.image }}"
-                srcset="{{ episode.cover.image }} 500w, {{ episode.cover.image }} 1000w, {{ episode.cover.image }} 1500w"
-                sizes="(max-width: 500px) 100vw, 500px"
-                alt="{{ episode.title }} cover art"
-                loading="lazy"
-                decoding="async"
-            />
+            <img src="{{ episode.cover.image }}" alt="{{ episode.title }} cover art" />
         </figure>
     {% endif %}
     <article id="episode-content">
+        {% if isEpisodePage %}
+        <script type="application/ld+json">
+            {{ {
+                "@context": "https://schema.org",
+                "@type": "PodcastEpisode",
+                "name": episode.title,
+                "datePublished": episode.date,
+                "episodeNumber": episode.number,
+                "duration": episode.audio?.duration,
+                "description": episode.description,
+                "url": episode.url,
+                "partOfSeries": {
+                    "@type": "PodcastSeries",
+                    "name": podcast?.title,
+                    "url": podcast?.siteUrl
+                }
+            } | json | safe }}
+        </script>
+        {% endif %}
         <header class="episode-header">
             <p class="episode-number">{%- if not isEpisodePage -%}<span>Latest / </span>{%- endif -%}<span>Episode {{ episode.number | padStart(3, '0') }}</span></p>
             {% if isEpisodePage %}
@@ -28,6 +40,7 @@
                 {% if episode.audio.duration %}
                     <span class="episode-duration">Duration: {{ episode.audio.duration | formatDuration }}</span>
                 {% endif %}
+
             </div>
         </header>
         <div class="episode-content">

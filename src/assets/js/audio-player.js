@@ -10,12 +10,18 @@ let loading = false;
 let element = null;
 let error = null;
 let eventListeners = [];
+let currentEpisodeData = null;
 
 // Initialize the component
 function init(el, episodeData) {
   element = el;
-  audio = new Audio();
-  audio.preload = "metadata"; // Preload metadata but not the full audio file
+  currentEpisodeData = episodeData;
+  
+  // Check if audio element already exists (for persistence)
+  if (!audio) {
+    audio = new Audio();
+    audio.preload = "metadata"; // Preload metadata but not the full audio file
+  }
   
   if (episodeData) {
     audio.src = episodeData.audio.filename;
@@ -32,8 +38,17 @@ function init(el, episodeData) {
   // Setup event listeners
   setupEventListeners();
   
+  // Setup click handlers
+  setupClickHandlers();
+  
   // Load saved state
   loadSavedState();
+  
+  return {
+    audio,
+    togglePlay,
+    updateEpisode
+  };
 }
 
 // Setup event listeners
@@ -159,10 +174,25 @@ function togglePlay() {
     isPlaying = false;
     status = "Paused";
   } else {
-    audio.play();
-    isPlaying = true;
-    status = "Playing";
+    audio.play()
+      .then(() => {
+        isPlaying = true;
+        status = "Playing";
+        // Update the global state in audio-manager
+        if (window.audioManager) {
+          window.audioManager.updatePlayingState(true);
+        }
+      })
+      .catch(error => {
+        console.error('Error playing audio:', error);
+      });
   }
+  
+  // Update the global state in audio-manager
+  if (window.audioManager) {
+    window.audioManager.updatePlayingState(isPlaying);
+  }
+  
   updateUI();
 }
 
@@ -241,5 +271,58 @@ function handleMetadataLoaded() {
   updateDuration();
 }
 
+// Update episode data
+function updateEpisode(episodeData, shouldPlay = false) {
+  if (!audio || !element) return;
+  
+  currentEpisodeData = episodeData;
+  
+  // Update audio source
+  audio.src = episodeData.audio.filename;
+  audio.title = episodeData.title;
+  audio.number = episodeData.number;
+  
+  // Set data attributes
+  element.setAttribute("data-src", episodeData.audio.filename);
+  element.setAttribute("data-title", episodeData.title);
+  element.setAttribute("data-episode-id", episodeData.number);
+  element.setAttribute("data-duration", episodeData.duration);
+  
+  // Reset state
+  currentTime = "0:00";
+  progress = 0;
+  
+  // Play if requested
+  if (shouldPlay) {
+    audio.play()
+      .then(() => {
+        isPlaying = true;
+        status = "Playing";
+        updateUI();
+        
+        // Update the global state in audio-manager
+        if (window.audioManager) {
+          window.audioManager.updatePlayingState(true);
+        }
+      })
+      .catch(error => {
+        console.error('Error playing audio:', error);
+      });
+  } else {
+    updateUI();
+  }
+}
+
+// Get current episode data
+function getCurrentEpisode() {
+  return currentEpisodeData;
+}
+
 // Export public methods
-export { init, destroy };
+window.audioPlayer = {
+  init,
+  destroy,
+  togglePlay,
+  updateEpisode,
+  getCurrentEpisode
+};

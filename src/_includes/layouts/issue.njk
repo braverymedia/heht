@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+---
+
+{% set issue = {
+    "url": url,
+    "title": title,
+    "date": date,
+    "number": issue,
+    "description": description,
+    "cover": {
+        "image": cover.image,
+        "alt": cover.alt
+    }
+} %}
+
+<article class="newsletter-issue">
+    <header>
+        <h1>{{ title }}</h1>
+        <p class="issue-meta">Issue {{ issue | padStart(3, '0') }} • {{ date | readableDate }}</p>
+    </header>
+    
+    <div class="newsletter-content">
+        {{ content | safe }}
+    </div>
+</article>

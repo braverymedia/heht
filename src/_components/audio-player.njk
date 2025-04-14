@@ -1,4 +1,4 @@
-  <div class="audio-player" 
+  <div class="audio-player persistent-player" 
   data-episode-id="{{ episodeNumber }}"
   data-src="{{ src }}"
   data-is-playing="false"
@@ -7,7 +7,8 @@
   data-current-time="0:00"
   data-duration="{{ duration }}"
   data-status="Ready"
-  data-loading="true">
+  data-loading="true"
+  aria-live="polite">
   <div class="audio-player__controls">
     <button class="audio-player__button audio-player__button--play-pause" aria-label="Play">
       <div class="audio-player__icon audio-player__icon--play">

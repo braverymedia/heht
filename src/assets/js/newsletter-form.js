@@ -1,4 +1,4 @@
-export function initNewsletterForm() {
+function initNewsletterForm() {
   const form = document.querySelector('.newsletter-form');
   if (!form) return;
 
@@ -61,3 +61,7 @@ if (typeof document !== 'undefined') {
     initNewsletterForm();
   });
 }
+
+window.newsletterForm = {
+  init: initNewsletterForm
+};

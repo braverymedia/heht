@@ -3,6 +3,19 @@ layout: layouts/base.njk
 ---
 
 {% set isEpisodePage = true %}
+{% set episode = {
+    "url": url,
+    "title": title,
+    "date": date,
+    "number": number,
+    "duration": audio?.duration,
+    "description": description,
+    "transcript": transcript,
+    "cover": {
+        "image": cover.image
+    }
+} %}
+
 <article class="episode h-entry" itemscope itemtype="http://schema.org/PodcastEpisode">
   <script type="application/ld+json">
     {{ {
@@ -22,27 +35,12 @@ layout: layouts/base.njk
     } | json | safe }}
   </script>
 
-  {% set episode = {
-    "url": url,
-    "title": title,
-    "date": date,
-    "number": number,
-    "duration": audio?.duration,
-    "description": description,
-    "transcript": transcript,
-    "cover": {
-      "image": cover.image
-    }
-  } %}
-  {% include "../../_components/episode.njk" %}
+  <header>
+    <h1>{{ title }}</h1>
+    <p class="episode-meta">Episode {{ number | padStart(3, '0') }} • {{ date | readableDate }}</p>
+  </header>
+  
+  <div class="episode-content">
+    {{ content | safe }}
+  </div>
 </article>
-
-<script>
-class EpisodeLayout extends HTMLElement {
-  constructor() {
-    super();
-  }
-}
-
-customElements.define('episode-layout', EpisodeLayout);
-</script>
