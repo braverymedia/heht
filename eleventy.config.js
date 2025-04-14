@@ -125,6 +125,18 @@ export default async function (eleventyConfig) {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   });
 
+  eleventyConfig.addFilter("durationHuman", (seconds) => {
+		if (!seconds || isNaN(seconds)) return "0s";
+		const h = Math.floor(seconds / 3600);
+		const m = Math.floor((seconds % 3600) / 60);
+		const s = Math.floor(seconds % 60);
+		let result = "";
+		if (h > 0) result += `${h}h `;
+		if (m > 0 || h > 0) result += `${m}m `;
+		result += `${s}s`;
+		return result.trim();
+  });
+
   eleventyConfig.addFilter("absoluteUrl", (path, base) => {
     if (!base) {
       console.warn("Warning: base URL is not defined");

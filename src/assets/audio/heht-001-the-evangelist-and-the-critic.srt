@@ -1,0 +1,649 @@
+1
+00:00:00,050 --> 00:00:02,810
+This is the first higher Ed hot
+take, and boy is it a doozy.
+
+2
+00:00:02,810 --> 00:00:04,040
+I'm your host, Joel Goodman.
+
+3
+00:00:18,017 --> 00:00:19,607
+Here we are talking about ai.
+
+4
+00:00:19,607 --> 00:00:22,697
+Again, there's so much blind trust in
+these products floating around higher
+
+5
+00:00:22,697 --> 00:00:26,297
+ed and I have felt the need to bring a
+critical lens to assessing these things,
+
+6
+00:00:26,567 --> 00:00:28,097
+and I've been saying it a lot lately.
+
+7
+00:00:28,367 --> 00:00:32,297
+I'm a critic, not a skeptic, but from
+here on out, I'm gonna be using the term
+
+8
+00:00:32,297 --> 00:00:36,887
+LLM because the way we use AI today is
+purely as a marketing term, taken from
+
+9
+00:00:36,887 --> 00:00:41,567
+another technology and slapped onto
+machine learning by Sam Altman and OpenAI.
+
+10
+00:00:42,197 --> 00:00:44,057
+What you use every day and call AI is.
+
+11
+00:00:44,087 --> 00:00:45,437
+Still just machine learning.
+
+12
+00:00:45,437 --> 00:00:50,207
+And we've had that for decades and it's
+very useful, but doesn't sound as flash
+
+13
+00:00:50,207 --> 00:00:51,467
+when you decouple it from the chat.
+
+14
+00:00:51,467 --> 00:00:53,477
+Products you've been duped
+into believing is ai.
+
+15
+00:00:53,907 --> 00:00:58,467
+Did you know that Open AI lost
+$5 billion after revenue in 2024?
+
+16
+00:00:58,827 --> 00:01:02,307
+The company that owns chat, GPT
+empowers most of the other products.
+
+17
+00:01:02,307 --> 00:01:07,917
+Your institution is probably paying five
+or six figure sums for, lost $5 billion.
+
+18
+00:01:08,087 --> 00:01:11,327
+Even with all the revenue they bring
+in from chat, GPT subscriptions
+
+19
+00:01:11,327 --> 00:01:14,867
+and API contracts, according to
+financial reporting, it costs
+
+20
+00:01:15,197 --> 00:01:19,247
+OpenAI $1 billion more than all of
+its revenue to run its software.
+
+21
+00:01:19,877 --> 00:01:21,167
+That's a problem.
+
+22
+00:01:21,707 --> 00:01:24,737
+OpenAI loses money on
+every call to its API.
+
+23
+00:01:24,737 --> 00:01:29,657
+Every question you ask chat, GPT, and
+every run of a custom GPT that you make.
+
+24
+00:01:29,897 --> 00:01:33,737
+And worse still, they lose more money
+the more customers they acquire.
+
+25
+00:01:33,977 --> 00:01:36,017
+This is not a sustainable business.
+
+26
+00:01:36,462 --> 00:01:39,672
+And, uh, the same is true for
+Anthropic the company behind Claude.
+
+27
+00:01:39,972 --> 00:01:43,512
+That means that the price you're
+paying for LLM powered software is well
+
+28
+00:01:43,512 --> 00:01:48,762
+below the cost it takes to actually
+run it somewhere around 125% less
+
+29
+00:01:48,762 --> 00:01:50,322
+than the actual cost to run them.
+
+30
+00:01:50,802 --> 00:01:53,202
+These products have been backed
+by venture capital based on
+
+31
+00:01:53,202 --> 00:01:55,152
+little more than smoke and mirrors
+
+32
+00:01:55,612 --> 00:02:00,232
+With news that Microsoft is pulling back
+on the very data center, build outs that
+
+33
+00:02:00,232 --> 00:02:04,912
+power most of open AI's GPTs, there's
+a very real chance that this bubble
+
+34
+00:02:04,912 --> 00:02:06,712
+we've been ignoring is about to burst.
+
+35
+00:02:07,792 --> 00:02:11,512
+If I could generalize a bit, there
+are two kinds of AI thought leaders
+
+36
+00:02:11,512 --> 00:02:14,332
+and only one gets listened to First.
+
+37
+00:02:14,392 --> 00:02:17,032
+There's the evangelist who knows
+enough about how to use these.
+
+38
+00:02:17,067 --> 00:02:20,157
+Systems and the general framework
+for how the models are constructed.
+
+39
+00:02:20,547 --> 00:02:22,617
+The evangelists are all in
+either because they're super
+
+40
+00:02:22,617 --> 00:02:25,107
+optimistic or super opportunistic.
+
+41
+00:02:25,507 --> 00:02:28,327
+Either they're happy to ignore
+all the warning signs and continue
+
+42
+00:02:28,327 --> 00:02:30,277
+hyping chat GPT as a solution.
+
+43
+00:02:30,277 --> 00:02:32,047
+Despite the very real possibility.
+
+44
+00:02:32,047 --> 00:02:35,407
+Reality will catch up with them,
+or they see the potential for a
+
+45
+00:02:35,407 --> 00:02:39,007
+short-term cash return and are
+pretty cynical about society.
+
+46
+00:02:39,277 --> 00:02:42,037
+If they can get rich off of your
+lack of knowledge, they will.
+
+47
+00:02:42,787 --> 00:02:44,977
+AI evangelists fall into two camps.
+
+48
+00:02:45,097 --> 00:02:48,397
+They're the ones who started or shifted
+their businesses to taking advantage
+
+49
+00:02:48,397 --> 00:02:50,377
+of this new wave of LLM dominance.
+
+50
+00:02:50,597 --> 00:02:54,287
+They built chat interfaces, CRMs code,
+and search front ends that are wrapped
+
+51
+00:02:54,287 --> 00:02:55,817
+around open AI or philanthropic.
+
+52
+00:02:56,207 --> 00:02:58,907
+They feed your data back to
+these companies and then pin
+
+53
+00:02:58,907 --> 00:03:00,227
+their business to this bubble.
+
+54
+00:03:00,587 --> 00:03:02,387
+They don't actually own the tech.
+
+55
+00:03:02,417 --> 00:03:05,537
+They rent GPU cycles and
+create marketing buzz.
+
+56
+00:03:06,212 --> 00:03:08,972
+Then they're the so-called experts
+who played with the early chat
+
+57
+00:03:08,972 --> 00:03:12,572
+GPT web app and saw an opportunity
+to own a thought leadership lane.
+
+58
+00:03:12,842 --> 00:03:15,362
+You've seen them at conferences
+trying to help you figure out how
+
+59
+00:03:15,362 --> 00:03:17,312
+to use LLMs in your own workflows.
+
+60
+00:03:17,582 --> 00:03:18,962
+We've all learned a ton from them.
+
+61
+00:03:19,262 --> 00:03:21,392
+Maybe they've written a
+book about AI already.
+
+62
+00:03:21,752 --> 00:03:24,302
+They are genuinely trying to
+help us stay ahead of the curve.
+
+63
+00:03:24,302 --> 00:03:27,272
+Then there's AI critics, and this is me.
+
+64
+00:03:27,632 --> 00:03:31,052
+I've been using these tools longer
+than most of the evangelists.
+
+65
+00:03:31,052 --> 00:03:33,632
+I'm always an early adopter
+and I'm always critical.
+
+66
+00:03:33,872 --> 00:03:36,482
+When I lived in Austin and was plugged
+into the startup scene, I used to tell
+
+67
+00:03:36,482 --> 00:03:40,322
+people I'd be a terrible VC because
+I thought everyone's ideas were bad.
+
+68
+00:03:40,802 --> 00:03:43,292
+I'm a critic and I do keep a watchful eye.
+
+69
+00:03:43,772 --> 00:03:45,332
+Critics aren't skeptical though.
+
+70
+00:03:45,392 --> 00:03:49,172
+We count data scientists, machine learning
+engineers, marketers, journalists,
+
+71
+00:03:49,172 --> 00:03:51,062
+and plenty of others among our rinks.
+
+72
+00:03:51,332 --> 00:03:54,482
+We don't believe the hype, but
+we test it against reality.
+
+73
+00:03:54,752 --> 00:03:57,842
+If the bubble is about to burst,
+we need to sound the alarm.
+
+74
+00:03:58,452 --> 00:04:00,492
+So onto the problem first.
+
+75
+00:04:00,492 --> 00:04:03,222
+Do you really think that chatting
+with a computer is a good
+
+76
+00:04:03,222 --> 00:04:07,602
+experience and like super useful
+as a general everyday activity?
+
+77
+00:04:08,232 --> 00:04:11,712
+Like the most efficient way to interact
+with LMS is to spend brain power trying
+
+78
+00:04:11,712 --> 00:04:16,452
+to figure out how to prompt it best and
+physically typing that into a chat box.
+
+79
+00:04:16,782 --> 00:04:18,222
+We've done that before y'all.
+
+80
+00:04:18,227 --> 00:04:22,007
+It's called programming and it's why
+we have graphical user interfaces
+
+81
+00:04:22,247 --> 00:04:25,307
+because it's faster to use an interface.
+
+82
+00:04:25,707 --> 00:04:28,227
+Like, I get it for doing deep
+research, but the chat part of
+
+83
+00:04:28,227 --> 00:04:29,967
+chat GPT is not the product.
+
+84
+00:04:30,207 --> 00:04:34,257
+In fact, LLM shouldn't be the product,
+even though they're sold like they are.
+
+85
+00:04:34,592 --> 00:04:38,317
+LLM should be part of the infrastructure,
+making products better and the best.
+
+86
+00:04:38,317 --> 00:04:42,037
+All of these supposedly brilliant
+people can come up with is chat.
+
+87
+00:04:42,847 --> 00:04:43,627
+Get real.
+
+88
+00:04:43,687 --> 00:04:44,197
+Come on.
+
+89
+00:04:44,437 --> 00:04:45,127
+I mean, really
+
+90
+00:04:45,967 --> 00:04:50,437
+meanwhile, university websites are still
+slow and institutions are adding more AI
+
+91
+00:04:50,437 --> 00:04:55,387
+chat bot and search and RFI forms that
+pop up at supposedly just the right time.
+
+92
+00:04:55,657 --> 00:04:57,427
+It's, it's just junk.
+
+93
+00:04:57,787 --> 00:05:01,027
+It's just junk that slows down
+our website and makes them worse
+
+94
+00:05:01,027 --> 00:05:04,777
+to use while search engines are
+eating our traffic for breakfast.
+
+95
+00:05:04,777 --> 00:05:07,327
+You've seen those AI summaries, right?
+
+96
+00:05:07,687 --> 00:05:11,167
+People aren't getting to your websites
+anymore and you're making them heavier
+
+97
+00:05:11,167 --> 00:05:14,617
+and making it harder so that the ones
+that even get there don't use them.
+
+98
+00:05:15,067 --> 00:05:17,917
+What are we doing seriously?
+
+99
+00:05:18,367 --> 00:05:20,197
+How is any of this strategic?
+
+100
+00:05:20,557 --> 00:05:24,847
+Your strategy is to skip past
+doing the actual work and expect
+
+101
+00:05:24,847 --> 00:05:29,137
+half-baked, consistently hallucinating
+predictive algorithms to make
+
+102
+00:05:29,137 --> 00:05:31,357
+everything better, seriously.
+
+103
+00:05:32,767 --> 00:05:35,257
+This is me saying it louder for everyone.
+
+104
+00:05:35,737 --> 00:05:39,337
+AI tools are not a replacement
+for content strategy.
+
+105
+00:05:39,757 --> 00:05:42,067
+They're not a replacement for UX design.
+
+106
+00:05:42,247 --> 00:05:44,737
+They're not a replacement
+for brand strategy.
+
+107
+00:05:44,917 --> 00:05:48,787
+AI tools are not a replacement for
+admissions counselors and they're
+
+108
+00:05:48,787 --> 00:05:50,887
+not a replacement for human kindness.
+
+109
+00:05:51,862 --> 00:05:55,102
+But we're still out here paying lip
+service to the actions we know we
+
+110
+00:05:55,102 --> 00:05:57,352
+should be taking while dumping cash.
+
+111
+00:05:57,352 --> 00:05:59,392
+We don't have into middleware.
+
+112
+00:05:59,392 --> 00:06:02,962
+That ruins the environment, guts
+the arts, and steals from the
+
+113
+00:06:02,962 --> 00:06:04,402
+very people that we educate.
+
+114
+00:06:05,242 --> 00:06:07,852
+How do you square that with the
+mission of higher education?
+
+115
+00:06:09,322 --> 00:06:13,792
+So why are you spending money on chatbots
+and targeted ad style contact forms?
+
+116
+00:06:14,032 --> 00:06:17,782
+Why are you giving money to a company
+that will either fail bringing an entire
+
+117
+00:06:17,782 --> 00:06:22,102
+industry down with it, or raise its prices
+so high you'll never be able to recover?
+
+118
+00:06:22,552 --> 00:06:27,262
+I'm begging you to pause and think
+bigger about LLMs, think bigger
+
+119
+00:06:27,262 --> 00:06:30,802
+about what value they have, but
+also think more sustainably.
+
+120
+00:06:31,702 --> 00:06:34,552
+What I've taken away from
+this AI craze is this.
+
+121
+00:06:34,957 --> 00:06:39,667
+The billions and billions of dollars
+set on fire by these companies and
+
+122
+00:06:39,667 --> 00:06:43,057
+the possibly irreparable damage to
+the planet that they've done have
+
+123
+00:06:43,057 --> 00:06:46,657
+brought the promise of big data
+analysis to our personal computers.
+
+124
+00:06:47,287 --> 00:06:51,637
+And when you clear past the hype
+and marketing and evangelists,
+
+125
+00:06:51,877 --> 00:06:53,497
+this is an incremental gain.
+
+126
+00:06:54,007 --> 00:06:57,097
+the biggest advance is that every
+institution now has the power to
+
+127
+00:06:57,097 --> 00:07:02,437
+analyze all of its data, find trends,
+do market analysis, and reduce the
+
+128
+00:07:02,437 --> 00:07:04,627
+workload of its already overworked staff.
+
+129
+00:07:05,437 --> 00:07:09,667
+The bloated, expensive operational
+side of running a college or university
+
+130
+00:07:09,847 --> 00:07:14,287
+can be made more efficient, freeing
+up the messy humanity needed side of
+
+131
+00:07:14,287 --> 00:07:17,857
+the house to provide better care to
+your prospective students and donors.
+
+132
+00:07:18,517 --> 00:07:19,627
+You know what doesn't do that?
+
+133
+00:07:20,077 --> 00:07:23,587
+Chat bots, especially ones
+that give the wrong answers.
+
+134
+00:07:24,007 --> 00:07:25,957
+Site search that nobody uses.
+
+135
+00:07:25,957 --> 00:07:30,217
+6% of your traffic and most
+of that's internal and hard.
+
+136
+00:07:30,217 --> 00:07:32,167
+Cells that cover up broken ux.
+
+137
+00:07:33,622 --> 00:07:34,852
+There are other ways.
+
+138
+00:07:34,912 --> 00:07:38,962
+There are smarter, more effective
+ways to implement this stuff.
+
+139
+00:07:39,442 --> 00:07:42,862
+And right now, can you really
+afford to be betting the house on
+
+140
+00:07:42,862 --> 00:07:44,962
+someone else's failing business?
+
