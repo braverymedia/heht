@@ -8,6 +8,8 @@ audio:
   size: 15902579
   duration: 481
   type: audio/mpeg
+transcript:
+  srt: /assets/audio/heht-001-the-evangelist-and-the-critic.srt
 tags:
   - AI
   - Higher Education
