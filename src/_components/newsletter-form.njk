@@ -6,20 +6,20 @@
     <input type="hidden" id="ipAddress" name="ipAddress">
 
     <div class="form-group">
-      <label for="firstName">First Name</label>
-      <input type="text" id="firstName" name="firstName" required>
+      <label for="firstName">First/Preferred Name</label>
+      <input type="text" id="firstName" name="firstName" autocomplete="given-name" required>
       <span class="error-message"></span>
     </div>
 
     <div class="form-group">
       <label for="lastName">Last Name</label>
-      <input type="text" id="lastName" name="lastName" required>
+      <input type="text" id="lastName" name="lastName" autocomplete="family-name" required>
       <span class="error-message"></span>
     </div>
 
     <div class="form-group">
       <label for="email">Email Address</label>
-      <input id="email" name="email" type="email" placeholder="you@example.com" required>
+      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
       <span class="error-message"></span>
     </div>
 

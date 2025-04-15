@@ -545,7 +545,8 @@ function setPlaybackSpeed(rate) {
   }
   const soundTouch = new SoundTouch(audioCtx.sampleRate);
   soundTouch.tempo = rate;
-  soundTouch.pitch = 1;
+  soundTouch.pitch = 1; // Explicitly lock pitch
+  soundTouch.rate = 1;  // Ensure no pitch shift
   soundTouchNode = getWebAudioNode(audioCtx, mediaSource, soundTouch);
   soundTouchNode.connect(audioCtx.destination);
   audio.playbackRate = 1; // Let SoundTouch handle speed

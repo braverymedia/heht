@@ -268,7 +268,7 @@ button[type="submit"] {
     .audio-player__icon--play { display: none; }
     .audio-player__icon--pause { display: inline-block; }
   }
-  
+
   /* When aria-label is Loading, show spinner */
   &[aria-label="Loading"] {
     .audio-player__icon--play,
