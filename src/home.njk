@@ -3,11 +3,17 @@ layout: layouts/base.njk
 title: Higher Ed Hot Takes with Joel G Goodman
 permalink: /
 ---
-
-{% if collections.episodes and collections.episodes[0] %}
-  {% set episode = collections.episodes[0].data %}
-  {% set isEpisodePage = false %}
-  {% include "./_components/episode.njk" %}
-{% else %}
-    No episodes in collection
-{% endif %}
+{% set episodeItem = collections.episodes[0] %}
+{% set episodeData = episodeItem.data %}
+{% set episode = {
+  url: episodeItem.url,
+  title: episodeData.title,
+  date: episodeData.date,
+  number: episodeData.number,
+  audio: episodeData.audio,
+  description: episodeData.description,
+  transcript: episodeData.transcript,
+  cover: episodeData.cover
+} %}
+{% set isEpisodePage = false %}
+{% include "./_components/episode.njk" %}

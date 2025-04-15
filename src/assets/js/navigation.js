@@ -129,4 +129,4 @@ document.addEventListener('DOMContentLoaded', () => {
   window.siteNavigation = new Navigation();
 });
 
-export default Navigation;
+window.Navigation = Navigation;

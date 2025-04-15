@@ -128,7 +128,7 @@ button:focus {
 // -----------
 
 [aria-hidden="true"] {
-  display: none;
+  display: none !important;
 }
 
 [aria-busy="true"] {

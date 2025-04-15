@@ -1,3 +1,4 @@
+import 'soundtouchjs';
 import './audio-player.js';
 import './audio-manager.js';
 import './drawer.js';

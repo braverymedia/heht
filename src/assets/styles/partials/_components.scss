@@ -102,7 +102,25 @@ button {
 }
 /* Audio Player */
 .audio-player {
+    font-family: var(--font-accent);
+    &__time {
+        order: 0;
+        color: var(--color-white);
+        font-weight: 700;
+        @media ( width >= 768px) {
+            order: 3;
+            color: var(--color-blueviolet);
+        }
+    }
+    &__progress {
+        order: 1;
+        width: 100%;
+        input {
+            width: 100%;
+        }
+    }
     &__controls {
+        order: 2;
         display: flex;
         width: 265px;
         justify-content: center;
@@ -110,8 +128,8 @@ button {
         gap: 45px;
     }
     &__button--play-pause {
-        width: 95px;
-        height: 95px;
+        width: 75px;
+        height: 75px;
         flex-shrink: 0;
         border-radius: 50%;
         background-color: var(--color-blueviolet);
@@ -120,9 +138,53 @@ button {
         align-items: center;
         color: var(--color-green);
         position: relative;
+        order: 2;
         .audio-player__icon {
+            aspect-ratio: 1;
+            height: 28px;
             width: 28px;
-            position: absolute;
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        &:after {
+            border-radius: 50%;
+            padding: 10px;
+        }
+    }
+    &__button--skip-back {
+        order: 1;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        color: var(--color-blueviolet);
+        svg {
+          width: 40px;
+        }
+        &:after {
+            display: none;
+        }
+    }
+    &__button--speed {
+        order: 3;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        font-family: var(--font-accent);
+        font-size: var(--type-sm);
+        text-align: center;
+        gap:0;
+        justify-content: center;
+        align-items: center;
+        span {
+          margin: 0;
+          padding: 0;
+        }
+        &:after {
+            display: none;
         }
     }
 }
@@ -183,4 +245,194 @@ button {
         box-shadow: 0;
         margin-block-start: 8px;
      }
+}
+
+button[type="submit"] {
+    border: 3px solid var(--color-yellow);
+    color: var(--color-blueviolet);
+    border-radius: 999px; // Makes the button pill-shaped
+    padding: 12px 32px;   // Add horizontal padding for a true pill look
+    &:hover {
+      background-color: var(--color-green);
+    }
+}
+
+.audio-player__button--play-pause {
+  /* Default state - Play */
+  .audio-player__icon--play { display: inline-block; }
+  .audio-player__icon--pause { display: none; }
+  .audio-player__loading-spinner { display: none; }
+
+  /* When aria-label is Pause, show pause icon */
+  &[aria-label="Pause"] {
+    .audio-player__icon--play { display: none; }
+    .audio-player__icon--pause { display: inline-block; }
+  }
+  
+  /* When aria-label is Loading, show spinner */
+  &[aria-label="Loading"] {
+    .audio-player__icon--play,
+    .audio-player__icon--pause { display: none; }
+    .audio-player__loading-spinner { display: inline-block; }
+  }
+}
+
+/* song status */
+input[type="range"].audio-player__progress-bar {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  height: 2rem; // for click/tap target, not track height
+  border: 0;
+  box-shadow: none;
+
+  width: 100%;
+  background: transparent;
+  height: 2rem;
+  border: 0;
+  box-shadow: 0;
+  // WebKit browsers (Chrome, Safari)
+  &::-webkit-slider-runnable-track {
+    height: 1px !important;
+    border-radius: 0.5px;
+    background: linear-gradient(
+      to right,
+      var(--color-green) 0%,
+      var(--color-green) calc(var(--value, 0) * 1%),
+      var(--color-blueviolet) calc(var(--value, 0) * 1%),
+      var(--color-blueviolet) 100%
+    );
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  // Hide thumb by default, show on focus/hover/active (WebKit)
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-green);
+    border: 2px solid var(--color-blueviolet);
+    margin-top: -8px;
+    cursor: pointer;
+    transition: opacity 0.2s, background 0.2s;
+    box-shadow:none;
+    opacity: 0;
+    pointer-events: none;
+  }
+  &:focus::-webkit-slider-thumb,
+  &:active::-webkit-slider-thumb,
+  &:hover::-webkit-slider-thumb {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  // Firefox
+  &::-moz-range-track {
+    height: 1px !important;
+    background: var(--color-blueviolet);
+    border-radius: 0.5px;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  &::-moz-range-progress {
+    height: 1px !important;
+    background: var(--color-green);
+    border-radius: 0.5px;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  // Hide thumb by default, show on focus/hover/active (Firefox)
+  &::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-green);
+    border: 2px solid var(--color-blueviolet);
+    cursor: pointer;
+    transition: opacity 0.2s, background 0.2s;
+    box-shadow: 0 0 0 3px transparent;
+    opacity: 0;
+    pointer-events: none;
+  }
+  &:focus::-moz-range-thumb,
+  &:active::-moz-range-thumb,
+  &:hover::-moz-range-thumb {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  // Edge/IE
+  &::-ms-fill-lower {
+    background: var(--color-green);
+    border-radius: 0.5px;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  &::-ms-fill-upper {
+    background: var(--color-blueviolet);
+    border-radius: 0.5px;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  // Hide thumb by default, show on focus/hover/active (Edge/IE)
+  &::-ms-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-green);
+    border: 2px solid var(--color-blueviolet);
+    cursor: pointer;
+    transition: opacity 0.2s, background 0.2s;
+    box-shadow: 0 0 0 3px transparent;
+    opacity: 0;
+    pointer-events: none;
+  }
+  &:focus::-ms-thumb,
+  &:active::-ms-thumb,
+  &:hover::-ms-thumb {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  // WCAG Focus
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-focus, #FFD700);
+  }
+  // Remove default outline/border/box-shadow on focus for all browsers
+  &:focus,
+  &:active {
+    border: 0;
+    box-shadow: none;
+    outline: none;
+  }
+}
+// Remove extra styling in Firefox
+input[type="range"].audio-player__progress-bar::-moz-focus-outer {
+  border: 0;
+  box-shadow: none;
+}
+
+// Remove extra styling in Firefox
+input[type="range"].audio-player__progress-bar::-moz-focus-outer {
+  border: 0;
+}
+
+/* Screen reader only utility class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

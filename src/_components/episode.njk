@@ -1,3 +1,4 @@
+{% set episode = episode or currentEpisode %}
 <section class="episode" role="article">
     {% if episode.cover.image %}
         <figure class="episode-cover">
@@ -38,7 +39,7 @@
             <div class="episode-meta">
                 Released <time datetime="{{ episode.date }}">{{ episode.date | readableDate }}</time> /
                 {% if episode.audio.duration %}
-                    <span class="episode-duration">Duration: {{ episode.audio.duration | formatDuration }}</span>
+                    <span class="episode-duration">Duration: {{ episode.audio.duration | durationHuman }}</span>
                 {% endif %}
 
             </div>

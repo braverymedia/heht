@@ -6,6 +6,7 @@ import { exec } from 'child_process';
 import postcss from 'postcss';
 import postcssConfig from 'postcss-load-config';
 import * as sass from 'sass';
+import CleanCSS from "clean-css";
 import markdownIt from 'markdown-it';
 import container from 'markdown-it-container';
 import { eleventyImageTransformPlugin } from '@11ty/eleventy-img';
@@ -20,8 +21,36 @@ import resolvePlugin from '@rollup/plugin-node-resolve';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 export default async function (eleventyConfig) {
+	// Set environment variables
+	process.env.ELEVENTY_ENV = process.env.ELEVENTY_ENV || "development";
+	process.env.NODE_ENV = process.env.NODE_ENV || process.env.ELEVENTY_ENV;
+	const isProduction =
+		process.env.ELEVENTY_ENV === "production" ||
+		process.env.NODE_ENV === "production";
+
 	// Plugins
 	eleventyConfig.addPlugin(pluginRss);
+
+	// Watch all SCSS files (including partials) for live reload in dev
+	eleventyConfig.setServerOptions({
+		watch: [
+			"src/assets/styles/**/*.scss"
+		],
+		on: {
+			"watch:fileChanged": (changedPath) => {
+				if (
+					changedPath.endsWith(".scss") &&
+					changedPath.includes("partials") &&
+					!changedPath.endsWith("main.scss")
+				) {
+					// Touch main.scss to trigger rebuild
+					const mainPath = "src/assets/styles/main.scss";
+					const now = new Date();
+					fs.utimesSync(mainPath, now, now);
+				}
+			}
+		}
+	});
 
 	// Add the Eleventy Image plugin
 	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
@@ -37,78 +66,33 @@ export default async function (eleventyConfig) {
 	// Add the bundler plugin
 	eleventyConfig.addPlugin(bundlePlugin);
 
+	// CSS minification filter
+	eleventyConfig.addFilter("cssmin", function(code) {
+		return new CleanCSS({}).minify(code).styles;
+	});
+
+	// Global inlineCss data (reads built CSS)
+	eleventyConfig.addGlobalData("inlineCss", () => {
+		const cssPath = "src/_includes/assets/assets/main.css";
+		try {
+			return fs.readFileSync(cssPath, "utf8");
+		} catch (e) {
+			return "";
+		}
+	});
+
+	// Watch built CSS for changes
+	eleventyConfig.addWatchTarget("_site/assets/styles/main.css");
+
 	// Passthrough copy
 	eleventyConfig.addPassthroughCopy("src/assets/img");
 	eleventyConfig.addPassthroughCopy("src/assets/webfont");
 	eleventyConfig.addPassthroughCopy("src/assets/audio");
 	eleventyConfig.addPassthroughCopy("src/manifest.webmanifest");
 	eleventyConfig.addPassthroughCopy("src/favicon.svg");
-	// Only copy individual JS files in development
-	if (process.env.NODE_ENV === "development") {
-		eleventyConfig.addPassthroughCopy("src/assets/js");
-	}
-	// Copy API files
-	eleventyConfig.addPassthroughCopy({
-		"src/api": "api",
-	});
-
-	// Add SCSS template type
-	eleventyConfig.addTemplateFormats("scss");
-	eleventyConfig.setTemplateFormats(["njk", "md", "html", "scss"]);
-
-	// Set environment variables
-	process.env.ELEVENTY_ENV = process.env.ELEVENTY_ENV || "development";
-	process.env.NODE_ENV = process.env.NODE_ENV || process.env.ELEVENTY_ENV;
-	const isProduction =
-		process.env.ELEVENTY_ENV === "production" ||
-		process.env.NODE_ENV === "production";
-
-	// Add SCSS template type
-	eleventyConfig.addExtension("scss", {
-		outputFileExtension: "css",
-
-		// `compile` is called once per .scss file in the input directory
-		compile: async function (inputContent, inputPath) {
-			// Skip files like _fileName.scss
-			const parsed = path.parse(inputPath);
-			if (parsed.name.startsWith("_")) {
-				return;
-			}
-			try {
-				// Compile SCSS to CSS
-				const result = await sass.compileStringAsync(inputContent, {
-					loadPaths: ["src/assets/styles", "node_modules"],
-					sourceMap: process.env.NODE_ENV !== "production",
-				});
-
-				// Process with PostCSS using config file
-				const config = await postcssConfig({
-					config: { path: "postcss.config.cjs" },
-				});
-				const postCSSResult = await postcss(config.plugins).process(
-					result.css,
-					{
-						from: inputPath,
-						to: inputPath.replace(/\.scss$/, ".css"),
-						map:
-							process.env.NODE_ENV !== "production"
-								? { inline: true }
-								: false,
-					}
-				);
-
-				// This is the render function
-				return async (data) => postCSSResult.css;
-			} catch (error) {
-				console.error("SCSS Processing Error:", error);
-				return async (data) => "";
-			}
-		},
-	});
-
 	// Add CSS inlining
 	eleventyConfig.addFilter("inlineCss", async function (css) {
-		if (process.env.NODE_ENV === "production") {
+		if (isProduction) {
 			const minified = await postcss([
 				require("cssnano")({
 					preset: "default",
@@ -196,18 +180,15 @@ export default async function (eleventyConfig) {
 		return new CleanCSS({}).minify(code).styles;
 	});
 
-	// Set development environment
-	const isDev = process.env.NODE_ENV === "development";
-
 	// Add global data for development
-	if (isDev) {
+	if (!isProduction) {
 		eleventyConfig.addGlobalData("env", "development");
 	} else {
 		eleventyConfig.addGlobalData("env", "production");
 	}
 
 	// Add timestamp for cache busting
-	if (isDev) {
+	if (!isProduction) {
 		eleventyConfig.addGlobalData(
 			"timestamp",
 			Math.floor(Date.now() / 1000)
@@ -219,6 +200,17 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addFilter("cacheBust", function (url) {
 		return `${url}?v=${this.cacheBust}`;
 	});
+
+	// Passthrough copy
+	eleventyConfig.addPassthroughCopy("src/assets/img");
+	eleventyConfig.addPassthroughCopy("src/assets/webfont");
+	eleventyConfig.addPassthroughCopy("src/assets/audio");
+	eleventyConfig.addPassthroughCopy("src/manifest.webmanifest");
+	eleventyConfig.addPassthroughCopy("src/favicon.svg");
+	// Only copy individual JS files in development
+	if (!isProduction) {
+		eleventyConfig.addPassthroughCopy("src/assets/js");
+	}
 
 	// Handle JavaScript bundling
 	async function bundleJS() {
@@ -319,7 +311,7 @@ export default async function (eleventyConfig) {
 			includes: "_includes",
 			data: "_data",
 		},
-		templateFormats: ["njk", "md", "html", "scss"],
+		templateFormats: ["njk", "md", "html"],
 		markdownTemplateEngine: "njk",
 		htmlTemplateEngine: "njk",
 		dataTemplateEngine: "njk",
@@ -327,31 +319,13 @@ export default async function (eleventyConfig) {
 		env: {
 			siteUrl: process.env.SITE_URL || "https://higheredhottakes.com",
 		},
-		development: isDev,
-		cache: !isDev,
-		cacheDuration: isDev ? "0s" : "1y",
-		files: ["src/**/*.{njk,md,html,scss}"],
-		transforms: {
-			scss: async function (content, inputPath) {
-				if (inputPath.endsWith(".scss")) {
-					const result = sass.compileString(content, {
-						loadPaths: ["src/assets/styles", "node_modules"],
-						sourceMap: process.env.NODE_ENV !== "production",
-					});
-					return result.css;
-				}
-				return content;
-			},
-		},
+		development: !isProduction,
+		cache: isProduction,
+		cacheDuration: !isProduction ? "0s" : "1y",
+		files: ["src/**/*.{njk,md,html}"],
+
 		data: {
 			cacheBust: Date.now(),
-			css: async function () {
-				if (process.env.NODE_ENV === "production") {
-					return this.processScss();
-				}
-				// In development, return empty string since we're using external CSS file
-				return "";
-			},
 			isProduction: process.env.NODE_ENV === "production",
 		},
 	};

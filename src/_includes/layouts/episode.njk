@@ -3,44 +3,17 @@ layout: layouts/base.njk
 ---
 
 {% set isEpisodePage = true %}
+
+{# Always construct the episode object with url for component compatibility #}
 {% set episode = {
-    "url": url,
-    "title": title,
-    "date": date,
-    "number": number,
-    "duration": audio?.duration,
-    "description": description,
-    "transcript": transcript,
-    "cover": {
-        "image": cover.image
-    }
+  url: page.url,
+  title: title,
+  date: date,
+  number: number,
+  audio: audio,
+  description: description,
+  transcript: transcript,
+  cover: cover
 } %}
 
-<article class="episode h-entry" itemscope itemtype="http://schema.org/PodcastEpisode">
-  <script type="application/ld+json">
-    {{ {
-      "@context": "https://schema.org",
-      "@type": "PodcastEpisode",
-      "name": title,
-      "datePublished": date,
-      "episodeNumber": number,
-      "duration": audio?.duration,
-      "description": description,
-      "url": url,
-      "partOfSeries": {
-        "@type": "PodcastSeries",
-        "name": podcast?.title,
-        "url": podcast?.siteUrl
-      }
-    } | json | safe }}
-  </script>
-
-  <header>
-    <h1>{{ title }}</h1>
-    <p class="episode-meta">Episode {{ number | padStart(3, '0') }} • {{ date | readableDate }}</p>
-  </header>
-  
-  <div class="episode-content">
-    {{ content | safe }}
-  </div>
-</article>
+{% include "../../_components/episode.njk" %}

@@ -2,6 +2,7 @@
 let audioPlayerInstance = null;
 let currentEpisode = null;
 let audioElement = null;
+(function(){
 let isPlaying = false;
 
 // Initialize audio player with episode data
@@ -15,7 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initialize the audio player
 function initializeAudioPlayer() {
   // Get the current episode number from the URL if it exists
-  const episodeNumber = window.location.pathname.match(/episodes\/([0-9]+)/)?.[1];
+  const match = window.location.pathname.match(/episodes\/([0-9]+)/);
+  const episodeNumber = match ? match[1] : undefined;
+  if (episodeNumber && isNaN(Number(episodeNumber))) {
+    console.error('Invalid episode number:', episodeNumber);
+  } else {
+    console.log('Episode number detected:', episodeNumber);
+  }
   
   // Initialize the audio player
   const audioPlayer = document.querySelector('.audio-player');
@@ -28,17 +35,24 @@ function initializeAudioPlayer() {
       // Get episode data from the API
       fetchEpisodeData(episodeNumber)
         .then(episodeData => {
+          if (!episodeData || !episodeData.audio || typeof episodeData.audio.filename !== 'string' || episodeData.audio.filename.length === 0) {
+            console.error('Invalid episode data:', episodeData);
+            throw new Error('Invalid episode data');
+          }
           currentEpisode = episodeData;
           audioPlayerInstance = window.audioPlayer.init(audioPlayer, episodeData);
-          audioElement = document.querySelector('audio');
-          
-          // Set up the audio element with the episode data
-          if (audioElement) {
-            audioElement.src = episodeData.audio.filename;
-            audioElement.title = episodeData.title;
-            
+          if (
+            episodeData &&
+            episodeData.audio &&
+            typeof episodeData.audio.filename === 'string' &&
+            episodeData.audio.filename.length > 0 &&
+            /\.mp3$|\.m4a$|\.ogg$|\.wav$/i.test(episodeData.audio.filename)
+          ) {
+            console.log('[audio-manager] Initialized audio player with', episodeData.audio.filename);
             // Update the player UI to show the current episode
             updatePlayerUI();
+          } else {
+            console.error('Invalid audio filename for episode:', episodeData);
           }
         })
         .catch(error => {
@@ -51,7 +65,16 @@ function initializeAudioPlayer() {
 // Handle page content updates from AJAX navigation
 function handlePageContentUpdated(event) {
   // Get the episode number from the event detail if available
-  const episodeNumber = event.detail.episodeNumber || window.location.pathname.match(/episodes\/([0-9]+)/)?.[1];
+  let episodeNumber = event.detail.episodeNumber;
+  if (!episodeNumber) {
+    const match = window.location.pathname.match(/episodes\/([0-9]+)/);
+    episodeNumber = match ? match[1] : undefined;
+  }
+  if (episodeNumber && isNaN(Number(episodeNumber))) {
+    console.error('Invalid episode number (pageContentUpdated):', episodeNumber);
+  } else {
+    console.log('Episode number detected (pageContentUpdated):', episodeNumber);
+  }
   
   // If we have an audio player instance
   if (audioPlayerInstance) {
@@ -165,13 +188,28 @@ function updatePlayerUI() {
 
 async function fetchEpisodeData(episodeNumber) {
   try {
-    const response = await fetch('/api/episodes.json.js');
+    const response = await fetch('/api/episodes.json');
     const episodesData = await response.json();
-    
+    console.log('[audio-manager] API response:', episodesData);
+
+    // Defensive: ensure episodesData exists and has expected structure
+    if (!episodesData) {
+      console.error('episodesData is undefined or null');
+      throw new Error('episodesData is undefined or null');
+    }
+
     // If we have a specific episode number, find that episode
     if (episodeNumber) {
-      const episode = episodesData.episodes.find(ep => ep.number === parseInt(episodeNumber));
+      const episode = Array.isArray(episodesData.episodes) ? episodesData.episodes.find(ep => ep.number === parseInt(episodeNumber)) : undefined;
       if (episode) {
+        if (!episode.audio || typeof episode.audio.filename !== 'string' || episode.audio.filename.length === 0) {
+          console.error('Episode audio filename missing:', episode);
+          throw new Error('Episode audio filename missing');
+        }
+        if (!/\.mp3$|\.m4a$|\.ogg$|\.wav$/i.test(episode.audio.filename)) {
+          console.error('Episode audio filename does not look like a valid audio file:', episode.audio.filename);
+          throw new Error('Episode audio filename invalid pattern');
+        }
         return {
           audio: episode.audio,
           title: episode.title,
@@ -181,14 +219,23 @@ async function fetchEpisodeData(episodeNumber) {
         };
       }
     }
-    
+
     // If no specific episode or episode not found, use latest
+    const latest = episodesData.latestEpisode;
+    if (!latest || !latest.audio || typeof latest.audio.filename !== 'string' || latest.audio.filename.length === 0) {
+      console.error('Latest episode audio filename missing:', latest);
+      throw new Error('Latest episode audio filename missing');
+    }
+    if (!/\.mp3$|\.m4a$|\.ogg$|\.wav$/i.test(latest.audio.filename)) {
+      console.error('Latest episode audio filename does not look like a valid audio file:', latest.audio.filename);
+      throw new Error('Latest episode audio filename invalid pattern');
+    }
     return {
-      audio: episodesData.latestEpisode.audio,
-      title: episodesData.latestEpisode.title,
-      number: episodesData.latestEpisode.number,
-      cover: episodesData.latestEpisode.cover,
-      duration: episodesData.latestEpisode.duration
+      audio: latest.audio,
+      title: latest.title,
+      number: latest.number,
+      cover: latest.cover,
+      duration: latest.duration
     };
   } catch (error) {
     console.error('Error fetching episode data:', error);
@@ -208,3 +255,4 @@ window.audioManager = {
   getCurrentEpisode: () => currentEpisode,
   updatePlayingState
 };
+})();

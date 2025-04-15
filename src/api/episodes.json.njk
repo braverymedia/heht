@@ -1,0 +1,47 @@
+---
+permalink: /api/episodes.json
+layout: null
+eleventyExcludeFromCollections: true
+---
+{% filter safe %}
+{
+  "episodes": [
+    {%- for episode in collections.episodes | reverse -%}
+      {%- if not loop.first -%},{%- endif -%}
+      {
+        "number": {{ episode.data.number | json }},
+        "title": {{ episode.data.title | json | safe }},
+        "description": {{ episode.data.description | json | safe }},
+        "date": {{ episode.data.date | json | safe }},
+        "url": {{ episode.url | json | safe }},
+        "audio": {
+          "filename": {{ episode.data.audio.filename | episodeUrl(podcast) | json | safe }},
+          "duration": {{ episode.data.audio.duration | json }},
+          "type": {{ episode.data.audio.type | json | safe }}
+        },
+        "tags": {{ episode.data.tags | json | safe }},
+        "cover": {{ episode.data.cover.image | json | safe }}
+      }
+    {%- endfor -%}
+  ],
+  "latestEpisode":
+    {%- if collections.episodes.length -%}
+      {
+        "number": {{ (collections.episodes | reverse | first).data.number | json }},
+        "title": {{ (collections.episodes | reverse | first).data.title | json | safe }},
+        "description": {{ (collections.episodes | reverse | first).data.description | json | safe }},
+        "date": {{ (collections.episodes | reverse | first).data.date | json | safe }},
+        "url": {{ (collections.episodes | reverse | first).url | json | safe }},
+        "audio": {
+          "filename": {{ (collections.episodes | reverse | first).data.audio.filename | episodeUrl(podcast) | json | safe }},
+          "duration": {{ (collections.episodes | reverse | first).data.audio.duration | json }},
+          "type": {{ (collections.episodes | reverse | first).data.audio.type | json | safe }}
+        },
+        "tags": {{ (collections.episodes | reverse | first).data.tags | json | safe }},
+        "cover": {{ (collections.episodes | reverse | first).data.cover.image | json | safe }}
+      }
+    {%- else -%}
+      null
+    {%- endif -%}
+}
+{% endfilter %}
