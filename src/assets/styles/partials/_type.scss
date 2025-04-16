@@ -73,3 +73,15 @@ h4 {
 .super {
 	font-size: var(--type-3xl);
 }
+li {
+  font-size: inherit;
+  line-height: 1.46;
+  margin-block: 0.5rem
+}
+.drawer-episode-content,
+.episode-content {
+  p, li {
+    font-size: var(--type-sm);
+    line-height: 1.46;
+  }
+}

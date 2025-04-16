@@ -15,5 +15,7 @@ permalink: /
   transcript: episodeData.transcript,
   cover: episodeData.cover
 } %}
-{% set isEpisodePage = false %}
-{% include "./_components/episode.njk" %}
+<div class="latest-episode-content">
+  {% set isEpisodePage = false %}
+  {% include "./_components/episode.njk" %}
+</div>

@@ -27,11 +27,10 @@
 		"email": "joel@bravery.co"
 	},
 	"subscribe": {
-		"apple": "https://podcasts.apple.com",
-		"spotify": "https://open.spotify.com/",
-		"youtube": "https://www.youtube.com/",
-		"overcast": "https://overcast.fm/",
-		"rss": "/feed/podcast.xml"
+		"apple": "https://podcasts.apple.com/us/podcast/higher-ed-hot-takes/id1808528917",
+		"spotify": "https://open.spotify.com/show/74gyXDBX72bfxgEwRvLuWz?si=_xAuybXWR8-kbkeAUPgWeQ",
+		"youtube": "https://www.youtube.com/playlist?list=PLOOaP1YuFx0j3U-gtopWYxqUgFkfoBmSz",
+		"overcast": "https://overcast.fm/id1808528917"
 	},
 	"feedSettings": {
 		"path": "/feed/podcast.xml",

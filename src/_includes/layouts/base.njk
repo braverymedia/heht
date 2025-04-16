@@ -30,20 +30,37 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
 </head>
-<body>
+<body data-type="{{ pageType }}">
   <a href="#main" class="skip-link">Skip to main content</a>
   {% include "../../_components/site-nav.njk" %}
 
   <main id="main" tabindex="-1">
     {{ content | safe }}
+    <section id="episode-drawer" class="episode-drawer" aria-hidden="true">
+      <button id="close-drawer" class="close-drawer" aria-label="Close transcript and show notes">&times; Close</button>
+      <div class="episode-content">
+        {# Insert show notes and transcript here, via include/block #}
+        {% block episode_content %}{% endblock %}
+      </div>
+    </section>
   </main>
   {% include "../../_components/subscribe-bar.njk" %}
   {% include "../../_components/audio-player.njk" %}
 
   {% include "../../_components/site-footer.njk" %}
+
+ <div class="newsletter-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="newsletter-modal-title" tabindex="-1">
+    <div class="modal-content">
+      <button type="button" class="modal-close" aria-label="Close newsletter modal">
+        <span>&times;</span>
+      </button>
+      <h2 id="newsletter-modal-title" class="visually-hidden">Keep up with HEHT</h2>
+      {% include '../../_components/newsletter-form.njk' %}
+    </div>
+</div>
   <!-- JavaScript -->
   {% if site.env === "production" %}
-    <script src="{{ '/assets/js/bundle.js' | url }}?v={{ cacheBust }}" defer></script>
+    {% include '../scripts.njk' %}
   {% else %}
     <script src="https://unpkg.com/soundtouchjs@0.1.0/dist/soundtouch.min.js"></script>
     <script src="{{ '/assets/js/site-nav.js' | url }}?v={{ cacheBust }}" defer></script>
@@ -51,6 +68,7 @@
     <script src="{{ '/assets/js/audio-player.js' | url }}?v={{ cacheBust }}" defer></script>
     <script src="{{ '/assets/js/audio-manager.js' | url }}?v={{ cacheBust }}" defer></script>
     <script src="{{ '/assets/js/navigation.js' | url }}?v={{ cacheBust }}" defer></script>
+    <script src="{{ '/assets/js/episode-drawer.js' | url }}?v={{ cacheBust }}" defer></script>
   {% endif %}
 </body>
 </html>

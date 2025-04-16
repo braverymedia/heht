@@ -5,7 +5,7 @@
             <img src="{{ episode.cover.image }}" alt="{{ episode.title }} cover art" />
         </figure>
     {% endif %}
-    <article id="episode-content">
+    <article class="episode-content">
         {% if isEpisodePage %}
         <script type="application/ld+json">
             {{ {
@@ -46,6 +46,14 @@
         </header>
         <div class="episode-content">
             <p class="episode-description">{{ episode.description }}</p>
+            <button
+                class="button-style"
+                aria-controls="episode-drawer"
+                aria-expanded="false"
+                data-toggle="episode-drawer"
+            >
+                {% include '../assets/svg/subtitles.svg' %} Transcript
+            </button>
         </div>
     </article>
 </section>

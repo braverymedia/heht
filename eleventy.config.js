@@ -31,6 +31,22 @@ export default async function (eleventyConfig) {
 	// Plugins
 	eleventyConfig.addPlugin(pluginRss);
 
+	// Custom markdown-it container for transcript blocks
+	const markdownLib = markdownIt({ html: true, breaks: true, linkify: true });
+	markdownLib.use(container, 'transcript', {
+	  render: function (tokens, idx) {
+	    if (tokens[idx].nesting === 1) {
+	      // Opening tag
+	      return '<section class="transcript" role="region" aria-labelledby="transcript-title" itemscope itemtype="https://schema.org/PodcastEpisode">\n<h2 id="transcript-title">Transcript</h2>\n';
+	    } else {
+	      // Closing tag
+	      return '</section>\n';
+	    }
+	  }
+	});
+	// Assign our custom markdown-it instance
+	eleventyConfig.setLibrary('md', markdownLib);
+
 	// Watch all SCSS files (including partials) for live reload in dev
 	eleventyConfig.setServerOptions({
 		watch: [

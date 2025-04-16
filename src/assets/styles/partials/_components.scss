@@ -1,4 +1,5 @@
-button {
+button,
+.button-style {
     --bg: rgba(0, 0, 0, 0.30);
     appearance: none;
     border: none;
@@ -10,6 +11,8 @@ button {
     position: relative;
     background: transparent;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
     &:after {
         content: '';
         position: absolute;
@@ -27,6 +30,9 @@ button {
     &:hover:after {
         filter: hue-rotate(10deg) brightness(2);
     }
+    &:focus{
+      border: 39px;
+    }
     &.cta {
         --bg: #22068C;
         color: #00FFB2;
@@ -37,6 +43,13 @@ button {
     }
 }
 
+.button-style {
+  margin-block: 1rem;
+  font-size: var(--type-sm);
+  letter-spacing: 0.88px;
+  font-family: var(--font-accent);
+}
+
 /* Subscribe Bar */
 .subscribe-bar {
     display: none;
@@ -44,6 +57,7 @@ button {
     gap: 1rem;
     justify-content: center;
     align-items: center;
+    padding-inline: clamp(1rem, 4vw, 3rem);
     a {
         text-decoration: none;
         color: var(--color-white);
@@ -59,6 +73,7 @@ button {
         width: 24px;
     }
     @media ( width >= 768px) {
+      display: flex;
         position: fixed;
         left: 0;
         height: 100%;
@@ -95,14 +110,21 @@ button {
       }
     }
 }
-.episode-content {
+.episode-content,
+.drawer-episode-content {
     font-family: var(--font-family);
     font-size: var(--type-base);
     line-height: 121.8%;
 }
+@media ( width <= 767px  ) {
+  .episode-content * {
+    text-align: center;
+  }
+}
 /* Audio Player */
 .audio-player {
     font-family: var(--font-accent);
+    color: var(--color-blueviolet);
     &__time {
         order: 0;
         color: var(--color-white);
@@ -158,7 +180,6 @@ button {
         padding: 0;
         width: 40px;
         height: 40px;
-        color: var(--color-blueviolet);
         svg {
           width: 40px;
         }
@@ -419,20 +440,88 @@ input[type="range"].audio-player__progress-bar::-moz-focus-outer {
   box-shadow: none;
 }
 
-// Remove extra styling in Firefox
-input[type="range"].audio-player__progress-bar::-moz-focus-outer {
-  border: 0;
+.episode-drawer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+
+  // Animation setup
+  opacity: 0;
+  pointer-events: none;
+  &.is-open {
+    opacity: 1;
+
+    pointer-events: auto;
+    &::before {
+      transform: translateY(0);
+    }
+  }
+
+  // Drawer background and blur
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(33,7,141, 0.5);
+    backdrop-filter: blur(60px);
+
+    transition:
+      opacity 0.3s cubic-bezier(0.4,0,0.2,1),
+      transform 0.3s cubic-bezier(0.4,0,0.2,1);
+
+    pointer-events: none;
+    transform: translateY(40%);
+  }
+
+  // Accessibility: reduce motion if requested
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    transform: none;
+  }
 }
 
-/* Screen reader only utility class */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+.drawer-episode-content {
+  max-width: 760px;
+  margin: 0 auto;
+  height: 100%;
+  overflow-y: auto;
+  padding-block: 8dvh;
+  padding-inline: 1rem;
+  & * {
+    text-align: left;
+  }
+}
+
+.close-drawer {
+  position: fixed;
+  bottom: 5dvh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  color: var(--color-blueviolet);
+  z-index: 20;
+  box-shadow: 0 2px 8px rgba(33,7,141,0.12);
+  text-transform: uppercase;
+  &:after {
+    background-color: var(--color-green);
+    content: '';
+    border: 1px solid #FF0;
+  }
+  &:focus {
+    outline: 3px solid var(--color-green, #21078D);
+    outline-offset: 2px;
+    border-radius: 30px;
+  }
+}
+
+.drawer-episode-content {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.episode-drawer {
+  padding-block: 8dvh;
+  overflow-y: auto;
 }

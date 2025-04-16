@@ -20,7 +20,8 @@ eleventyExcludeFromCollections: true
           "type": {{ episode.data.audio.type | json | safe }}
         },
         "tags": {{ episode.data.tags | json | safe }},
-        "cover": {{ episode.data.cover.image | json | safe }}
+        "cover": {{ episode.data.cover.image | json | safe }},
+        "html": "{{ episode.templateContent | replace('"', '\\"') | replace('\n', '') | safe }}"
       }
     {%- endfor -%}
   ],
@@ -38,9 +39,9 @@ eleventyExcludeFromCollections: true
           "type": {{ (collections.episodes | reverse | first).data.audio.type | json | safe }}
         },
         "tags": {{ (collections.episodes | reverse | first).data.tags | json | safe }},
-        "cover": {{ (collections.episodes | reverse | first).data.cover.image | json | safe }}
-      }
-    {%- else -%}
+        "cover": {{ (collections.episodes | reverse | first).data.cover.image | json | safe }},
+        "html": "{{ (collections.episodes | reverse | first).templateContent | replace('"', '\\"') | replace('\n', '') | safe }}"
+      }{%- else -%}
       null
     {%- endif -%}
 }

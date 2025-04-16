@@ -1,5 +1,6 @@
 ---
 layout: layouts/base.njk
+pageType: issue
 ---
 
 {% set issue = {
@@ -19,7 +20,7 @@ layout: layouts/base.njk
         <h1>{{ title }}</h1>
         <p class="issue-meta">Issue {{ issue | padStart(3, '0') }} • {{ date | readableDate }}</p>
     </header>
-    
+
     <div class="newsletter-content">
         {{ content | safe }}
     </div>
