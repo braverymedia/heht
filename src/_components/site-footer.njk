@@ -3,7 +3,7 @@
         <ul>
         <li><a href="/privacy">Privacy Policy</a></li>
         <li><a href="/terms">Terms of Use</a></li>
-        <li><a href="/feed.xml">RSS Feed</a></li>
+        <li><a href="{{ podcast.feedSettings.path | absoluteUrl(podcast.siteUrl) }}">RSS Feed</a></li>
         </ul>
     </nav>
     <p>&copy; <a href="https://bravery.co/?utm_source=heht&utm_medium=referral&utm_campaign=footer" title="visit Bravery Media">{{ podcast.copyright }}</a></p>

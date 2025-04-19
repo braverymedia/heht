@@ -10,6 +10,11 @@ function initNewsletterForm() {
   const success = container.querySelector('.newsletter-success');
   const errorContainer = container.querySelector('.newsletter-error');
   const errorMessage = container.querySelector('.newsletter-error-message');
+  const timestampField = form.querySelector('#formTimestamp');
+  const honeypotField = form.querySelector('#website');
+
+  // Set timestamp when form is loaded
+  timestampField.value = Date.now();
 
   // Get IP address
   async function getIpAddress() {
@@ -25,6 +30,22 @@ function initNewsletterForm() {
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+
+    // Check if honeypot field is filled
+    if (honeypotField.value) {
+      errorContainer.style.display = 'flex';
+      errorMessage.innerText = 'Invalid submission detected. Please try again.';
+      return;
+    }
+
+    // Check if form was submitted too quickly (less than 2 seconds)
+    const formLoadTime = parseInt(timestampField.value);
+    const currentTime = Date.now();
+    if (currentTime - formLoadTime < 2000) {
+      errorContainer.style.display = 'flex';
+      errorMessage.innerText = 'Please wait a moment before submitting.';
+      return;
+    }
 
     try {
       // Set IP address

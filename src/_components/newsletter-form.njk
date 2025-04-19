@@ -4,6 +4,12 @@
     <input type="hidden" name="userGroup" value="">
     <input type="hidden" name="mailingLists" value="clxw13yb8004y0ml459zv0z3c">
     <input type="hidden" id="ipAddress" name="ipAddress">
+    <!-- Spam prevention fields -->
+    <input type="hidden" name="timestamp" id="formTimestamp">
+    <div class="honeypot" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+    </div>
 
     <div class="form-group">
       <label for="firstName">First/Preferred Name</label>
@@ -32,3 +38,41 @@
     <p class="newsletter-error-message">Oops! Something went wrong, please try again</p>
   </div>
 </div>
+
+<style>
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.newsletter-form');
+    const timestampField = document.getElementById('formTimestamp');
+    const honeypotField = document.getElementById('website');
+
+    // Set timestamp when form is loaded
+    timestampField.value = Date.now();
+
+    form.addEventListener('submit', function(e) {
+      // Check if honeypot field is filled
+      if (honeypotField.value) {
+        e.preventDefault();
+        return;
+      }
+
+      // Check if form was submitted too quickly (less than 2 seconds)
+      const formLoadTime = parseInt(timestampField.value);
+      const currentTime = Date.now();
+      if (currentTime - formLoadTime < 2000) {
+        e.preventDefault();
+        return;
+      }
+    });
+  });
+</script>
