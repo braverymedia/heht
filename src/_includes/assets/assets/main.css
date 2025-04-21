@@ -1187,4 +1187,13 @@ input[type=range].audio-player__progress-bar:not(#\#)::-moz-focus-outer {
   padding-bottom: 8dvh;
   overflow-y: auto;
 }
+
+.honeypot:not(#\#) {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
 /*# sourceMappingURL=main.css.map */
