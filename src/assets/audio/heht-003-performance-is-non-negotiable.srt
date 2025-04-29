@@ -1,0 +1,622 @@
+1
+00:00:00,930 --> 00:00:03,720
+I was never a distance
+runner, but I sure can sprint.
+
+2
+00:00:03,750 --> 00:00:05,910
+This is Higher Ed Hot
+takes, and I'm Joel Goodman.
+
+3
+00:00:18,946 --> 00:00:21,646
+Across the globe, universities
+are facing increased pressure.
+
+4
+00:00:21,946 --> 00:00:23,866
+Enrollment is down, inflation is up.
+
+5
+00:00:24,136 --> 00:00:27,556
+Governments are taking openly hostile
+actions against higher education, and
+
+6
+00:00:27,556 --> 00:00:31,246
+the ultimate result is that people are
+losing their jobs due to both staffing
+
+7
+00:00:31,246 --> 00:00:33,136
+reductions and institutional closings.
+
+8
+00:00:33,646 --> 00:00:36,406
+I personally survived a
+round of redundancies in 2009
+
+9
+00:00:36,406 --> 00:00:37,846
+during my first higher ed job.
+
+10
+00:00:38,176 --> 00:00:40,336
+I can still remember the
+fear, dread, and stress.
+
+11
+00:00:40,516 --> 00:00:43,846
+I remember colleagues unceremoniously
+being let go with little regard
+
+12
+00:00:43,846 --> 00:00:46,516
+for their humanity and even
+less for their years of service.
+
+13
+00:00:46,846 --> 00:00:49,336
+And like everything, this
+all comes back to money.
+
+14
+00:00:49,756 --> 00:00:51,736
+The lack of it to be more specific.
+
+15
+00:00:52,231 --> 00:00:55,801
+To be even more specific, this
+all lands on ego and the misguided
+
+16
+00:00:55,801 --> 00:00:58,861
+thinking that a few lapses here
+and there don't amount to much.
+
+17
+00:00:59,191 --> 00:01:02,101
+You know, choosing to paint residence
+halls every other summer rather
+
+18
+00:01:02,101 --> 00:01:05,131
+than give incoming and returning
+students a clean place to live.
+
+19
+00:01:05,401 --> 00:01:08,431
+Spending hundreds of thousands on a
+new student information system with no
+
+20
+00:01:08,431 --> 00:01:10,171
+student input on the user experience.
+
+21
+00:01:10,471 --> 00:01:11,731
+Always a successful choice.
+
+22
+00:01:11,731 --> 00:01:12,031
+Right?
+
+23
+00:01:12,541 --> 00:01:15,121
+And of course, my favorite
+choosing to ignore your
+
+24
+00:01:15,121 --> 00:01:16,951
+institution's website performance.
+
+25
+00:01:17,221 --> 00:01:21,691
+The lowest of low hanging fruit that
+costs little to no money and returns
+
+26
+00:01:21,691 --> 00:01:26,071
+immediate value is often ignored
+for the sake of someone's bad taste.
+
+27
+00:01:26,911 --> 00:01:30,751
+According to Bravery Media's April,
+2025, speedy U benchmarking data.
+
+28
+00:01:30,751 --> 00:01:35,821
+46% of higher ed websites in the
+US are operating at 70% or less
+
+29
+00:01:35,821 --> 00:01:37,141
+of their optimal performance.
+
+30
+00:01:37,561 --> 00:01:39,631
+For the UK and Canada, it's 65%.
+
+31
+00:01:39,631 --> 00:01:46,651
+For New Zealand, 64, Ireland, 78%, and for
+Australia, a whopping 83% of all of their
+
+32
+00:01:46,651 --> 00:01:49,621
+higher ed websites are slow, slow, slow.
+
+33
+00:01:49,621 --> 00:01:52,141
+70% of their optimal performance.
+
+34
+00:01:52,636 --> 00:01:56,686
+If you want, you can do some fancy math
+to figure out how many clicks from display
+
+35
+00:01:56,686 --> 00:01:59,866
+ads you're wasting money on because they
+get to your site and immediately leave.
+
+36
+00:02:00,346 --> 00:02:01,906
+But I'll summarize things this way.
+
+37
+00:02:02,446 --> 00:02:06,616
+A Google study showed that
+53% - over half- of your mobile
+
+38
+00:02:06,616 --> 00:02:09,886
+visitors will leave your website
+if it takes three seconds to load.
+
+39
+00:02:10,576 --> 00:02:14,956
+Every 100 milliseconds beyond that
+can add another 1% onto the number.
+
+40
+00:02:15,346 --> 00:02:18,106
+To put that in perspective, most
+schools are leaving millions
+
+41
+00:02:18,106 --> 00:02:21,221
+in potential tuition revenue on
+the table in order to look cool.
+
+42
+00:02:22,021 --> 00:02:23,581
+Like, forget the table.
+
+43
+00:02:23,581 --> 00:02:28,681
+They're throwing that money on the
+floor, stepping on it over and over
+
+44
+00:02:28,681 --> 00:02:32,521
+and over again because someone who
+is not a designer, not a developer,
+
+45
+00:02:32,641 --> 00:02:37,891
+not a marketer, wants a campus drone
+video on the homepage or a newsfeed
+
+46
+00:02:37,921 --> 00:02:39,661
+or an anthem video, whatever that is.
+
+47
+00:02:40,891 --> 00:02:45,391
+They're trying and failing to look
+cool and it's costing your institution.
+
+48
+00:02:45,751 --> 00:02:48,481
+It's costing real money.
+
+49
+00:02:48,931 --> 00:02:52,441
+The people you are trying to
+engage with a fancy website don't
+
+50
+00:02:52,441 --> 00:02:54,121
+even wait around for it to load.
+
+51
+00:02:54,181 --> 00:02:55,591
+They never even see it.
+
+52
+00:02:56,326 --> 00:02:59,386
+I've been nice and professional
+about this for a few years, but
+
+53
+00:02:59,386 --> 00:03:01,546
+we're kind of in critical times now.
+
+54
+00:03:02,026 --> 00:03:04,396
+Our institutions are failing, closing.
+
+55
+00:03:04,696 --> 00:03:06,346
+We're cutting hundreds of jobs.
+
+56
+00:03:06,346 --> 00:03:09,526
+We're overworking our staff,
+raising performance expectations
+
+57
+00:03:09,526 --> 00:03:11,236
+while decreasing their resources.
+
+58
+00:03:11,626 --> 00:03:13,636
+Does a faster website fix this?
+
+59
+00:03:13,996 --> 00:03:14,656
+No.
+
+60
+00:03:14,686 --> 00:03:19,066
+Pro, probably not completely, but
+a couple mil extra to the bottom
+
+61
+00:03:19,066 --> 00:03:20,356
+line, certainly couldn't hurt.
+
+62
+00:03:20,836 --> 00:03:25,396
+This is a stewardship issue, and I
+suppose it's also an educational one,
+
+63
+00:03:25,636 --> 00:03:27,556
+but we have to get our houses in order.
+
+64
+00:03:27,856 --> 00:03:32,416
+Money keeps getting spent and
+wasted on software and campaigns
+
+65
+00:03:32,416 --> 00:03:36,196
+and ads and new initiatives that
+are all going to perform below their
+
+66
+00:03:36,196 --> 00:03:38,416
+potential because your website's slow.
+
+67
+00:03:38,896 --> 00:03:39,781
+That's what's funny.
+
+68
+00:03:40,261 --> 00:03:44,896
+I, I mean, not funny ha ha, but really,
+you know, funny, sad, it's that we can't
+
+69
+00:03:44,896 --> 00:03:48,976
+see the forest for the trees despite all
+the information being available to us.
+
+70
+00:03:49,336 --> 00:03:53,866
+We let our industry an important
+world changing sector wither
+
+71
+00:03:53,866 --> 00:03:57,586
+because we forget that we can
+ask our audiences how this works.
+
+72
+00:03:58,426 --> 00:04:03,016
+We accidentally yet actively work to
+undermine our universities because
+
+73
+00:04:03,016 --> 00:04:07,156
+we're easily distracted by sales
+pitches and demos and typically not
+
+74
+00:04:07,156 --> 00:04:09,256
+informed enough to make smart decisions.
+
+75
+00:04:09,676 --> 00:04:14,026
+It's a real problem and it seems to
+be endemic to higher ed globally.
+
+76
+00:04:17,506 --> 00:04:21,346
+I would be remiss if I acted like
+this was just about slow websites, but
+
+77
+00:04:21,346 --> 00:04:25,876
+it's also about student experiences,
+alumni and donor relations, and
+
+78
+00:04:25,876 --> 00:04:27,406
+our communication strategies.
+
+79
+00:04:27,856 --> 00:04:31,336
+No, it's not just slow websites
+that are the problem, but
+
+80
+00:04:31,336 --> 00:04:33,256
+it is a perfect case study.
+
+81
+00:04:33,766 --> 00:04:35,326
+So what can you do about it?
+
+82
+00:04:35,836 --> 00:04:39,436
+Well, a whole lot actually, and it
+doesn't even have to cost you very much.
+
+83
+00:04:39,736 --> 00:04:42,826
+If you have developers on staff, it
+could cost you next to nothing, honestly.
+
+84
+00:04:43,246 --> 00:04:47,476
+But after years of tracking and fixing
+this stuff at Bravery Media, I can
+
+85
+00:04:47,476 --> 00:04:49,426
+pinpoint some common issues to look at.
+
+86
+00:04:49,876 --> 00:04:53,236
+And please, you can reach out to
+me if you need more specifics.
+
+87
+00:04:53,521 --> 00:04:54,511
+That's what I'm here for.
+
+88
+00:04:55,411 --> 00:04:57,421
+First off, big videos.
+
+89
+00:04:57,511 --> 00:05:00,961
+Get rid of them and if you're not gonna
+get rid of them, you need to serve
+
+90
+00:05:00,961 --> 00:05:05,611
+them from a media streaming CDN, with
+different sizes for different devices.
+
+91
+00:05:06,031 --> 00:05:09,406
+But no one who matters is actually
+watching your homepage background video.
+
+92
+00:05:09,931 --> 00:05:12,061
+I'm sorry, they're just not.
+
+93
+00:05:13,096 --> 00:05:16,456
+And if you're going to embed videos
+from somewhere else, make sure it's not
+
+94
+00:05:16,456 --> 00:05:18,406
+loading duplicate JavaScript for each one.
+
+95
+00:05:18,586 --> 00:05:22,276
+YouTube loves to do that, and
+it makes your webpage slow.
+
+96
+00:05:23,011 --> 00:05:26,146
+Here's one, you're not
+gonna like tracking pixels.
+
+97
+00:05:26,476 --> 00:05:30,976
+Why are you loading Facebook pixels
+all over your website when nearly
+
+98
+00:05:30,976 --> 00:05:33,616
+zero Gen Alpha kids use meta products?
+
+99
+00:05:33,616 --> 00:05:37,486
+I. Those tracking pixels slow down
+your website's loading time and
+
+100
+00:05:37,546 --> 00:05:39,616
+actively hurt your conversion rate.
+
+101
+00:05:40,066 --> 00:05:44,266
+It's ironic that the thing meant to track
+how performant your paid ads are actually
+
+102
+00:05:44,266 --> 00:05:46,246
+make your paid ads less efficient, huh?
+
+103
+00:05:46,726 --> 00:05:47,926
+Ironic or purposeful.
+
+104
+00:05:47,926 --> 00:05:49,756
+I, but I'll let you be the judge of that.
+
+105
+00:05:53,626 --> 00:05:57,826
+Attribution is nearly impossible
+today anyway, so find better, more
+
+106
+00:05:57,826 --> 00:06:00,976
+native ways of gaining insight about
+your users than loading up your
+
+107
+00:06:00,976 --> 00:06:02,686
+website with third party trackers.
+
+108
+00:06:09,631 --> 00:06:12,721
+This is the single biggest contributor
+to double digit load times, and it's
+
+109
+00:06:12,721 --> 00:06:14,761
+costing you applicants and donors.
+
+110
+00:06:15,481 --> 00:06:17,251
+Next, you need to modernize your code.
+
+111
+00:06:17,701 --> 00:06:22,021
+I won't get too technical, but I still
+see so many implementations of Bootstrap
+
+112
+00:06:22,021 --> 00:06:26,461
+in higher ed, jQuery in use and content
+management systems that are outdated and
+
+113
+00:06:26,461 --> 00:06:28,291
+built on web standards from the nineties.
+
+114
+00:06:28,651 --> 00:06:29,101
+Friends.
+
+115
+00:06:29,161 --> 00:06:32,281
+Your website can look unique
+and express your brand promise
+
+116
+00:06:32,281 --> 00:06:34,021
+without being gigantic and slow.
+
+117
+00:06:34,906 --> 00:06:37,966
+But the truth is most of our
+websites look the same anyway.
+
+118
+00:06:38,296 --> 00:06:41,596
+If you want an immediate edge in
+higher ed marketing performance,
+
+119
+00:06:41,806 --> 00:06:43,936
+make your website blazing fast.
+
+120
+00:06:44,266 --> 00:06:47,686
+Performance is non-negotiable when
+it comes to web marketing, but every
+
+121
+00:06:47,686 --> 00:06:51,646
+level from the website up to the paid
+ads has to commit to that performance.
+
+122
+00:06:51,886 --> 00:06:54,706
+Otherwise, the weakest link
+brings all the rest down.
+
+123
+00:06:54,706 --> 00:06:58,246
+Since early 2024, my agency,
+Bravery Media, has been running
+
+124
+00:06:58,246 --> 00:07:00,946
+speed and accessibility tests
+on your website every week.
+
+125
+00:07:01,366 --> 00:07:04,936
+Seriously, we have nearly every
+institution in the us, Canada,
+
+126
+00:07:04,936 --> 00:07:09,036
+uk, Ireland, Australia, and New
+Zealand, tracked on speedyu.com
+
+127
+00:07:09,286 --> 00:07:11,836
+so you can see where you rank
+among your peer institutions.
+
+128
+00:07:12,286 --> 00:07:14,806
+If you want a deeper dive into
+your website's performance and
+
+129
+00:07:14,806 --> 00:07:16,726
+specific fixes, let's talk.
+
+130
+00:07:17,026 --> 00:07:19,486
+I can create a checklist for
+your dev team, or we can help
+
+131
+00:07:19,486 --> 00:07:20,956
+improve your website for you.
+
+132
+00:07:21,346 --> 00:07:22,696
+But I can't say it enough.
+
+133
+00:07:22,696 --> 00:07:26,116
+This is the single most value
+packed thing you could do.
+
+134
+00:07:26,426 --> 00:07:31,736
+It costs so little and returns so
+much that it's irresponsible not to
+
+135
+00:07:31,736 --> 00:07:33,506
+optimize your website's performance.
+

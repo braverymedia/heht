@@ -5,8 +5,8 @@ date: 2025-04-22
 number: 2
 audio:
   filename: heht-002-personalize-this.mp3
-  size: 15902579
-  duration: 481
+  size: 14009703
+  duration: 423
   type: audio/mpeg
 transcript:
   srt: /assets/audio/heht-002-personalize-this.srt
@@ -18,7 +18,7 @@ tags:
   - Personalization
 cover:
   image: /assets/img/heht-002-cover.jpg
-permalink: /episodes/001-the-evangelist-and-the-critic/
+permalink: /episodes/002-personalize-this/
 ---
 
 Welcome back to Higher Ed Hot Takes. I’m Joel Goodman, founder of Bravery Media and a digital strategist who’s spent nearly two decades helping colleges and universities get real results online In this episode, I’m taking on the buzzword that just won’t quit: personalization.

@@ -196,6 +196,14 @@ export default async function (eleventyConfig) {
 		return new CleanCSS({}).minify(code).styles;
 	});
 
+	// Add filter to remove transcript blocks
+	eleventyConfig.addFilter("removeTranscript", function(content) {
+		if (!content) return '';
+		// Remove the transcript section by looking for the rendered HTML
+		const transcriptRegex = /<section class="transcript"[\s\S]*?<\/section>/;
+		return content.replace(transcriptRegex, '').trim();
+	});
+
 	// Add global data for development
 	if (!isProduction) {
 		eleventyConfig.addGlobalData("env", "development");
@@ -339,7 +347,13 @@ export default async function (eleventyConfig) {
 		cache: isProduction,
 		cacheDuration: !isProduction ? "0s" : "1y",
 		files: ["src/**/*.{njk,md,html}"],
-
+		collections: {
+			episodes: function(collection) {
+				return collection.getFilteredByTag("episodes").sort((a, b) => {
+					return new Date(b.data.date) - new Date(a.data.date);
+				});
+			}
+		},
 		data: {
 			cacheBust: Date.now(),
 			isProduction: process.env.NODE_ENV === "production",

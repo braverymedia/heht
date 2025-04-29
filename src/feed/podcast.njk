@@ -52,8 +52,8 @@ eleventyExcludeFromCollections: true
         {% endif %}
         <description>{{ episode.data.description }}</description>
         <itunes:summary>{{ episode.data.description }}</itunes:summary>
-        {% if episode.data.content %}
-          <content:encoded><![CDATA[{{ episode.data.content | safe }}]]></content:encoded>
+        {% if episode.templateContent %}
+          <content:encoded><![CDATA[{{ episode.templateContent | removeTranscript | safe }}]]></content:encoded>
         {% endif %}
         <enclosure
           url="{{ episode.data.audio.filename | episodeUrl(podcast) }}"

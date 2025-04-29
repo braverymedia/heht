@@ -3,7 +3,7 @@ layout: layouts/base.njk
 title: Higher Ed Hot Takes with Joel G Goodman
 permalink: /
 ---
-{% set episodeItem = collections.episodes[0] %}
+{% set episodeItem = episodes.latest(collections) %}
 {% set episodeData = episodeItem.data %}
 {% set episode = {
   url: episodeItem.url,
