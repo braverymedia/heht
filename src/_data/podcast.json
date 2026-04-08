@@ -5,11 +5,11 @@
 	"language": "en-US",
 	"copyright": "2025 Bravery Media",
 	"author": "Joel G Goodman",
-  "categories": [
+	"categories": [
 		{ "name": "Business", "subcategory": "Marketing" },
 		{ "name": "Technology" },
 		{ "name": "Education" }
-  ],
+	],
 	"explicit": false,
 	"type": "episodic",
 	"complete": false,
@@ -35,5 +35,9 @@
 	"feedSettings": {
 		"path": "/feed/podcast.xml",
 		"id": "https://higheredhottakes.com"
+	},
+	"newsletter": {
+		"action": "https://heht-newsletter-signup-8c5nz.bunny.run/",
+		"description": "Sign up for the Higher Ed Hot Takes newsletter and get the latest episodes and news in your inbox."
 	}
 }

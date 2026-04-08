@@ -1,0 +1,38 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  {# Home page #}
+  <url>
+    <loc>{{ podcast.siteUrl }}</loc>
+    <lastmod>{{ collections.episodes[0].date | htmlDateString }}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  {# Episodes #}
+  {% for episode in collections.episodes %}
+    <url>
+      <loc>{{ episode.url | absoluteUrl(podcast.siteUrl) }}</loc>
+      <lastmod>{{ episode.date | htmlDateString }}</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+    </url>
+  {% endfor %}
+
+  {# Add other static pages if they exist #}
+  {% for page in collections.all %}
+    {% if not page.data.eleventyExcludeFromCollections and not page.data.tags and page.url != "/" %}
+      <url>
+        <loc>{{ page.url | absoluteUrl(podcast.siteUrl) }}</loc>
+        <lastmod>{{ page.date | default(page.data.updated, true) | default(collections.episodes[0].date, true) | htmlDateString }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    {% endif %}
+  {% endfor %}
+</urlset>

@@ -1,11 +1,8 @@
 <div class="newsletter-form-container">
-  <form class="newsletter-form" action="https://app.loops.so/api/newsletter-form/clmf0qar501k6mb0npy4e33r8" method="POST">
-    <input type="hidden" name="formId" value="clmf0qar501k6mb0npy4e33r8">
-    <input type="hidden" name="userGroup" value="">
-    <input type="hidden" name="mailingLists" value="clxw13yb8004y0ml459zv0z3c">
+  <form class="newsletter-form" action="{{ podcast.newsletter.action }}" method="POST">
     <input type="hidden" id="ipAddress" name="ipAddress">
     <!-- Spam prevention fields -->
-    <input type="hidden" name="timestamp" id="formTimestamp">
+    <input type="hidden" name="formTimestamp" id="formTimestamp">
     <div class="honeypot" aria-hidden="true">
       <label for="website">Website</label>
       <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
@@ -29,10 +26,26 @@
       <span class="error-message"></span>
     </div>
 
-    <button type="submit" class="newsletter-form-button">Subscribe</button>
+    <button type="submit" class="newsletter-form-button">
+      <span class="button-text">Subscribe</span>
+      <span class="spinner" style="display: none;">
+        <svg class="spinner-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z">
+            <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.75s" repeatCount="indefinite" />
+          </path>
+        </svg>
+        <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+          <title>thumbs-up</title>
+          <g fill="currentColor">
+            <path d="M16.331,7.073c-.525-.682-1.319-1.073-2.179-1.073h-3.326l.798-2.167c.463-1.256-.091-2.655-1.289-3.254-.307-.153-.679-.079-.903,.181L5.168,5.697c-.431,.5-.668,1.138-.668,1.797v5.756c0,1.517,1.234,2.75,2.75,2.75h5.71c1.246,0,2.339-.841,2.659-2.046l1.191-4.5c.22-.832,.045-1.699-.479-2.381Z"></path>
+            <path d="M4.25,16h-1.5c-.965,0-1.75-.785-1.75-1.75V7.75c0-.965,.785-1.75,1.75-1.75h1.5c.965,0,1.75,.785,1.75,1.75v6.5c0,.965-.785,1.75-1.75,1.75ZM2.75,7.5c-.138,0-.25,.112-.25,.25v6.5c0,.138,.112,.25,.25,.25h1.5c.138,0,.25-.112,.25-.25V7.75c0-.138-.112-.25-.25-.25h-1.5Z"></path>
+          </g>
+        </svg>
+      </span>
+    </button>
   </form>
   <div class="newsletter-success" style="display: none;">
-    <p class="newsletter-success-message">Thanks for subscribing to Higher Ed Hot Takes!</p>
+    <p class="newsletter-success-message">Check your email to confirm your subscription. I'm glad you're here!</p>
   </div>
   <div class="newsletter-error" style="display: none;">
     <p class="newsletter-error-message">Oops! Something went wrong, please try again</p>

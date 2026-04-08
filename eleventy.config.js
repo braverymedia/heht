@@ -129,6 +129,13 @@ export default async function (eleventyConfig) {
 	});
 
 	eleventyConfig.addFilter("episodeUrl", (filename, podcast) => {
+		// In development, return the filename as-is (will be resolved to local path in JS)
+		const isDev = process.env.ELEVENTY_ENV === 'development' || process.env.NODE_ENV === 'development';
+		if (isDev) {
+			return filename;
+		}
+
+		// In production, use the CDN URL
 		if (!podcast || !podcast.episodeUrlBase) {
 			console.warn("Warning: podcast.episodeUrlBase is not defined");
 			return filename;

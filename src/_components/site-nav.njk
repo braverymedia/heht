@@ -28,9 +28,9 @@
       {% for episode in collections.episodes %}
         <div class="episode-list__item">
           <a href="{{ episode.url }}" class="episode-list__link">
-            <span class="episode-list__number">{{ episode.number | padStart(3, '0') }}</span>
-            <span class="episode-list__title">{{ episode.title }}</span>
-            <span class="episode-list__duration">{{ episode.duration }}</span>
+            <span class="episode-list__number">{{ episode.data.number | padStart(3, '0') }}</span>
+            <span class="episode-list__title">{{ episode.data.title }}</span>
+            <span class="episode-list__duration">{{ episode.data.audio.duration | formatDuration }}</span>
           </a>
         </div>
       {% endfor %}
@@ -45,9 +45,9 @@
       {% for episode in collections.episodes %}
         <div class="episode-list__item">
           <a href="{{ episode.url }}" class="episode-list__link">
-            <span class="episode-list__number">{{ episode.number | padStart(3, '0') }}</span>
-            <span class="episode-list__title">{{ episode.title }}</span>
-            <span class="episode-list__duration">{{ episode.duration }}</span>
+            <span class="episode-list__number">{{ episode.data.number | padStart(3, '0') }}</span>
+            <span class="episode-list__title">{{ episode.data.title }}</span>
+            <span class="episode-list__duration">{{ episode.data.audio.duration | formatDuration }}</span>
           </a>
         </div>
       {% endfor %}

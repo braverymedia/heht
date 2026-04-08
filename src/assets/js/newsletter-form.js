@@ -34,10 +34,34 @@
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
+      // Get submit button and spinner elements
+      const submitButton = form.querySelector('button[type="submit"]');
+      const buttonText = submitButton.querySelector('.button-text');
+      const spinner = submitButton.querySelector('.spinner');
+
+      // Set loading state
+      submitButton.disabled = true;
+      buttonText.textContent = 'Subscribing...';
+      const spinnerIcon = spinner.querySelector('.spinner-icon');
+      const successIcon = spinner.querySelector('.success-icon');
+      
+      // Show spinner and hide success icon
+      spinner.style.display = 'inline-block';
+      spinnerIcon.style.display = 'block';
+      successIcon.style.display = 'none';
+      successIcon.classList.remove('show');
+
+      // Hide any previous errors
+      errorContainer.style.display = 'none';
+
       // Check if honeypot field is filled
       if (honeypotField.value) {
         errorContainer.style.display = 'flex';
         errorMessage.innerText = 'Invalid submission detected. Please try again.';
+        // Reset button state
+        submitButton.disabled = false;
+        buttonText.textContent = 'Subscribe';
+        spinner.style.display = 'none';
         return;
       }
 
@@ -65,16 +89,62 @@
         });
 
         if (response.ok) {
+          // Show success state with animation
+          const spinnerIcon = spinner.querySelector('.spinner-icon');
+          const successIcon = spinner.querySelector('.success-icon');
+          
+          // Hide spinner and show success icon with animation
+          spinnerIcon.style.display = 'none';
+          successIcon.style.display = 'block';
+          // Trigger reflow to ensure the display change is applied
+          void successIcon.offsetWidth;
+          successIcon.classList.add('show');
+          
+          // Update button text
+          buttonText.textContent = 'Subscribed!';
+          
+          // Show success message
           success.style.display = 'flex';
+          
+          // Reset form
           form.reset();
+          
+          // Reset button state after animation
+          setTimeout(() => {
+            submitButton.disabled = false;
+            buttonText.textContent = 'Subscribe';
+            // Hide both icons and spinner container
+            spinner.style.display = 'none';
+            spinnerIcon.style.display = 'block';
+            successIcon.style.display = 'none';
+            successIcon.classList.remove('show');
+          }, 2000);
         } else {
-          const data = await response.json();
+          let data;
+          try {
+            data = await response.json();
+          } catch (e) {
+            data = {};
+          }
           errorContainer.style.display = 'flex';
-          errorMessage.innerText = data.message || response.statusText;
+          // Show a specific message for rate limiting (HTTP 429)
+          if (response.status === 429) {
+            errorMessage.innerText = data.error || data.message || 'Too many signups from this IP. Please try again later.';
+          } else {
+            errorMessage.innerText = data.error || data.message || response.statusText || 'An error occurred. Please try again.';
+          }
+          // Reset button state on error
+          submitButton.disabled = false;
+          buttonText.textContent = 'Subscribe';
+          spinner.style.display = 'none';
         }
       } catch (error) {
         errorContainer.style.display = 'flex';
         errorMessage.innerText = error.message || 'An error occurred. Please try again.';
+        // Reset button state on error
+        submitButton.disabled = false;
+        buttonText.textContent = 'Subscribe';
+        spinner.style.display = 'none';
       }
     });
   }
