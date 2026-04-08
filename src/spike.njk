@@ -1,0 +1,377 @@
+---
+permalink: /spike/
+eleventyExcludeFromCollections: true
+---
+{#
+  SPIKE — throwaway route for validating the candle-glow aesthetic against
+  real episode content (ep 004) before any token extraction.
+
+  Deliberate shortcuts taken here that do NOT ship to production:
+    - Standalone HTML (does not extend base.njk) so it can't leak styles.
+    - Hardcoded episode data (title, number, duration, transcript excerpt).
+    - Google Fonts link for Big Shoulders Stencil Display. Final build will
+      self-host + subset per the non-negotiable in CLAUDE.md.
+    - Inline <style> with hardcoded color / glow / grain values. Final build
+      extracts to _config.scss tokens + _effects.scss mixins.
+    - Media element is a plain <video> pointing at the ep 004 mp3 — <video>
+      plays audio fine. No controller JS here; this spike is layout/aesthetic
+      only. Player architecture happens in steps 5a–5e.
+
+  Delete this file in step 10.
+#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SPIKE · Craft amongst the slop · Higher Ed Hot Takes</title>
+
+  {# NameSansVF only — user will handle display typography separately later. #}
+  <style>
+    @font-face {
+      font-family: NameSansVF;
+      src: url("https://bravery.b-cdn.net/AT-NameSansVariable-Upright-subset.woff2") format("woff2-variations");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ---------- hardcoded candle-glow values (to be tokenized in step 1) ---------- */
+    :root {
+      --ink:        #0B0C10;
+      --ink-raised: #14151B;
+      --bone:       #EDE6D6;
+      --bone-dim:   #B9B2A2;
+      --ember:      #F5A25D;
+      --ember-deep: #E8833A;
+      --tube:       #7FD9C4;
+      --bloodwash:  #B23A48;
+
+      --font-body:    NameSansVF, system-ui, sans-serif;
+      --font-display: NameSansVF, system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--ink);
+      color: var(--bone);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      position: relative;
+      overflow-x: clip;
+    }
+
+    /* ---------- flame gradient — ported from original _structure.scss:7 shape
+       (tall, skinny, skewed, anchored off-canvas below) into the candle palette.
+       Two layers: the dark ink wash wrapping up from the bottom, and a warm
+       ember flame peeking up through it. Fixed pseudo-element, single instance. */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(160.86% 142.28% at 50% 143.33%,
+          rgba(11, 12, 16, 0) 35.1%,
+          var(--ink) 100%),
+        radial-gradient(24.44% 70.72% at 50% 120.72%,
+          rgba(245, 162, 93, 0.32) 46.15%,
+          rgba(245, 162, 93, 0) 100%);
+    }
+
+    /* ---------- grain overlay — single fixed pseudo-element, bumped to ~10% ---------- */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.17;
+      z-index: 2;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: overlay;
+    }
+
+    /* ---------- layout shell ---------- */
+    .spike {
+      position: relative;
+      z-index: 3;
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 6rem 2rem 8rem;
+    }
+
+    /* ---------- hero: oversized stencil number half-clipped off the right edge ---------- */
+    .hero {
+      position: relative;
+      padding-top: 4rem;
+      padding-bottom: 3rem;
+    }
+
+    .hero__eyebrow {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin: 0 0 1rem;
+      text-shadow: 0 0 0.4em rgba(245, 162, 93, 0.25);
+    }
+
+    .hero__number {
+      position: absolute;
+      top: -3rem;
+      right: -14vw;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(14rem, 36vw, 32rem);
+      line-height: 0.82;
+      letter-spacing: -0.02em;
+      color: var(--ink-raised);
+      -webkit-text-stroke: 2px var(--ember);
+      text-stroke: 2px var(--ember);
+      text-shadow:
+        0 0 0.3em rgba(245, 162, 93, 0.18),
+        0 0 1.2em rgba(245, 162, 93, 0.08);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .hero__title {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.005em;
+      text-transform: uppercase;
+      margin: 0 0 1.5rem;
+      color: var(--bone);
+      text-shadow: 0 0 0.4em rgba(245, 162, 93, 0.22);
+      max-width: 18ch;
+    }
+
+    .hero__meta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+    }
+    .hero__meta span + span::before {
+      content: "·";
+      margin-right: 1.5rem;
+      color: var(--ember);
+    }
+
+    /* ---------- media card ---------- */
+    .media {
+      position: relative;
+      z-index: 1;
+      margin: 3rem 0 2.5rem;
+      padding: 1.5rem;
+      background: var(--ink-raised);
+      border: 1px solid var(--ember);
+      border-radius: 2px;
+      box-shadow:
+        0 0 1px var(--ember),
+        0 0 24px -4px rgba(245, 162, 93, 0.35),
+        0 0 60px -20px rgba(245, 162, 93, 0.15);
+    }
+    .media video,
+    .media audio {
+      width: 100%;
+      display: block;
+    }
+    .media__label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin: 0 0 0.75rem;
+    }
+
+    /* ---------- body prose ---------- */
+    .prose {
+      max-width: 38rem;
+      font-size: 1.05rem;
+    }
+    .prose h2 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      color: var(--bone);
+      margin: 3rem 0 1rem;
+      text-shadow: 0 0 0.4em rgba(245, 162, 93, 0.25);
+    }
+    .prose h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin: 2rem 0 0.5rem;
+    }
+    .prose p { margin: 0 0 1.1em; }
+    .prose a { color: var(--tube); text-underline-offset: 3px; }
+    .prose a:hover { color: var(--ember); }
+
+    /* ---------- chapter list ---------- */
+    .chapters {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 2rem;
+      max-width: 38rem;
+      border-top: 1px solid rgba(245, 162, 93, 0.15);
+    }
+    .chapters li {
+      display: flex;
+      gap: 1.25rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(245, 162, 93, 0.15);
+    }
+    .chapters time {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      color: var(--ember);
+      min-width: 4.5rem;
+      padding-top: 0.1rem;
+    }
+    .chapters span { color: var(--bone); }
+
+    /* ---------- ragged divider ---------- */
+    .divider {
+      display: block;
+      width: 100%;
+      max-width: 38rem;
+      height: 18px;
+      margin: 3rem 0;
+      color: var(--ember);
+    }
+    .divider svg { width: 100%; height: 100%; display: block; opacity: 0.55; }
+
+    /* ---------- transcript ---------- */
+    .transcript {
+      max-width: 38rem;
+      font-size: 1rem;
+      color: var(--bone-dim);
+    }
+    .transcript p { margin: 0 0 1em; }
+    .transcript p:first-of-type::first-letter {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 6.2em;
+      line-height: 0.82;
+      float: left;
+      padding: 0.06em 0.14em 0 0;
+      margin-top: 0.05em;
+      color: var(--ember);
+      text-shadow:
+        0 0 0.25em rgba(245, 162, 93, 0.5),
+        0 0 0.6em rgba(245, 162, 93, 0.25);
+    }
+
+    /* ---------- a11y guards ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+    @media (prefers-reduced-transparency: reduce) {
+      body::before,
+      body::after { display: none; }
+      .media { box-shadow: 0 0 0 1px var(--ember); }
+    }
+    @media (prefers-contrast: more) {
+      body::before,
+      body::after { display: none; }
+      :root { --bone-dim: var(--bone); }
+      .hero__title,
+      .prose h2 { text-shadow: none; }
+      .media { box-shadow: 0 0 0 2px var(--ember); }
+    }
+  </style>
+</head>
+<body>
+  <main class="spike">
+    <header class="hero">
+      <p class="hero__eyebrow">Higher Ed Hot Takes · Spike</p>
+      <div class="hero__number" aria-hidden="true">004</div>
+      <h1 class="hero__title">Craft amongst the slop</h1>
+      <div class="hero__meta">
+        <span>2025 · 05 · 06</span>
+        <span>6 min 13 s</span>
+        <span>Episode 004</span>
+      </div>
+    </header>
+
+    <figure class="media">
+      <p class="media__label">Listen</p>
+      {# Plain <video> — plays audio fine. Real controller lands in step 5c. #}
+      <video
+        controls
+        preload="metadata"
+        playsinline
+        poster="/assets/img/heht-004-cover.jpg">
+        <source src="/assets/audio/heht-004-craft-amongst-the-slop.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </video>
+    </figure>
+
+    <section class="prose">
+      <h2>Episode Summary</h2>
+      <p>In this episode, host Joel Goodman tackles the growing problem of "GenAI slop" flooding higher education marketing. Drawing on his experience as a web designer and marketer since 2009, Joel argues that higher ed marketing has always struggled with sameness and generic messaging — but the rise of generative AI tools like ChatGPT is accelerating the problem.</p>
+      <p>Joel explains how the rush to automate content creation and admissions processes with AI risks stripping away the authenticity and human connection that set institutions apart. His remedy: a return to craft, creativity, and human touch in higher ed marketing.</p>
+
+      <h3>Chapters</h3>
+      <ol class="chapters">
+        <li><time>00:00</time><span>Introduction: The State of Higher Ed Marketing</span></li>
+        <li><time>00:46</time><span>The Rise of Generative AI in Higher Ed</span></li>
+        <li><time>01:35</time><span>The Limitations of Current AI Technology</span></li>
+        <li><time>02:46</time><span>Ethical Concerns and AI in Admissions</span></li>
+        <li><time>03:23</time><span>The Importance of Human Connection</span></li>
+        <li><time>04:00</time><span>The Risk of Losing Authenticity</span></li>
+        <li><time>05:06</time><span>Leveraging AI Without Losing Craft</span></li>
+        <li><time>05:47</time><span>Conclusion: Embracing Humanity in Higher Ed</span></li>
+      </ol>
+    </section>
+
+    {# Ragged divider — will become a reusable SVG asset in step 2 #}
+    <div class="divider" role="presentation">
+      <svg viewBox="0 0 800 18" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,9 L12,6 L28,11 L44,5 L63,10 L82,7 L101,12 L122,6 L143,10 L165,5 L188,11 L212,7 L238,12 L265,6 L292,10 L320,5 L349,11 L379,7 L410,12 L442,6 L475,10 L508,5 L542,11 L576,7 L610,12 L644,6 L678,10 L712,5 L745,11 L778,7 L800,9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <section class="transcript" aria-labelledby="transcript-title">
+      <h2 id="transcript-title" style="font-family: var(--font-display); font-weight: 900; text-transform: uppercase; color: var(--bone); text-shadow: 0 0 0.4em rgba(245,162,93,.25); margin: 0 0 1rem;">Transcript</h2>
+      <p>As a web designer and marketer, I've seen it all and unfortunately, it all looks the same. You've heard this though, right? I've been in the higher ed web marketing game since 2009 and then, as now, we were talking about how everyone's website looks the same. Or how every institution has some version of the same tagline.</p>
+      <p>So what happens now that we have generative AI and LLMs? A lot of us have been integrating ChatGPT into our work, having it draft emails or website content or news stories. And that's not necessarily bad if you have talented writers and editors who go through and revise those drafts. But I suspect not many of us do... or not many of us want to wait around for an edit.</p>
+      <p>It's a fact that generative AI, all of which are trained on the same core data, can't actually understand anything — they don't think. LLMs are predictive algorithms. They guess what word goes next to other words.</p>
+      <p>Slop begets slop. And a resurgence of craft is the only remedy. The web is now filled with AI-generated slop, and the race to hegemonic mediocrity is full sprint. Higher ed already has a serious trust issue, and that's only going to get worse if we don't remember that humanity is at the heart of the work that we do.</p>
+      <p>You should be using LLMs to support your craft, not replace it. That's the lesson here. Use them for research or data analysis. Use them for finding patterns or connecting your different databases together. But don't outsource your human touch. The world doesn't need more slop. You're better than that.</p>
+    </section>
+  </main>
+</body>
+</html>
