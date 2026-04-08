@@ -1,18 +1,31 @@
 :root {
-  --color-blueviolet: #21078D;
-  --color-yellow: #FFFF00;
-  --color-green: #00FFB2;
-  --color-pink: #FF2578;
-  --color-white: #ffffff;
-  --color-focus: var(--color-yellow);
+  // ---------- Candle-glow palette ----------
+  // Moving away from neon/UV toward dim-room / warm-filament / dim-CRT.
+  // All colors validated for WCAG 2.2 AA against --ink and --ink-raised
+  // at body copy sizes during the spike at /spike/.
+  --ink:        #0B0C10; // the room
+  --ink-raised: #14151B; // cards, drawers, media frames
+  --bone:       #EDE6D6; // body text — never pure white
+  --bone-dim:   #B9B2A2; // secondary text, meta, captions
+  --ember:      #F5A25D; // primary accent, warm candle
+  --ember-deep: #E8833A; // hover/active
+  --tube:       #7FD9C4; // secondary accent, dim CRT
+  --bloodwash:  #B23A48; // rare emphasis, large text / non-text only
+
+  // ---------- Fonts ----------
+  // Display typography is deferred — user will choose and wire up separately.
+  // Accent currently points at the body face so any `var(--font-accent)`
+  // reference still resolves during the sweep.
   --font-family: NameSansVF, sans-serif;
-  --font-accent: 'K2D', sans-serif;
-  --type-xs: clamp(0.7378rem, 0.7087rem + 0.1459vw, 0.84rem); // 11.81/13.44px
-  --type-sm: clamp(0.8854rem, 0.8384rem + 0.2351vw, 1.05rem); // 14.17/16.8px
+  --font-accent: NameSansVF, sans-serif;
+
+  // ---------- Type scale ---------- (unchanged)
+  --type-xs:   clamp(0.7378rem, 0.7087rem + 0.1459vw, 0.84rem);   // 11.81/13.44px
+  --type-sm:   clamp(0.8854rem, 0.8384rem + 0.2351vw, 1.05rem);   // 14.17/16.8px
   --type-base: clamp(1.0625rem, 0.9911rem + 0.3571vw, 1.3125rem); // 17/21px
-  --type-md: clamp(1.275rem, 1.1705rem + 0.5223vw, 1.6406rem); // 20.4/26.25px
-  --type-lg: clamp(1.53rem, 1.3812rem + 0.744vw, 2.0508rem); // 24.48/32.81px
-  --type-xl: clamp(1.836rem, 1.6281rem + 1.0393vw, 2.5635rem); // 29.38/41.02px
-  --type-2xl: clamp(2.2032rem, 1.9172rem + 1.4302vw, 3.2043rem); // 35.25/51.27px
-  --type-3xl: clamp(2.6438rem, 2.2548rem + 1.9451vw, 4.0054rem); // 42.3/64.09px
+  --type-md:   clamp(1.275rem, 1.1705rem + 0.5223vw, 1.6406rem);  // 20.4/26.25px
+  --type-lg:   clamp(1.53rem, 1.3812rem + 0.744vw, 2.0508rem);    // 24.48/32.81px
+  --type-xl:   clamp(1.836rem, 1.6281rem + 1.0393vw, 2.5635rem);  // 29.38/41.02px
+  --type-2xl:  clamp(2.2032rem, 1.9172rem + 1.4302vw, 3.2043rem); // 35.25/51.27px
+  --type-3xl:  clamp(2.6438rem, 2.2548rem + 1.9451vw, 4.0054rem); // 42.3/64.09px
 }

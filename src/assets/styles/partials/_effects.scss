@@ -1,0 +1,182 @@
+// _effects.scss
+// --------------------------------------------------------------------------
+// Candle-glow atmosphere layer.
+//
+// Single source of truth for ambient visual effects:
+//   - The flame backdrop (two-layer radial gradient fixed to the viewport)
+//   - The grain overlay (single fixed SVG noise pseudo-element)
+//   - Warm and cool glow mixins for raised surfaces
+//   - Heading glow mixin
+//
+// Every effect in this file respects:
+//   - prefers-reduced-motion
+//   - prefers-reduced-transparency
+//   - prefers-contrast: more
+// so consumers never need to re-implement the guards.
+//
+// Values were hand-tuned in the /spike/ route against real episode content
+// before extraction. Numbers are exposed as custom properties where further
+// nudging is expected.
+// --------------------------------------------------------------------------
+
+:root {
+  // Tunable knobs. These are the numbers Joel can move in DevTools without
+  // recompiling Sass. If one of these settles at a different value for good,
+  // hardcode it and remove the custom property.
+  --flame-alpha:        0.32;
+  --grain-opacity:      0.17;
+
+  // Glow color stops — derived from --ember and --tube so a palette shift
+  // only requires changing _config.scss.
+  --glow-warm-core:     rgba(245, 162, 93, 0.35);
+  --glow-warm-halo:     rgba(245, 162, 93, 0.15);
+  --glow-warm-heading:  rgba(245, 162, 93, 0.25);
+  --glow-cool-core:     rgba(127, 217, 196, 0.30);
+  --glow-cool-halo:     rgba(127, 217, 196, 0.12);
+}
+
+// --------------------------------------------------------------------------
+// Flame backdrop
+//
+// Two-layer radial: a dim ember ellipse anchored off-canvas below (the
+// candle/filament), over a wider ink wash wrapping up from the bottom. Shape
+// is ported from the original _structure.scss flame so the signature "glow
+// from under the page" feel is preserved — palette only changes, not geometry.
+// --------------------------------------------------------------------------
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      160.86% 142.28% at 50% 143.33%,
+      rgba(11, 12, 16, 0) 35.1%,
+      var(--ink) 100%
+    ),
+    radial-gradient(
+      24.44% 70.72% at 50% 120.72%,
+      rgba(245, 162, 93, var(--flame-alpha)) 46.15%,
+      rgba(245, 162, 93, 0) 100%
+    );
+}
+
+// --------------------------------------------------------------------------
+// Grain overlay
+//
+// Single fixed SVG feTurbulence at body::after. Never repeated per card.
+// mix-blend-mode: overlay keeps the grain tonal, not chromatic.
+// --------------------------------------------------------------------------
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+// --------------------------------------------------------------------------
+// Content-layer elevation
+//
+// The flame (z-1) and grain (z-2) are fixed pseudo-elements. Layout
+// landmarks need to sit above both. Applied broadly here so downstream
+// partials don't need to track stacking context by hand.
+// --------------------------------------------------------------------------
+body > header,
+body > nav,
+body > main,
+body > footer,
+body > aside,
+body > section,
+body > div {
+  position: relative;
+  z-index: 3;
+}
+
+// --------------------------------------------------------------------------
+// Atmosphere a11y guards
+// --------------------------------------------------------------------------
+@media (prefers-reduced-transparency: reduce) {
+  body::before,
+  body::after {
+    display: none;
+  }
+  body {
+    background: var(--ink);
+  }
+}
+
+@media (prefers-contrast: more) {
+  body::before,
+  body::after {
+    display: none;
+  }
+  body {
+    background: var(--ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Mixins
+//
+// Each mixin is self-contained: it emits its own high-contrast and
+// reduced-transparency fallbacks so consumers get the guards for free.
+// --------------------------------------------------------------------------
+
+// Warm candle glow — wide, dim, low-chroma. Use on raised cards, media
+// frames, active controls. The 1px solid at the core gives the shape a
+// defined edge even when the halo is invisible under reduced transparency.
+@mixin candle-glow {
+  box-shadow:
+    0 0 1px var(--ember),
+    0 0 24px -4px var(--glow-warm-core),
+    0 0 60px -20px var(--glow-warm-halo);
+
+  @media (prefers-reduced-transparency: reduce) {
+    box-shadow: 0 0 0 1px var(--ember);
+  }
+  @media (prefers-contrast: more) {
+    box-shadow: 0 0 0 2px var(--ember);
+  }
+}
+
+// Cool tube glow — same shape, CRT tint. Use sparingly for secondary
+// emphasis (e.g. a "now playing" indicator, a link hover ring).
+@mixin tube-glow {
+  box-shadow:
+    0 0 1px var(--tube),
+    0 0 24px -4px var(--glow-cool-core),
+    0 0 60px -20px var(--glow-cool-halo);
+
+  @media (prefers-reduced-transparency: reduce) {
+    box-shadow: 0 0 0 1px var(--tube);
+  }
+  @media (prefers-contrast: more) {
+    box-shadow: 0 0 0 2px var(--tube);
+  }
+}
+
+// Heading-only warm text glow. Never on body copy — the blur softens
+// letterforms and hurts readability at small sizes.
+@mixin heading-glow {
+  text-shadow: 0 0 0.4em var(--glow-warm-heading);
+
+  @media (prefers-contrast: more) {
+    text-shadow: none;
+  }
+}
