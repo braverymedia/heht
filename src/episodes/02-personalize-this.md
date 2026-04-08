@@ -57,7 +57,7 @@ Thanks for listening to Higher Ed Hot Takes—the counterculture higher ed marke
 
 ---
 
-*For more honest takes on higher ed digital strategy, visit [bravery.co.](https://bravery.co?utm_source=heht)*
+*For more honest takes on higher ed digital strategy, visit [bravery.co.](https://bravery.co?utm_source=heht002)*
 
 ### Chapters
 

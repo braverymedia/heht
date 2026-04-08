@@ -1,0 +1,498 @@
+1
+00:00:00,000 --> 00:00:02,010
+So much slop, so little time.
+
+2
+00:00:02,310 --> 00:00:04,470
+This is Higher Ed Hot
+Takes, and I'm Joel Goodman.
+
+3
+00:00:19,027 --> 00:00:22,777
+As a web designer and marketer,
+I've seen it all and unfortunately
+
+4
+00:00:22,837 --> 00:00:24,307
+it all looks the same.
+
+5
+00:00:24,667 --> 00:00:26,257
+But you've heard this though, right?
+
+6
+00:00:26,489 --> 00:00:31,679
+I've been in the higher ed web marketing
+game since 2009, and then as now we were
+
+7
+00:00:31,679 --> 00:00:35,489
+talking about how everyone's website
+looks the same or how every institution
+
+8
+00:00:35,489 --> 00:00:37,589
+has some version of the same tagline.
+
+9
+00:00:38,219 --> 00:00:41,879
+One of my favorite videos is of my good
+friend Jeff Stevens doing a dramatic
+
+10
+00:00:41,879 --> 00:00:46,139
+reading of dozens of university taglines
+to underscore how similar they all are.
+
+11
+00:00:46,619 --> 00:00:50,339
+So what happens now that we
+have generative AI and LLMs?
+
+12
+00:00:50,999 --> 00:00:55,169
+A lot of us have been integrating chat
+GPT into our work, having it draft emails
+
+13
+00:00:55,169 --> 00:00:57,239
+or website content or news stories.
+
+14
+00:00:57,539 --> 00:01:01,229
+And that's not necessarily bad if you
+have talented writers and editors who
+
+15
+00:01:01,229 --> 00:01:02,969
+go through and revise those drafts.
+
+16
+00:01:03,389 --> 00:01:07,169
+But I suspect that not many
+of us do, or not many of us
+
+17
+00:01:07,169 --> 00:01:08,639
+wanna wait around for an edit.
+
+18
+00:01:09,269 --> 00:01:13,379
+And when budget pressures come around, as
+they always do in higher ed, we turn to
+
+19
+00:01:13,379 --> 00:01:15,419
+cutting staff and underfunding marketing.
+
+20
+00:01:16,034 --> 00:01:18,884
+Especially now with the promise
+of automation through ai.
+
+21
+00:01:19,214 --> 00:01:21,764
+Why can't we just replace
+that writer with chat GPT?
+
+22
+00:01:21,854 --> 00:01:22,964
+It seems good enough.
+
+23
+00:01:23,414 --> 00:01:25,724
+Or how about decreasing your
+frontline admission staff because
+
+24
+00:01:25,724 --> 00:01:27,254
+you can replace them with a chat bot.
+
+25
+00:01:27,764 --> 00:01:31,514
+Even creepier, replace them with
+multimodal AI that synthesizes
+
+26
+00:01:31,514 --> 00:01:33,284
+voices and can talk on the phone.
+
+27
+00:01:33,764 --> 00:01:34,814
+That stuff creeps me out.
+
+28
+00:01:35,474 --> 00:01:39,644
+The hitch is that the stuff that we
+have right now is not actually ai.
+
+29
+00:01:39,959 --> 00:01:41,219
+It's machine learning.
+
+30
+00:01:41,549 --> 00:01:45,419
+We've had machine learning for 20 to
+30 years available to us in higher
+
+31
+00:01:45,419 --> 00:01:49,169
+ed and plenty more accessible ML
+tools have been in our toolbox for
+
+32
+00:01:49,169 --> 00:01:50,939
+the past 10 years or so already.
+
+33
+00:01:51,449 --> 00:01:55,169
+It's a fact that generative ai, all
+of which are trained on the same
+
+34
+00:01:55,169 --> 00:01:59,789
+core data, can't actually understand
+anything because they don't think.
+
+35
+00:02:00,299 --> 00:02:02,339
+LLMs are predictive algorithms.
+
+36
+00:02:02,339 --> 00:02:05,249
+They guess what word goes
+next to another word.
+
+37
+00:02:05,423 --> 00:02:08,543
+I haven't seen any proof that it
+knows how to differentiate, say,
+
+38
+00:02:08,723 --> 00:02:12,503
+between Wheaton College and Illinois
+and Wheaton College in Massachusetts.
+
+39
+00:02:12,833 --> 00:02:16,013
+At least not to a degree that ensures
+you're not giving prospective students
+
+40
+00:02:16,013 --> 00:02:19,733
+incorrect information or information
+that contradicts your values and brand.
+
+41
+00:02:20,453 --> 00:02:24,113
+LLMs are at a minimum, a
+decade away from anything like
+
+42
+00:02:24,113 --> 00:02:25,463
+real thought and interaction.
+
+43
+00:02:25,943 --> 00:02:26,603
+Right now.
+
+44
+00:02:26,603 --> 00:02:30,173
+Their responses are purely predictive,
+and while they might trick you into
+
+45
+00:02:30,173 --> 00:02:34,553
+believing they know things at times,
+we've all experienced the hallucinations.
+
+46
+00:02:35,063 --> 00:02:39,023
+It's giving too much credit to say they
+make mistakes, because these algorithms
+
+47
+00:02:39,023 --> 00:02:41,633
+have no actual thought or knowledge.
+
+48
+00:02:41,933 --> 00:02:43,433
+They don't make mistakes.
+
+49
+00:02:43,673 --> 00:02:46,223
+They just select inaccurate
+information to serve up.
+
+50
+00:02:46,588 --> 00:02:50,578
+Like, I just think there are way too many
+questions around the ethics of that for us
+
+51
+00:02:50,578 --> 00:02:53,248
+to blindly be pouring cash into new tech.
+
+52
+00:02:53,908 --> 00:02:57,328
+But this comes down to an extremely
+nihilistic outlook on society.
+
+53
+00:02:57,658 --> 00:03:02,338
+A lot of the uses for AI being sold
+to us across every sector are just
+
+54
+00:03:02,338 --> 00:03:04,348
+cynicism wrapped up in a sales pitch.
+
+55
+00:03:04,768 --> 00:03:08,188
+When you outsource your hiring
+to an LLM, what sort of respect
+
+56
+00:03:08,188 --> 00:03:09,598
+are you showing your applicants?
+
+57
+00:03:09,801 --> 00:03:12,951
+How would you feel if you found out your
+new boss didn't value your expertise
+
+58
+00:03:12,951 --> 00:03:14,451
+enough to write an acceptance letter?
+
+59
+00:03:14,731 --> 00:03:17,911
+When putting an AI powered voice
+bot between your admission staff
+
+60
+00:03:17,911 --> 00:03:21,301
+and prospective students, do you
+feel you're showing real care?
+
+61
+00:03:21,721 --> 00:03:23,521
+These are the things
+that keep me up at night.
+
+62
+00:03:23,911 --> 00:03:27,121
+Because we're losing authenticity
+and we're losing connection,
+
+63
+00:03:27,271 --> 00:03:31,111
+and we're taking humanity out
+of inherently human experiences.
+
+64
+00:03:31,351 --> 00:03:34,621
+And when you take the humanity out of
+the connection with your prospective
+
+65
+00:03:34,621 --> 00:03:37,321
+students, you lose the only edge you have.
+
+66
+00:03:37,711 --> 00:03:41,521
+There aren't that many differentiators
+in the marketing that higher ed does.
+
+67
+00:03:41,821 --> 00:03:45,301
+So that when you lose that core
+one, your people and your culture
+
+68
+00:03:45,301 --> 00:03:48,931
+and the ethos behind what you
+do and give it to an algorithm
+
+69
+00:03:48,931 --> 00:03:51,691
+trained on generic slop, you lose.
+
+70
+00:03:52,141 --> 00:03:53,701
+And so do your prospects.
+
+71
+00:03:54,401 --> 00:03:58,151
+Your people are the one selling
+proposition that you have
+
+72
+00:03:58,151 --> 00:04:00,161
+over any other institution.
+
+73
+00:04:00,434 --> 00:04:03,614
+If you're shoveling your prospective
+students off to talk to a robot,
+
+74
+00:04:04,034 --> 00:04:08,684
+essentially there's a question about how
+much you care about them and the process.
+
+75
+00:04:09,074 --> 00:04:12,734
+How much do you really trust a
+large language model or a generative
+
+76
+00:04:12,734 --> 00:04:15,889
+model to know your brand and to
+accurately express your values?
+
+77
+00:04:16,869 --> 00:04:21,044
+I'm not saying this level of disrespect
+is intentional because most of
+
+78
+00:04:21,044 --> 00:04:22,484
+us in higher ed are good people.
+
+79
+00:04:23,159 --> 00:04:27,329
+But the level of disrespect that's born
+out of a lack of serious consideration
+
+80
+00:04:27,329 --> 00:04:29,249
+to these things is noticeable.
+
+81
+00:04:29,699 --> 00:04:33,179
+If the quality of your content declines
+because you didn't care enough to put
+
+82
+00:04:33,179 --> 00:04:37,319
+an actual talented person on the job,
+you're disrespecting your audiences.
+
+83
+00:04:37,714 --> 00:04:41,284
+When your Gen AI images start looking
+like everyone else's, you're gonna lose
+
+84
+00:04:41,284 --> 00:04:45,064
+market share and brand standing while
+infringing on the work of real artists.
+
+85
+00:04:45,754 --> 00:04:47,644
+Slop begets slop.
+
+86
+00:04:48,094 --> 00:04:50,734
+And a resurgence of
+craft is the only remedy.
+
+87
+00:04:51,244 --> 00:04:54,694
+The web is now filled with AI
+generated slop, and the race to
+
+88
+00:04:54,694 --> 00:04:57,154
+hegemonic mediocrity is full sprint.
+
+89
+00:04:57,784 --> 00:05:01,984
+Higher ed already has a serious trust
+issue, and that's only going to get
+
+90
+00:05:01,984 --> 00:05:05,974
+worse if we don't remember that humanity
+is at the heart of the work that we do.
+
+91
+00:05:06,664 --> 00:05:11,374
+Look, LLMs have real uses and those
+are largely the same as what we've been
+
+92
+00:05:11,374 --> 00:05:13,564
+using machine learning for for years.
+
+93
+00:05:13,984 --> 00:05:15,394
+So think a bit broader.
+
+94
+00:05:15,754 --> 00:05:20,834
+Generative AI, the stuff ChatGPT, Claude
+and Mid Journey do is the lowest common
+
+95
+00:05:20,854 --> 00:05:23,284
+denominator and the easiest thing to sell.
+
+96
+00:05:23,524 --> 00:05:27,304
+It's surface level stuff and
+honestly the stuff a real person
+
+97
+00:05:27,304 --> 00:05:28,684
+should be doing in production.
+
+98
+00:05:29,284 --> 00:05:32,824
+You should be using LLMs to support
+your craft and not replace it.
+
+99
+00:05:33,244 --> 00:05:34,594
+That's the lesson here.
+
+100
+00:05:34,984 --> 00:05:37,384
+Use them for research or data analysis.
+
+101
+00:05:37,384 --> 00:05:39,574
+Use them for finding
+patterns or connecting your
+
+102
+00:05:39,574 --> 00:05:40,894
+different databases together.
+
+103
+00:05:41,134 --> 00:05:44,854
+Use them to manage data integrity or
+maybe like keep your notes organized,
+
+104
+00:05:45,124 --> 00:05:47,464
+but don't outsource your human touch.
+
+105
+00:05:47,734 --> 00:05:50,014
+The world doesn't need more slop.
+
+106
+00:05:50,494 --> 00:05:51,634
+You're better than that.
+
+107
+00:05:53,224 --> 00:05:53,969
+Thanks for listening.
+
+108
+00:05:53,989 --> 00:05:57,124
+If you want to connect, find me Joel
+Goodman on Blue Sky and LinkedIn.
+
