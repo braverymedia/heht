@@ -43,15 +43,16 @@ input, li, p {
   font-size: inherit;
 }
 a {
-  color: var(--color-yellow);
+  color: var(--ember);
+  text-underline-offset: 3px;
   &:hover {
-	color: var(--color-green);
+	color: var(--ember-deep);
 	text-decoration: none;
   }
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--color-white);
+  color: var(--bone);
   font-family: var(--font-family);
 }
 

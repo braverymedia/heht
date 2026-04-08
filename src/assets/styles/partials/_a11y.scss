@@ -6,7 +6,7 @@
 
 // Base focus styles that work across browsers
 :focus {
-  outline: 2px solid var(--color-focus, #005fcc);
+  outline: 2px solid var(--ember);
   outline-offset: 2px;
 }
 
@@ -86,7 +86,7 @@
 
 // Ensure images have alt text
 img:not([alt]) {
-  outline: 2px dashed var(--color-error, #dc3545);
+  outline: 2px dashed var(--bloodwash);
 }
 
 // Ensure decorative images are properly marked
@@ -100,12 +100,12 @@ img[alt=""] {
 // Required field indicators
 .required-field::after {
   content: " *";
-  color: var(--color-error, #dc3545);
+  color: var(--bloodwash);
 }
 
 // Error states
 .error-message {
-  color: var(--color-error, #dc3545);
+  color: var(--bloodwash);
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
@@ -115,7 +115,7 @@ input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-  box-shadow: 0 0 0 2px var(--color-focus, #005fcc);
+  box-shadow: 0 0 0 2px var(--ember);
 }
 
 // Disabled states
@@ -136,7 +136,7 @@ button:focus {
 }
 
 [aria-invalid="true"] {
-  border-color: var(--color-error, #dc3545);
+  border-color: var(--bloodwash);
 }
 
 // Navigation
@@ -144,7 +144,7 @@ button:focus {
 
 // Ensure keyboard navigation is visible
 nav a:focus {
-  background-color: var(--color-focus-bg, rgba(0, 95, 204, 0.1));
+  background-color: rgba(245, 162, 93, 0.12);
 }
 
 // Interactive Elements
@@ -163,7 +163,7 @@ input[type="reset"] {
 
 // Ensure links are properly styled
 a {
-  color: var(--color-yellow, #005fcc);
+  color: var(--ember);
   text-decoration: underline;
 
   &:hover,

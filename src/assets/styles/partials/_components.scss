@@ -1,45 +1,42 @@
+@use 'effects' as *;
+
 button,
 .button-style {
-    --bg: rgba(0, 0, 0, 0.30);
+    // Solid raised surface + 1px ember hairline. Kills the backdrop-blur
+    // pill and the hue-rotate/brightness hover hack (neon-poster holdover).
+    --bg: var(--ink-raised);
     appearance: none;
-    border: none;
+    border: 1px solid var(--ember);
     box-shadow: none;
     display: inline-flex;
     padding: 8px 16px;
     align-items: center;
     gap: 8px;
     position: relative;
-    background: transparent;
+    background: var(--bg);
+    color: var(--bone);
     cursor: pointer;
     text-decoration: none;
-    color: inherit;
-    &:after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        border-radius: 39px;
-        background-color: var(--bg);
-        mix-blend-mode: overlay;
-        backdrop-filter: blur(20px);
-        transition: all 0.15s ease;
+    border-radius: 39px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    &:hover {
+        background: var(--ember);
+        color: var(--ink);
+        @include candle-glow;
     }
-    &:hover:after {
-        filter: hue-rotate(10deg) brightness(2);
-    }
-    &:focus{
-      border: 39px;
+    &:focus-visible {
+        outline: 2px solid var(--ember);
+        outline-offset: 2px;
     }
     &.cta {
-        --bg: #22068C;
-        color: #00FFB2;
+        color: var(--ember);
         text-align: center;
         font-size: var(--type-xs);
         font-weight: 700;
         text-transform: uppercase;
+        &:hover {
+            color: var(--ink);
+        }
     }
 }
 
@@ -60,11 +57,11 @@ button,
     padding-inline: clamp(1rem, 4vw, 3rem);
     a {
         text-decoration: none;
-        color: var(--color-white);
+        color: var(--bone);
         opacity: 0.7;
         transition: all 0.15s ease;
         &:hover {
-            color: var(--color-green);
+            color: var(--ember);
             opacity: 1;
         }
     }
@@ -87,7 +84,7 @@ button,
     font-weight: 700;
     letter-spacing: 0.88px;
     span:first-of-type {
-        color: var(--color-green)
+        color: var(--ember)
     }
 }
 .episode-meta {
@@ -104,9 +101,9 @@ button,
     line-height: 125.8%;
     a {
       text-decoration: none;
-      color: var(--color-white);
+      color: var(--bone);
       &:hover {
-        color: var(--color-green);
+        color: var(--ember);
       }
     }
 }
@@ -124,14 +121,14 @@ button,
 /* Audio Player */
 .audio-player {
     font-family: var(--font-accent);
-    color: var(--color-blueviolet);
+    color: var(--bone);
     &__time {
         order: 0;
-        color: var(--color-white);
+        color: var(--bone);
         font-weight: 700;
         @media ( width >= 768px) {
             order: 3;
-            color: var(--color-blueviolet);
+            color: var(--bone-dim);
         }
     }
     &__progress {
@@ -154,13 +151,14 @@ button,
         height: 75px;
         flex-shrink: 0;
         border-radius: 50%;
-        background-color: var(--color-blueviolet);
+        background-color: var(--ember);
         display: flex;
         justify-content: center;
         align-items: center;
-        color: var(--color-green);
+        color: var(--ink);
         position: relative;
         order: 2;
+        @include candle-glow;
         .audio-player__icon {
             aspect-ratio: 1;
             height: 28px;
@@ -214,7 +212,7 @@ button,
     flex-direction: column;
     gap: 1rem;
     button:after {
-        background-color: var(--color-yellow);
+        background-color: var(--ember);
         mix-blend-mode: unset;
     }
     label {
@@ -269,12 +267,15 @@ button,
 }
 
 button[type="submit"] {
-    border: 3px solid var(--color-yellow);
-    color: var(--color-blueviolet);
+    border: 1px solid var(--ember);
+    background: var(--ink-raised);
+    color: var(--ember);
     border-radius: 999px; // Makes the button pill-shaped
     padding: 12px 32px;   // Add horizontal padding for a true pill look
     &:hover {
-      background-color: var(--color-green);
+      background-color: var(--ember);
+      color: var(--ink);
+      @include candle-glow;
     }
 }
 
@@ -320,10 +321,10 @@ input[type="range"].audio-player__progress-bar {
     border-radius: 0.5px;
     background: linear-gradient(
       to right,
-      var(--color-green) 0%,
-      var(--color-green) calc(var(--value, 0) * 1%),
-      var(--color-blueviolet) calc(var(--value, 0) * 1%),
-      var(--color-blueviolet) 100%
+      var(--ember) 0%,
+      var(--ember) calc(var(--value, 0) * 1%),
+      var(--ink-raised) calc(var(--value, 0) * 1%),
+      var(--ink-raised) 100%
     );
     margin: 0;
     padding: 0;
@@ -336,8 +337,8 @@ input[type="range"].audio-player__progress-bar {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--color-green);
-    border: 2px solid var(--color-blueviolet);
+    background: var(--ember);
+    border: 2px solid var(--ink);
     margin-top: -8px;
     cursor: pointer;
     transition: opacity 0.2s, background 0.2s;
@@ -354,7 +355,7 @@ input[type="range"].audio-player__progress-bar {
   // Firefox
   &::-moz-range-track {
     height: 1px !important;
-    background: var(--color-blueviolet);
+    background: var(--ink-raised);
     border-radius: 0.5px;
     margin: 0;
     padding: 0;
@@ -362,7 +363,7 @@ input[type="range"].audio-player__progress-bar {
   }
   &::-moz-range-progress {
     height: 1px !important;
-    background: var(--color-green);
+    background: var(--ember);
     border-radius: 0.5px;
     margin: 0;
     padding: 0;
@@ -373,8 +374,8 @@ input[type="range"].audio-player__progress-bar {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--color-green);
-    border: 2px solid var(--color-blueviolet);
+    background: var(--ember);
+    border: 2px solid var(--ink);
     cursor: pointer;
     transition: opacity 0.2s, background 0.2s;
     box-shadow: 0 0 0 3px transparent;
@@ -389,14 +390,14 @@ input[type="range"].audio-player__progress-bar {
   }
   // Edge/IE
   &::-ms-fill-lower {
-    background: var(--color-green);
+    background: var(--ember);
     border-radius: 0.5px;
     margin: 0;
     padding: 0;
     box-shadow: none;
   }
   &::-ms-fill-upper {
-    background: var(--color-blueviolet);
+    background: var(--ink-raised);
     border-radius: 0.5px;
     margin: 0;
     padding: 0;
@@ -407,8 +408,8 @@ input[type="range"].audio-player__progress-bar {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--color-green);
-    border: 2px solid var(--color-blueviolet);
+    background: var(--ember);
+    border: 2px solid var(--ink);
     cursor: pointer;
     transition: opacity 0.2s, background 0.2s;
     box-shadow: 0 0 0 3px transparent;
@@ -424,7 +425,7 @@ input[type="range"].audio-player__progress-bar {
   // WCAG Focus
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px var(--color-focus, #FFD700);
+    box-shadow: 0 0 0 3px var(--ember);
   }
   // Remove default outline/border/box-shadow on focus for all browsers
   &:focus,
@@ -465,8 +466,9 @@ input[type="range"].audio-player__progress-bar::-moz-focus-outer {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background: rgba(33,7,141, 0.5);
-    backdrop-filter: blur(60px);
+    // Kill: backdrop-filter: blur(60px). Solid ink veil + ember hairline.
+    background: rgba(11, 12, 16, 0.88);
+    border-top: 1px solid var(--ember);
 
     transition:
       opacity 0.3s cubic-bezier(0.4,0,0.2,1),
@@ -501,17 +503,17 @@ input[type="range"].audio-player__progress-bar::-moz-focus-outer {
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
-  color: var(--color-blueviolet);
+  color: var(--ink);
   z-index: 20;
-  box-shadow: 0 2px 8px rgba(33,7,141,0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   text-transform: uppercase;
   &:after {
-    background-color: var(--color-green);
+    background-color: var(--ember);
     content: '';
-    border: 1px solid #FF0;
+    border: 1px solid var(--ember);
   }
-  &:focus {
-    outline: 3px solid var(--color-green, #21078D);
+  &:focus-visible {
+    outline: 2px solid var(--ember);
     outline-offset: 2px;
     border-radius: 30px;
   }

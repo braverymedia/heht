@@ -1,13 +1,17 @@
+@use 'effects' as *;
+
 html {
-  background-color: var(--color-pink);
+  background-color: var(--ink);
   min-height: calc(100dvh + env(safe-area-inset-top) + env(safe-area-inset-bottom));
 }
 
 body {
-  background: radial-gradient(160.86% 142.28% at 50% 143.33%, rgba(16, 3, 70, 0.00) 35.1%, #100346 100%), radial-gradient(24.44% 70.72% at 50% 120.72%, #FFB325 46.15%, rgba(255, 179, 37, 0.00) 100%);
+  // Flame backdrop + grain are applied in _effects.scss via body::before/::after.
+  // Solid ink is the fallback for prefers-reduced-transparency / prefers-contrast: more.
+  background: var(--ink);
   width: 100dvw;
   overflow: auto;
-  color: var(--color-white);
+  color: var(--bone);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -66,13 +70,13 @@ main {
     display: none; // @TODO: Reveal later
   }
   .nav-link {
-    color: var(--color-white);
+    color: var(--bone);
     font-size: var(--type-sm);
     text-decoration: none;
     padding: 0;
     background: transparent;
     &:hover {
-      color: var(--color-green);
+      color: var(--ember);
     }
     &:after {
       display: none;
@@ -200,20 +204,21 @@ main {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background: rgba(33,7,141, 0.5);
-    backdrop-filter: blur(60px);
+    // Kill: backdrop-filter: blur(60px). Solid ink veil instead.
+    background: rgba(11, 12, 16, 0.88);
     pointer-events: none;
   }
   .modal-content {
-    background-color: var(--color-blueviolet);
-    color: var(--color-white);
+    background-color: var(--ink-raised);
+    color: var(--bone);
     padding: 2rem;
-    border-radius: 5px;
-    box-shadow: 0px 20px 60px -30px #000;
+    border-radius: 2px;
+    border: 1px solid var(--ember);
     display: flex;
     flex-direction: column;
     gap: 1rem;
     position: relative;
+    @include candle-glow;
     h2 {
       font-size: var(--type-md);
       font-weight: 700;
@@ -224,8 +229,8 @@ main {
     position: absolute;
     top: -1rem;
     left: -1rem;
-    background: var(--color-green);
-    color: var(--color-blueviolet);
+    background: var(--ember);
+    color: var(--ink);
     border: none;
     cursor: pointer;
     border-radius: 50%;
