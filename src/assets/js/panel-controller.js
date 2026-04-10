@@ -57,12 +57,24 @@ export function initPanelController() {
     });
   }
 
-  // ── Detail collapse (toggle) ─────────────────────────────
+  // ── Detail collapse ──────────────────────────────────────
+  const detail = document.getElementById('main');
+
   if (detailCollapseBtn) {
-    detailCollapseBtn.addEventListener('click', () => {
-      shell.classList.toggle('detail-collapsed');
+    detailCollapseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      shell.classList.add('detail-collapsed');
+      closeAllSlideIns();
+    });
+  }
+
+  // Click the collapsed detail strip (pull tab) to re-expand
+  if (detail) {
+    detail.addEventListener('click', (e) => {
       if (shell.classList.contains('detail-collapsed')) {
-        closeAllSlideIns();
+        e.stopPropagation();
+        shell.classList.remove('detail-collapsed');
       }
     });
   }
@@ -107,3 +119,6 @@ export function initPanelController() {
     }
   });
 }
+
+// Auto-init when loaded as a standalone module (dev mode)
+initPanelController();

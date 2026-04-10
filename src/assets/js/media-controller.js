@@ -154,3 +154,6 @@ export function initMediaController() {
 
   return controller.init();
 }
+
+// Auto-init when loaded as a standalone module (dev mode)
+initMediaController();

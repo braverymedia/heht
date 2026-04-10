@@ -47,13 +47,7 @@
   {% if site.env === "production" %}
     {% include '../scripts.njk' %}
   {% else %}
-    <script src="https://unpkg.com/soundtouchjs@0.1.0/dist/soundtouch.min.js"></script>
-    <script src="{{ '/assets/js/site-nav.js' | url }}?v={{ cacheBust }}" defer></script>
     <script src="{{ '/assets/js/newsletter-form.js' | url }}?v={{ cacheBust }}" defer></script>
-    <script src="{{ '/assets/js/audio-player.js' | url }}?v={{ cacheBust }}" defer></script>
-    <script src="{{ '/assets/js/audio-manager.js' | url }}?v={{ cacheBust }}" defer></script>
-    <script src="{{ '/assets/js/navigation.js' | url }}?v={{ cacheBust }}" defer></script>
-    <script src="{{ '/assets/js/episode-drawer.js' | url }}?v={{ cacheBust }}" defer></script>
     <script src="{{ '/assets/js/panel-controller.js' | url }}?v={{ cacheBust }}" type="module"></script>
     <script src="{{ '/assets/js/media-controller.js' | url }}?v={{ cacheBust }}" type="module"></script>
   {% endif %}
