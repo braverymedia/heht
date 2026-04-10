@@ -605,13 +605,23 @@ button[type="submit"] {
 }
 
 .media-facade__play {
-  position: relative;
+  // Override global button reset completely
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 3;
-  width: 120px;
-  height: 120px;
+  width: clamp(140px, 18vw, 200px);
+  height: clamp(140px, 18vw, 200px);
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1;
   border-radius: 50%;
   border: none;
-  background: rgba(11, 12, 16, 0.6);
+  background: rgba(11, 12, 16, 0.65);
+  backdrop-filter: blur(16px) saturate(0.8);
+  -webkit-backdrop-filter: blur(16px) saturate(0.8);
+  box-shadow: none;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -619,7 +629,8 @@ button[type="submit"] {
   padding: 0;
   transition: background 0.2s ease;
   &:hover {
-    background: rgba(11, 12, 16, 0.8);
+    background: rgba(11, 12, 16, 0.5);
+    box-shadow: none;
     .media-facade__ring-track {
       stroke: rgba(245, 162, 93, 0.25);
     }
@@ -628,6 +639,15 @@ button[type="submit"] {
     outline: 2px solid var(--ember);
     outline-offset: 4px;
   }
+  .is-playing &:focus-visible {
+    outline: none;
+  }
+}
+
+// Scrub cursor when hovering ring during playback
+.media-facade.is-playing .media-facade__play {
+  cursor: grab;
+  &:active { cursor: grabbing; }
 }
 
 // SVG progress ring
@@ -656,8 +676,8 @@ button[type="submit"] {
   align-items: center;
   justify-content: center;
   svg {
-    width: 32px;
-    height: 32px;
+    width: clamp(36px, 5vw, 56px);
+    height: clamp(36px, 5vw, 56px);
     fill: var(--ember);
     color: var(--ember);
   }

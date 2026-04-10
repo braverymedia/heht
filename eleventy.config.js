@@ -185,13 +185,8 @@ export default async function (eleventyConfig) {
 	});
 
 	eleventyConfig.addFilter("episodeUrl", (filename, podcast) => {
-		// In development, return the filename as-is (will be resolved to local path in JS)
-		const isDev = process.env.ELEVENTY_ENV === 'development' || process.env.NODE_ENV === 'development';
-		if (isDev) {
-			return filename;
-		}
-
-		// In production, use the CDN URL
+		// Always use the full URL — audio is hosted remotely, and JS-created
+		// <audio> elements resolve bare filenames against the page URL.
 		if (!podcast || !podcast.episodeUrlBase) {
 			console.warn("Warning: podcast.episodeUrlBase is not defined");
 			return filename;
@@ -201,8 +196,6 @@ export default async function (eleventyConfig) {
 
 	eleventyConfig.addFilter("videoUrl", (filename, podcast) => {
 		if (!filename) return '';
-		const isDev = process.env.ELEVENTY_ENV === 'development' || process.env.NODE_ENV === 'development';
-		if (isDev) return filename;
 		if (!podcast || !podcast.videoUrlBase) {
 			console.warn("Warning: podcast.videoUrlBase is not defined");
 			return filename;

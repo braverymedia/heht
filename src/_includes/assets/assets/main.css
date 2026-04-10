@@ -1468,13 +1468,22 @@ button[type=submit]:hover:not(#\#) {
 }
 
 .media-facade__play:not(#\#) {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 3;
-  width: 120px;
-  height: 120px;
+  width: max(140px, min(18vw, 200px));
+  height: max(140px, min(18vw, 200px));
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1;
   border-radius: 50%;
   border: none;
-  background: rgba(11, 12, 16, 0.6);
+  background: rgba(11, 12, 16, 0.65);
+  backdrop-filter: blur(16px) saturate(0.8);
+  -webkit-backdrop-filter: blur(16px) saturate(0.8);
+  box-shadow: none;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1483,7 +1492,8 @@ button[type=submit]:hover:not(#\#) {
   transition: background 0.2s ease;
 }
 .media-facade__play:hover:not(#\#) {
-  background: rgba(11, 12, 16, 0.8);
+  background: rgba(11, 12, 16, 0.5);
+  box-shadow: none;
 }
 .media-facade__play:hover:not(#\#) .media-facade__ring-track {
   stroke: rgba(245, 162, 93, 0.25);
@@ -1492,6 +1502,16 @@ button[type=submit]:hover:not(#\#) {
   outline: 2px solid #F5A25D;
   outline: 2px solid var(--ember);
   outline-offset: 4px;
+}
+.is-playing:not(#\#) .media-facade__play:focus-visible {
+  outline: none;
+}
+
+.media-facade.is-playing:not(#\#) .media-facade__play {
+  cursor: grab;
+}
+.media-facade.is-playing:not(#\#) .media-facade__play:active {
+  cursor: grabbing;
 }
 
 .media-facade__ring:not(#\#) {
@@ -1523,8 +1543,8 @@ button[type=submit]:hover:not(#\#) {
   justify-content: center;
 }
 .media-facade__icon:not(#\#) svg {
-  width: 32px;
-  height: 32px;
+  width: max(36px, min(5vw, 56px));
+  height: max(36px, min(5vw, 56px));
   fill: #F5A25D;
   fill: var(--ember);
   color: #F5A25D;

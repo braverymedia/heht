@@ -93,13 +93,72 @@ export function initMediaController() {
       const playBtn = this.facade.querySelector('.media-facade__play');
       if (!playBtn) return;
 
-      playBtn.addEventListener('click', () => {
+      this._scrubbing = false;
+      this._scrubMoved = false;
+
+      playBtn.addEventListener('click', (e) => {
+        // Ignore click if we just finished a scrub drag
+        if (this._scrubMoved) return;
+
         if (this.mediaType === 'video') {
           this._activateVideo();
         } else {
           this.toggle();
         }
       });
+
+      // Scrub: drag on the ring to seek (audio only)
+      if (this.mediaType === 'audio') {
+        this._bindScrub(playBtn);
+      }
+    },
+
+    // ── Ring scrub (drag to seek) ────────────────────────────
+    _bindScrub(playBtn) {
+      const ring = this.facade.querySelector('.media-facade__ring');
+      if (!ring) return;
+
+      const onDown = (e) => {
+        if (!this.el || !this.el.duration) return;
+        e.preventDefault();
+        this._scrubbing = true;
+        this._scrubMoved = false;
+        // Don't seek on initial click — only on drag (pointermove)
+        document.addEventListener('pointermove', onMove);
+        document.addEventListener('pointerup', onUp);
+      };
+
+      const onMove = (e) => {
+        if (!this._scrubbing) return;
+        this._scrubMoved = true;
+        this._scrubSeek(playBtn, e);
+      };
+
+      const onUp = () => {
+        this._scrubbing = false;
+        document.removeEventListener('pointermove', onMove);
+        document.removeEventListener('pointerup', onUp);
+        // Reset scrubMoved flag after click event fires
+        requestAnimationFrame(() => { this._scrubMoved = false; });
+      };
+
+      playBtn.addEventListener('pointerdown', onDown);
+    },
+
+    _scrubSeek(playBtn, e) {
+      if (!this.el || !this.el.duration) return;
+
+      const rect = playBtn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+
+      // Angle from center, with 12 o'clock = 0 (matching ring rotation)
+      let angle = Math.atan2(e.clientX - cx, -(e.clientY - cy));
+      if (angle < 0) angle += 2 * Math.PI;
+
+      const progress = angle / (2 * Math.PI);
+      this.seek(progress * this.el.duration);
+      this._updateRing();
     },
 
     // ── Video facade → real <video> swap ─────────────────────
