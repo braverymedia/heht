@@ -155,5 +155,8 @@ export function initMediaController() {
   return controller.init();
 }
 
+// Expose for re-init after episode nav transitions
+window.initMediaController = initMediaController;
+
 // Auto-init when loaded as a standalone module (dev mode)
 initMediaController();

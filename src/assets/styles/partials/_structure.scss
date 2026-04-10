@@ -223,22 +223,34 @@ body {
 // --------------------------------------------------------------------------
 // Detail panel — the sleeve underneath the rail
 // --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
+// Detail panel — fixed viewport, inner container scrolls
+//
+// .detail is the non-scrolling frame (100% of content-column height).
+// .detail__content is the scrolling inner container.
+// This keeps both outgoing and incoming panels the same height during
+// the slot-machine transition animation.
+// --------------------------------------------------------------------------
 .detail {
   flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 2.5rem 2rem;
+  overflow: hidden;
+  padding: 0;
   position: relative;
   z-index: 1;
   min-width: 0;
   transition:
     flex 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   // Inner shadow on left edge — the rail's "weight" pressing down
   box-shadow: inset 4px 0 12px -4px rgba(0, 0, 0, 0.3);
+}
+
+.detail__content {
+  height: 100%;
+  overflow-y: auto;
+  padding: 2.5rem 2rem;
 }
 
 // --------------------------------------------------------------------------
@@ -299,9 +311,11 @@ body {
 
   // Detail: scrollable
   .detail {
-    padding: 1.5rem 1rem;
     border-right: none;
     width: auto;
+  }
+  .detail__content {
+    padding: 1.5rem 1rem;
   }
 
   .page-content {

@@ -1,0 +1,251 @@
+/**
+ * Episode Navigation + Seamless Slot-Machine Transitions
+ *
+ * Fetches the next/prev episode page, stacks the incoming content below
+ * (or above) the current content, then slides both as one continuous reel.
+ * Video panel leads, detail panel follows at 50%.
+ *
+ * Uses Web Animations API (Motion Pro integration deferred to later).
+ */
+
+export function initEpisodeNav() {
+  const shell = document.getElementById('shell');
+  const detail = document.querySelector('.detail');
+  const videoPanel = document.getElementById('video-panel');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+
+  if (!shell || !detail || !videoPanel || !prevBtn || !nextBtn) return;
+
+  let animating = false;
+
+  // Build episode index from the episode list panel links
+  const episodeLinks = Array.from(
+    document.querySelectorAll('.episode-list-panel__item')
+  ).map(a => a.getAttribute('href')).reverse(); // reverse: list is newest-first, we want oldest-first
+
+  const currentPath = window.location.pathname;
+  let currentIndex = episodeLinks.indexOf(currentPath);
+
+  // Home page shows latest episode — match it
+  if (currentIndex === -1 && currentPath === '/') {
+    currentIndex = episodeLinks.length - 1;
+  }
+
+  updateButtons();
+
+  function updateButtons() {
+    prevBtn.disabled = currentIndex <= 0;
+    nextBtn.disabled = currentIndex >= episodeLinks.length - 1;
+  }
+
+  async function fetchEpisodePage(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to fetch ${url}`);
+    const html = await res.text();
+    const parser = new DOMParser();
+    return parser.parseFromString(html, 'text/html');
+  }
+
+  function extractDetailContent(doc) {
+    const content = doc.querySelector('.detail__content');
+    return content ? content.innerHTML : '';
+  }
+
+  function extractVideoSlide(doc) {
+    const slide = doc.querySelector('.video-panel__slide');
+    return slide ? slide.innerHTML : '';
+  }
+
+  async function navigate(direction) {
+    if (animating) return;
+
+    const targetIndex = currentIndex + direction;
+    if (targetIndex < 0 || targetIndex >= episodeLinks.length) return;
+
+    const targetUrl = episodeLinks[targetIndex];
+    animating = true;
+
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    try {
+      // Fetch target episode
+      const doc = await fetchEpisodePage(targetUrl);
+      const newDetailHtml = extractDetailContent(doc);
+      const newVideoHtml = extractVideoSlide(doc);
+
+      if (reducedMotion) {
+        // Instant swap
+        swapContent(newDetailHtml, newVideoHtml, targetUrl);
+        currentIndex = targetIndex;
+        updateButtons();
+        animating = false;
+        return;
+      }
+
+      // ── Build the reel ──────────────────────────────────
+      await animateTransition(direction, newDetailHtml, newVideoHtml);
+
+      // Swap content and update state
+      swapContent(newDetailHtml, newVideoHtml, targetUrl);
+      currentIndex = targetIndex;
+      updateButtons();
+
+    } catch (err) {
+      console.error('[episode-nav] Navigation failed:', err);
+      // Fallback: hard navigate
+      window.location.href = targetUrl;
+    } finally {
+      animating = false;
+    }
+  }
+
+  function swapContent(detailHtml, videoHtml, url) {
+    const detailContent = detail.querySelector('.detail__content');
+    const videoSlide = document.getElementById('video-slide');
+
+    if (detailContent) detailContent.innerHTML = detailHtml;
+    if (videoSlide) videoSlide.innerHTML = videoHtml;
+
+    // Update URL without reload
+    history.pushState({ episodeUrl: url }, '', url);
+
+    // Update page title from the new detail content
+    const newTitle = detail.querySelector('.detail__title');
+    if (newTitle) {
+      document.title = newTitle.textContent.trim() + ' - Higher Ed Hot Takes';
+    }
+
+    // Scroll detail back to top
+    detail.scrollTop = 0;
+
+    // Re-init media controller for new content
+    if (window.initMediaController) window.initMediaController();
+  }
+
+  async function animateTransition(direction, newDetailHtml, newVideoHtml) {
+    const dur = 700;
+    const stagger = 120; // detail starts 120ms after video — slight offset, not waiting
+    const exitY = direction > 0 ? '-100%' : '100%';
+    const enterY = direction > 0 ? '100%' : '-100%';
+
+    // ── Video reel ────────────────────────────────────────
+    const videoSlide = document.getElementById('video-slide');
+    const videoClone = videoSlide.cloneNode(false);
+    videoClone.innerHTML = newVideoHtml;
+    videoClone.style.position = 'absolute';
+    videoClone.style.inset = '0';
+    videoClone.style.transform = `translateY(${enterY})`;
+    videoClone.id = '';
+    videoPanel.appendChild(videoClone);
+
+    // Animate video: current exits, clone enters
+    const videoCurrentAnim = videoSlide.animate(
+      [{ transform: 'translateY(0)' }, { transform: `translateY(${exitY})` }],
+      { duration: dur, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
+    );
+    videoClone.animate(
+      [{ transform: `translateY(${enterY})` }, { transform: 'translateY(0)' }],
+      { duration: dur, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
+    );
+
+    // ── Detail reel (staggered) ───────────────────────────
+    // .detail is overflow:hidden, .detail__content is 100% height + scrolls.
+    // Clone matches exactly — same height, same padding, clean slide.
+    const detailContent = detail.querySelector('.detail__content');
+    const detailClone = document.createElement('div');
+    detailClone.className = detailContent.className;
+    detailClone.innerHTML = newDetailHtml;
+    detailClone.style.position = 'absolute';
+    detailClone.style.inset = '0';
+    detailClone.style.transform = `translateY(${enterY})`;
+    detail.appendChild(detailClone);
+
+    // Make current content positionable for the exit animation
+    detailContent.style.position = 'absolute';
+    detailContent.style.inset = '0';
+
+    await new Promise(resolve => setTimeout(resolve, stagger));
+
+    const detailCurrentAnim = detailContent.animate(
+      [{ transform: 'translateY(0)' }, { transform: `translateY(${exitY})` }],
+      { duration: dur, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
+    );
+    detailClone.animate(
+      [{ transform: `translateY(${enterY})` }, { transform: 'translateY(0)' }],
+      { duration: dur, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
+    );
+
+    // Wait for both to finish
+    await videoCurrentAnim.finished;
+    await detailCurrentAnim.finished;
+
+    // Clean up
+    videoClone.remove();
+    detailClone.remove();
+    videoSlide.getAnimations().forEach(a => a.cancel());
+    detailContent.getAnimations().forEach(a => a.cancel());
+    videoSlide.style.transform = '';
+    detailContent.style.position = '';
+    detailContent.style.inset = '';
+    detailContent.style.transform = '';
+  }
+
+  // ── Event listeners ─────────────────────────────────────
+  nextBtn.addEventListener('click', () => navigate(1));
+  prevBtn.addEventListener('click', () => navigate(-1));
+
+  // Keyboard nav
+  document.addEventListener('keydown', (e) => {
+    if (animating) return;
+    // Don't intercept when typing in inputs
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    if (e.key === 'ArrowRight') navigate(1);
+    if (e.key === 'ArrowLeft') navigate(-1);
+  });
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.episodeUrl) {
+      const idx = episodeLinks.indexOf(e.state.episodeUrl);
+      if (idx !== -1 && idx !== currentIndex) {
+        currentIndex = idx;
+        // Fetch and swap without animation for back/forward
+        fetchEpisodePage(e.state.episodeUrl).then(doc => {
+          swapContent(
+            extractDetailContent(doc),
+            extractVideoSlide(doc),
+            e.state.episodeUrl
+          );
+          updateButtons();
+        });
+      }
+    }
+  });
+
+  // Also handle clicks on episode list items as soft-nav
+  document.querySelectorAll('.episode-list-panel__item').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      const idx = episodeLinks.indexOf(href);
+      if (idx === -1) return; // let it hard-navigate
+
+      e.preventDefault();
+
+      // Close the episode list panel
+      const panel = document.getElementById('episode-list-panel');
+      if (panel) {
+        panel.classList.remove('is-open');
+        panel.setAttribute('aria-hidden', 'true');
+      }
+
+      const direction = idx > currentIndex ? 1 : -1;
+      currentIndex = idx - direction; // navigate() will add the direction back
+      navigate(direction);
+    });
+  });
+}
+
+// Auto-init
+initEpisodeNav();
