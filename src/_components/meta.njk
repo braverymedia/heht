@@ -1,13 +1,21 @@
 <!-- Meta tags -->
 <meta name="description" content="{{ description or podcast.description or 'Higher Ed Hot Takes with Joel G Goodman' }}">
 <meta name="author" content="{{ podcast.author or 'Joel G Goodman' }}">
-<meta name="theme-color" content="#​100346">
+<meta name="theme-color" content="#0B0C10">
 <!-- Open Graph -->
 <meta property="og:title" content="{% if title %}{{ title }} - {{ podcast.title }}{% else %}{{ meta.opengraph.title }}{% endif %}">
 <meta property="og:description" content="{{ description or podcast.description or 'Higher Ed Hot Takes with Joel G Goodman' }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ (page.url or permalink or '/') | absoluteUrl(podcast.siteUrl) }}">
 <meta property="og:image" content="{{ meta.opengraph.image | absoluteUrl(podcast.siteUrl) }}">
+
+<!-- Video meta (when episode has video) -->
+{% if video and video.src %}
+<meta property="og:video" content="{{ video.src | videoUrl(podcast) }}">
+<meta property="og:video:type" content="{{ video.type or 'video/mp4' }}">
+{% if video.width %}<meta property="og:video:width" content="{{ video.width }}">{% endif %}
+{% if video.height %}<meta property="og:video:height" content="{{ video.height }}">{% endif %}
+{% endif %}
 
 <!-- Feeds -->
 <link rel="alternate" type="application/rss+xml" title="{{ podcast.title }}" href="{{ podcast.feedSettings.path | absoluteUrl(podcast.siteUrl) }}">

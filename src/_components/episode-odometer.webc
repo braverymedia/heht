@@ -1,0 +1,61 @@
+<template webc:root aria-hidden="true">
+  <script webc:type="render" webc:is="template">
+    function render(data) {
+      const num = parseInt(this.number || '0', 10);
+      const padded = String(num).padStart(3, '0');
+      const digits = padded.split('');
+
+      return digits.map(d => {
+        const val = parseInt(d, 10);
+        const transform = `transform:translateY(-${val * 0.82}em)`;
+        return `<span class="odo-digit"><span class="odo-strip" style="${transform}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>`;
+      }).join('');
+    }
+  </script>
+</template>
+
+<style webc:scoped>
+  :host {
+    position: absolute;
+    top: -0.15em;
+    right: -0.1em;
+    font-family: var(--font-family);
+    font-weight: 900;
+    font-size: clamp(10rem, 22vw, 18rem);
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    color: var(--ink-raised);
+    -webkit-text-stroke: 1px rgba(245, 162, 93, 0.15);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    overflow: hidden;
+    display: block;
+  }
+
+  .odo-digit {
+    display: inline-block;
+    overflow: hidden;
+    height: 0.82em;
+    vertical-align: top;
+  }
+
+  .odo-strip {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .odo-strip span {
+    display: block;
+    height: 0.82em;
+    line-height: 0.82;
+  }
+
+  @media (width < 768px) {
+    :host {
+      font-size: clamp(8rem, 40vw, 14rem);
+      right: -0.05em;
+    }
+  }
+</style>

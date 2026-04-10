@@ -12,6 +12,7 @@ import container from 'markdown-it-container';
 import { eleventyImageTransformPlugin } from '@11ty/eleventy-img';
 import pluginRss from '@11ty/eleventy-plugin-rss';
 import bundlePlugin from '@11ty/eleventy-plugin-bundle';
+import pluginWebc from '@11ty/eleventy-plugin-webc';
 import path from 'path';
 import fs from 'fs';
 import { rollup } from 'rollup';
@@ -30,6 +31,9 @@ export default async function (eleventyConfig) {
 
 	// Plugins
 	eleventyConfig.addPlugin(pluginRss);
+	eleventyConfig.addPlugin(pluginWebc, {
+		components: "src/_components/**/*.webc",
+	});
 
 	// Custom markdown-it container for transcript blocks
 	const markdownLib = markdownIt({ html: true, breaks: true, linkify: true });
@@ -141,6 +145,17 @@ export default async function (eleventyConfig) {
 			return filename;
 		}
 		return new URL(filename, podcast.episodeUrlBase).toString();
+	});
+
+	eleventyConfig.addFilter("videoUrl", (filename, podcast) => {
+		if (!filename) return '';
+		const isDev = process.env.ELEVENTY_ENV === 'development' || process.env.NODE_ENV === 'development';
+		if (isDev) return filename;
+		if (!podcast || !podcast.videoUrlBase) {
+			console.warn("Warning: podcast.videoUrlBase is not defined");
+			return filename;
+		}
+		return new URL(filename, podcast.videoUrlBase).toString();
 	});
 
 	eleventyConfig.addFilter("formatDuration", (seconds) => {
@@ -342,7 +357,7 @@ export default async function (eleventyConfig) {
 			includes: "_includes",
 			data: "_data",
 		},
-		templateFormats: ["njk", "md", "html"],
+		templateFormats: ["njk", "md", "html", "webc"],
 		markdownTemplateEngine: "njk",
 		htmlTemplateEngine: "njk",
 		dataTemplateEngine: "njk",

@@ -36,7 +36,7 @@ body {
 button, label {
   font-family: var(--font-accent);
 }
-.toolbar * {
+.rail * {
   font-family: var(--font-accent);
 }
 input, li, p {
@@ -79,8 +79,8 @@ li {
   line-height: 1.46;
   margin-block: 0.5rem
 }
-.drawer-episode-content,
-.episode-content {
+// Detail panel body prose
+.detail__body {
   p, li {
     font-size: var(--type-sm);
     line-height: 1.46;

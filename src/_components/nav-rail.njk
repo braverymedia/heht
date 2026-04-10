@@ -1,0 +1,54 @@
+{# Nav Rail — replaces the old toolbar site-nav.
+   Desktop: vertical left column. Mobile: fixed horizontal bottom bar.
+   Structural layout handled by .rail in _structure.scss.
+   Visual styles in _components.scss (rail section). #}
+
+<button class="panel-hide rail__hide" id="rail-collapse-btn" aria-label="Hide navigation">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<a href="/" class="rail__brand">
+  Hot Takes
+  <span>Higher Ed</span>
+</a>
+
+<ul class="rail__links" role="list">
+  <li><a href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>Home</a></li>
+  <li><a href="#" data-action="show-episodes" aria-label="Browse all episodes">Episodes</a></li>
+  <li><a href="/about/"{% if page.url == "/about/" %} aria-current="page"{% endif %}>About</a></li>
+</ul>
+
+<div class="rail__divider" aria-hidden="true"></div>
+
+<div class="rail__subscribe-group">
+  <p class="rail__subscribe-label" aria-hidden="true">Subscribe</p>
+  <div class="rail__subscribe">
+    {% if podcast.subscribe.apple %}
+    <a href="{{ podcast.subscribe.apple }}" title="Apple Podcasts" aria-label="Apple Podcasts" rel="noopener" target="_blank">
+      {% include '../assets/svg/apple-podcasts.svg' %}
+    </a>
+    {% endif %}
+    {% if podcast.subscribe.spotify %}
+    <a href="{{ podcast.subscribe.spotify }}" title="Spotify" aria-label="Spotify" rel="noopener" target="_blank">
+      {% include '../assets/svg/logo-spotify.svg' %}
+    </a>
+    {% endif %}
+    {% if podcast.subscribe.youtube %}
+    <a href="{{ podcast.subscribe.youtube }}" title="YouTube" aria-label="YouTube" rel="noopener" target="_blank">
+      {% include '../assets/svg/yt-music.svg' %}
+    </a>
+    {% endif %}
+    <a href="/feed/podcast.xml" title="RSS Feed" aria-label="RSS Feed">
+      {% include '../assets/svg/logo-rss.svg' %}
+    </a>
+  </div>
+</div>
+
+<div class="rail__divider" aria-hidden="true"></div>
+
+<button type="button" class="rail__cta" data-action="show-newsletter" aria-label="Subscribe to newsletter">
+  Get Updates
+</button>
+

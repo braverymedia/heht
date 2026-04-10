@@ -15,6 +15,7 @@
 	"complete": false,
 	"block": false,
 	"episodeUrlBase": "https://higheredhottakes.com/assets/audio/",
+	"videoUrlBase": "https://heht-video.b-cdn.net/",
 	"image": {
 		"url": "/assets/img/heht-cover.jpg",
 		"title": "Higher Ed Hot Takes Cover Art"

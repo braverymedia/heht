@@ -2,6 +2,7 @@
 layout: layouts/base.njk
 title: Higher Ed Hot Takes with Joel G Goodman
 permalink: /
+pageType: episode
 ---
 {% set episodeItem = episodes.latest(collections) %}
 {% set episodeData = episodeItem.data %}
@@ -15,7 +16,72 @@ permalink: /
   transcript: episodeData.transcript,
   cover: episodeData.cover
 } %}
-<div class="latest-episode-content">
-  {% set isEpisodePage = false %}
-  {% include "./_components/episode.njk" %}
-</div>
+
+{# ── Detail Panel ──────────────────────────────────────── #}
+<article class="detail" id="main" tabindex="-1">
+  <button class="panel-hide detail__hide" id="detail-collapse-btn" aria-label="Hide episode details">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="episode-list-panel" id="episode-list-panel" aria-hidden="true">
+    <div class="episode-list-panel__header">
+      <button class="episode-list-panel__back" id="episode-list-back" aria-label="Back to episode">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back
+      </button>
+      <h2 class="episode-list-panel__title">All Episodes</h2>
+    </div>
+    <ul class="episode-list-panel__list" role="list">
+      {% for ep in collections.episodes %}
+      <li>
+        <a href="{{ ep.url }}" class="episode-list-panel__item">
+          <span class="episode-list-panel__num">{{ ep.data.number | padStart(3, '0') }}</span>
+          <span class="episode-list-panel__name">{{ ep.data.title }}</span>
+          <span class="episode-list-panel__dur">{{ ep.data.audio.duration | durationHuman }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {# Newsletter slide-in #}
+  <div class="slide-panel" id="newsletter-panel" aria-hidden="true">
+    <div class="slide-panel__header">
+      <button class="slide-panel__back" id="newsletter-back" aria-label="Back to episode">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back
+      </button>
+      <h2 class="slide-panel__title">Get Updates</h2>
+    </div>
+    <p class="slide-panel__desc">{{ podcast.newsletter.description }}</p>
+    {% include "./_components/newsletter-form.njk" %}
+  </div>
+
+  <div class="detail__content" id="detail-content">
+    {% set isEpisodePage = false %}
+    {% include "./_components/episode-detail.njk" %}
+  </div>
+</article>
+
+{# ── Video Panel ───────────────────────────────────────── #}
+<section class="video-panel" id="video-panel" aria-label="Episode media">
+  <button class="panel-toggle expand-detail" id="expand-detail-btn" aria-label="Show episode details">‹ Details</button>
+  <button class="panel-toggle expand-rail" id="expand-rail-btn" aria-label="Show navigation">☰ Nav</button>
+
+  {% if episode.cover.image %}
+  <div class="video-panel__slide" id="video-slide">
+    <img src="{{ episode.cover.image }}" alt="{{ episode.title }} cover art" id="video-poster">
+  </div>
+  {% endif %}
+
+  <div class="ep-nav">
+    <button id="prev-btn" aria-label="Previous episode" disabled>←</button>
+    <button id="next-btn" aria-label="Next episode">→</button>
+  </div>
+</section>

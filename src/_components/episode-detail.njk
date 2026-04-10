@@ -1,0 +1,51 @@
+{# Episode Detail — renders inside the .detail panel.
+   Spike-derived design: eyebrow, title, meta, summary, transcript inline.
+   Replaces the old episode.njk component for the three-column layout. #}
+
+{% set episode = episode or currentEpisode %}
+
+{% if isEpisodePage %}
+<script type="application/ld+json">
+  {{ {
+    "@context": "https://schema.org",
+    "@type": "PodcastEpisode",
+    "name": episode.title,
+    "datePublished": episode.date,
+    "episodeNumber": episode.number,
+    "duration": episode.audio.duration,
+    "description": episode.description,
+    "url": episode.url,
+    "partOfSeries": {
+      "@type": "PodcastSeries",
+      "name": podcast.title,
+      "url": podcast.siteUrl
+    }
+  } | json | safe }}
+</script>
+{% endif %}
+
+<div class="detail__slide" id="detail-slide">
+  <p class="detail__eyebrow">Episode <span>{{ episode.number | padStart(3, '0') }}</span></p>
+
+  {% if isEpisodePage %}
+  <h1 class="detail__title">{{ episode.title }}</h1>
+  {% else %}
+  <h2 class="detail__title"><a href="{{ episode.url }}">{{ episode.title }}</a></h2>
+  {% endif %}
+
+  <div class="detail__meta">
+    <span>{{ episode.date | readableDate }}</span>
+    {% if episode.audio.duration %}
+    <span>{{ episode.audio.duration | durationHuman }}</span>
+    {% endif %}
+  </div>
+
+  <p class="detail__summary">{{ episode.description }}</p>
+
+  {# Rendered markdown content (summary, chapters, transcript) #}
+  {% if content %}
+  <div class="detail__body">
+    {{ content | safe }}
+  </div>
+  {% endif %}
+</div>
