@@ -4,21 +4,14 @@
 // Nav Rail (visual styles — structural layout in _structure.scss)
 // ==========================================================================
 .rail__brand {
-  font-family: var(--font-family);
-  font-weight: 800;
-  font-size: 1.1rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--bone);
   text-decoration: none;
-  line-height: 1.15;
-  span {
+  display: block;
+  svg {
     display: block;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    color: var(--bone-dim);
-    margin-top: 2px;
+    width: 82px;
+    height: auto;
+    fill: currentColor;
   }
 }
 
@@ -86,8 +79,10 @@
 }
 
 .rail__cta {
-  display: block;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
   padding: 10px 16px;
   border: 1px solid var(--ember);
   border-radius: 999px;
@@ -102,6 +97,11 @@
   background: transparent;
   cursor: pointer;
   font-family: var(--font-family);
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
   &:hover {
     background: var(--ember);
     color: var(--ink);
@@ -164,9 +164,8 @@
 // Mobile rail overrides
 @media (width < 768px) {
   .rail__brand {
-    font-size: 0.85rem;
     flex-shrink: 0;
-    span { display: none; }
+    svg { width: 64px; }
   }
   .rail__links {
     flex-direction: row;
@@ -221,6 +220,20 @@
   color: var(--ember);
   margin-bottom: 0.5rem;
   @include heading-glow;
+}
+
+.detail__latest {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+  background: var(--tube);
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-right: 0.5em;
+  vertical-align: 1px;
+  text-shadow: none;
 }
 
 .detail__title {
@@ -569,7 +582,115 @@ button[type="submit"] {
 }
 
 // --------------------------------------------------------------------------
-// Video panel slide (temporary — moves to video-panel.webc scoped styles)
+// Media facade — cover art + play button for audio & video episodes
+// --------------------------------------------------------------------------
+.media-facade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-facade__cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  max-width: none;
+}
+
+.media-facade__play {
+  position: relative;
+  z-index: 3;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(11, 12, 16, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.2s ease;
+  &:hover {
+    background: rgba(11, 12, 16, 0.8);
+    .media-facade__ring-track {
+      stroke: rgba(245, 162, 93, 0.25);
+    }
+  }
+  &:focus-visible {
+    outline: 2px solid var(--ember);
+    outline-offset: 4px;
+  }
+}
+
+// SVG progress ring
+.media-facade__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.media-facade__ring-track {
+  stroke: rgba(245, 162, 93, 0.12);
+  transition: stroke 0.2s ease;
+}
+
+.media-facade__ring-progress {
+  stroke: var(--ember);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s linear;
+}
+
+// Play/pause icon swap
+.media-facade__icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--ember);
+    color: var(--ember);
+  }
+}
+
+.media-facade__icon--play {
+  // Optically center the play triangle (shift right slightly)
+  margin-left: 4px;
+}
+
+.media-facade__icon--pause {
+  display: none;
+}
+
+// Playing state — toggled by JS
+.media-facade.is-playing {
+  .media-facade__icon--play { display: none; }
+  .media-facade__icon--pause { display: flex; }
+}
+
+// After video facade is activated, hide it
+.media-facade.is-video-active {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-facade__ring-progress {
+    transition: none;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Video panel slide
 // --------------------------------------------------------------------------
 .video-panel__slide {
   position: absolute;

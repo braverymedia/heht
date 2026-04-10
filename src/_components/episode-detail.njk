@@ -25,7 +25,10 @@
 {% endif %}
 
 <div class="detail__slide" id="detail-slide">
-  <p class="detail__eyebrow">Episode <span>{{ episode.number | padStart(3, '0') }}</span></p>
+  <p class="detail__eyebrow">
+    {% if isLatest %}<span class="detail__latest">Latest</span>{% endif %}
+    Episode <span>{{ episode.number | padStart(3, '0') }}</span>
+  </p>
 
   {% if isEpisodePage %}
   <h1 class="detail__title">{{ episode.title }}</h1>
@@ -43,9 +46,10 @@
   <p class="detail__summary">{{ episode.description }}</p>
 
   {# Rendered markdown content (summary, chapters, transcript) #}
-  {% if content %}
+  {% set bodyContent = content or episodeContent %}
+  {% if bodyContent %}
   <div class="detail__body">
-    {{ content | safe }}
+    {{ bodyContent | safe }}
   </div>
   {% endif %}
 </div>

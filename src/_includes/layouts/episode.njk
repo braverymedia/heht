@@ -3,20 +3,38 @@ layout: layouts/base.njk
 pageType: episode
 ---
 
-{% set isEpisodePage = true %}
-
-{# Construct episode object for component compatibility #}
-{% set episode = {
-  url: page.url,
-  title: title,
-  date: date,
-  number: number,
-  audio: audio,
-  video: video,
-  description: description,
-  transcript: transcript,
-  cover: cover
-} %}
+{# Home page passes latestEpisode = true; episode pages have their own front matter #}
+{% if latestEpisode %}
+  {% set episodeItem = episodes.latest(collections) %}
+  {% set episode = {
+    url: episodeItem.url,
+    title: episodeItem.data.title,
+    date: episodeItem.data.date,
+    number: episodeItem.data.number,
+    audio: episodeItem.data.audio,
+    video: episodeItem.data.video,
+    description: episodeItem.data.description,
+    transcript: episodeItem.data.transcript,
+    cover: episodeItem.data.cover
+  } %}
+  {% set episodeContent = episodeItem.content %}
+  {% set isEpisodePage = true %}
+  {% set isLatest = true %}
+{% else %}
+  {% set episode = {
+    url: page.url,
+    title: title,
+    date: date,
+    number: number,
+    audio: audio,
+    video: video,
+    description: description,
+    transcript: transcript,
+    cover: cover
+  } %}
+  {% set isEpisodePage = true %}
+  {% set isLatest = false %}
+{% endif %}
 
 {# ── Content Column (rail + detail) ───────────────────── #}
 <div class="content-column">
@@ -80,26 +98,46 @@ pageType: episode
 {# ── Video Panel (sibling of content-column in outer grid) ── #}
 <section class="video-panel" id="video-panel" aria-label="Episode media">
   <div class="video-panel__slide" id="video-slide">
-    {% if episode.video and episode.video.src %}
-    <video
-      id="media-player"
-      preload="metadata"
-      playsinline
-      poster="{{ episode.video.poster or episode.cover.image }}"
-      {% if episode.video.aspectRatio %}style="aspect-ratio: {{ episode.video.aspectRatio }}"{% endif %}
+    {# Facade: cover art + play button for both audio and video episodes.
+       - Audio episodes: play button triggers hidden <audio>, shows progress ring.
+       - Video episodes: play button swaps facade for <video> element. #}
+    <div class="media-facade"
+         data-media-type="{{ 'video' if (episode.video and episode.video.src) else 'audio' }}"
+         {% if episode.video and episode.video.src %}
+         data-video-src="{{ episode.video.src | videoUrl(podcast) }}"
+         data-video-type="{{ episode.video.type or 'video/mp4' }}"
+         {% if episode.video.hls %}data-video-hls="{{ episode.video.hls | videoUrl(podcast) }}"{% endif %}
+         {% endif %}
+         {% if episode.audio and episode.audio.filename %}
+         data-audio-src="{{ episode.audio.filename | episodeUrl(podcast) }}"
+         {% endif %}
+         {% if episode.transcript and episode.transcript.srt %}
+         data-captions="{{ episode.transcript.srt }}"
+         {% endif %}
     >
-      <source src="{{ episode.video.src | videoUrl(podcast) }}" type="{{ episode.video.type or 'video/mp4' }}">
-      {% if episode.video.hls %}
-      <source src="{{ episode.video.hls | videoUrl(podcast) }}" type="application/x-mpegURL">
-      {% endif %}
-      {% if episode.transcript and episode.transcript.srt %}
-      <track kind="captions" src="{{ episode.transcript.srt }}" srclang="en" label="English" default>
-      {% endif %}
-      Your browser does not support the video element.
-    </video>
-    {% elif episode.cover.image %}
-    <img src="{{ episode.cover.image }}" alt="{{ episode.title }} cover art" id="video-poster">
-    {% endif %}
+      <img src="{{ episode.video.poster or episode.cover.image if episode.video else episode.cover.image }}"
+           alt="{{ episode.title }} cover art"
+           class="media-facade__cover"
+           id="video-poster">
+
+      <button class="media-facade__play" aria-label="Play episode">
+        <svg class="media-facade__ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="media-facade__ring-track" cx="60" cy="60" r="54"
+                  fill="none" stroke-width="3" />
+          <circle class="media-facade__ring-progress" cx="60" cy="60" r="54"
+                  fill="none" stroke-width="3"
+                  stroke-dasharray="339.292"
+                  stroke-dashoffset="339.292"
+                  transform="rotate(-90 60 60)" />
+        </svg>
+        <span class="media-facade__icon media-facade__icon--play" aria-hidden="true">
+          {% include '../../assets/svg/play.svg' %}
+        </span>
+        <span class="media-facade__icon media-facade__icon--pause" aria-hidden="true">
+          {% include '../../assets/svg/pause.svg' %}
+        </span>
+      </button>
+    </div>
   </div>
 
   <div class="ep-nav">

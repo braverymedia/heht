@@ -1,43 +1,177 @@
 /**
  * Media Controller
  *
- * Unified playback module for audio and video episodes.
- * Owns the <video> or <img> element already in the video-panel__slide.
+ * Handles two modes via the media facade:
+ *
+ * 1. Audio episodes — hidden <audio> element, play/pause button on cover art,
+ *    SVG circular progress ring animates during playback.
+ * 2. Video episodes — click-to-play facade swaps in a <video> element,
+ *    facade hides, video plays natively.
+ *
+ * Both share the same facade markup (cover art + play button + progress ring).
+ * The `data-media-type` attribute on .media-facade determines behavior.
  *
  * Features:
- * - Play/pause via click on the media element
  * - Media Session API for system controls
  * - localStorage position persistence
- * - Falls back gracefully when no media element exists
+ * - Re-initializes cleanly after episode-nav transitions
  */
 
 const STORAGE_KEY = 'heht-media-position';
+const RING_CIRCUMFERENCE = 2 * Math.PI * 54; // r=54 in the SVG
+
+let activeController = null;
 
 export function initMediaController() {
-  const media = document.getElementById('media-player');
-  if (!media) return null;
+  // Clean up previous controller
+  if (activeController) {
+    activeController.destroy();
+    activeController = null;
+  }
+
+  const facade = document.querySelector('.media-facade');
+  if (!facade) return null;
+
+  const mediaType = facade.dataset.mediaType; // 'audio' or 'video'
 
   const controller = {
-    el: media,
+    facade,
+    el: null, // the <audio> or <video> element
+    mediaType,
     _resumePosition: 0,
+    _raf: null,
 
     init() {
+      if (mediaType === 'audio') {
+        this._initAudio();
+      }
+      this._bindFacade();
       this._restorePosition();
-      this._bindEvents();
-      this._setupMediaSession();
       return this;
     },
 
+    destroy() {
+      if (this._raf) cancelAnimationFrame(this._raf);
+      if (this.el) {
+        this.el.pause();
+        this.el.remove();
+      }
+    },
+
+    // ── Audio setup ──────────────────────────────────────────
+    _initAudio() {
+      const src = this.facade.dataset.audioSrc;
+      if (!src) return;
+
+      const audio = document.createElement('audio');
+      audio.id = 'media-player';
+      audio.preload = 'metadata';
+      audio.src = src;
+
+      // Add captions track if available
+      const captionsSrc = this.facade.dataset.captions;
+      if (captionsSrc) {
+        const track = document.createElement('track');
+        track.kind = 'captions';
+        track.src = captionsSrc;
+        track.srclang = 'en';
+        track.label = 'English';
+        audio.appendChild(track);
+      }
+
+      // Hidden — facade provides the visual UI
+      audio.style.display = 'none';
+      this.facade.appendChild(audio);
+      this.el = audio;
+
+      this._bindMediaEvents();
+      this._setupMediaSession();
+    },
+
+    // ── Facade interaction ───────────────────────────────────
+    _bindFacade() {
+      const playBtn = this.facade.querySelector('.media-facade__play');
+      if (!playBtn) return;
+
+      playBtn.addEventListener('click', () => {
+        if (this.mediaType === 'video') {
+          this._activateVideo();
+        } else {
+          this.toggle();
+        }
+      });
+    },
+
+    // ── Video facade → real <video> swap ─────────────────────
+    _activateVideo() {
+      const slide = this.facade.closest('.video-panel__slide');
+      if (!slide) return;
+
+      const video = document.createElement('video');
+      video.id = 'media-player';
+      video.preload = 'metadata';
+      video.playsInline = true;
+      video.autoplay = true;
+
+      // Poster from the existing cover image
+      const cover = this.facade.querySelector('.media-facade__cover');
+      if (cover) video.poster = cover.src;
+
+      // Primary source
+      const src = document.createElement('source');
+      src.src = this.facade.dataset.videoSrc;
+      src.type = this.facade.dataset.videoType || 'video/mp4';
+      video.appendChild(src);
+
+      // HLS source (if available)
+      const hlsSrc = this.facade.dataset.videoHls;
+      if (hlsSrc) {
+        const hlsSource = document.createElement('source');
+        hlsSource.src = hlsSrc;
+        hlsSource.type = 'application/x-mpegURL';
+        video.appendChild(hlsSource);
+      }
+
+      // Captions
+      const captionsSrc = this.facade.dataset.captions;
+      if (captionsSrc) {
+        const track = document.createElement('track');
+        track.kind = 'captions';
+        track.src = captionsSrc;
+        track.srclang = 'en';
+        track.label = 'English';
+        track.default = true;
+        video.appendChild(track);
+      }
+
+      // Style to fill the panel
+      video.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;max-width:none;cursor:pointer';
+
+      // Insert video and hide facade
+      slide.appendChild(video);
+      this.facade.classList.add('is-video-active');
+      this.el = video;
+
+      // Click-to-toggle on video
+      video.addEventListener('click', () => this.toggle());
+
+      this._bindMediaEvents();
+      this._setupMediaSession();
+    },
+
+    // ── Playback controls ────────────────────────────────────
     play() {
+      if (!this.el) return;
       const p = this.el.play();
-      if (p && p.catch) p.catch(() => {}); // autoplay may be blocked
+      if (p && p.catch) p.catch(() => {});
     },
 
     pause() {
-      this.el.pause();
+      if (this.el) this.el.pause();
     },
 
     toggle() {
+      if (!this.el) return;
       if (this.el.paused) {
         this.play();
       } else {
@@ -46,6 +180,7 @@ export function initMediaController() {
     },
 
     seek(time) {
+      if (!this.el) return;
       this.el.currentTime = Math.max(0, Math.min(time, this.el.duration || 0));
     },
 
@@ -57,9 +192,38 @@ export function initMediaController() {
       this.seek(this.el.currentTime + seconds);
     },
 
-    // ── Position persistence ────────────────────────────────
+    // ── Progress ring (audio only) ───────────────────────────
+    _updateRing() {
+      if (this.mediaType !== 'audio' || !this.el) return;
+
+      const ring = this.facade.querySelector('.media-facade__ring-progress');
+      if (!ring) return;
+
+      const progress = this.el.duration ? this.el.currentTime / this.el.duration : 0;
+      const offset = RING_CIRCUMFERENCE * (1 - progress);
+      ring.style.strokeDashoffset = offset;
+    },
+
+    _startRingLoop() {
+      if (this.mediaType !== 'audio') return;
+      const tick = () => {
+        this._updateRing();
+        this._raf = requestAnimationFrame(tick);
+      };
+      this._raf = requestAnimationFrame(tick);
+    },
+
+    _stopRingLoop() {
+      if (this._raf) {
+        cancelAnimationFrame(this._raf);
+        this._raf = null;
+      }
+      // One final update so ring lands on the exact position
+      this._updateRing();
+    },
+
+    // ── Position persistence ─────────────────────────────────
     _getStorageKey() {
-      // Use the page URL as a unique key per episode
       return `${STORAGE_KEY}:${window.location.pathname}`;
     },
 
@@ -72,66 +236,68 @@ export function initMediaController() {
             this._resumePosition = pos;
           }
         }
-      } catch (e) {
-        // localStorage unavailable
-      }
+      } catch (e) {}
     },
 
     _savePosition() {
       try {
-        if (this.el.currentTime > 0) {
+        if (this.el && this.el.currentTime > 0) {
           localStorage.setItem(this._getStorageKey(), String(this.el.currentTime));
         }
-      } catch (e) {
-        // localStorage unavailable
-      }
+      } catch (e) {}
     },
 
-    // ── Events ──────────────────────────────────────────────
-    _bindEvents() {
-      // Resume position once metadata is loaded
+    // ── Media events ─────────────────────────────────────────
+    _bindMediaEvents() {
+      if (!this.el) return;
+
       this.el.addEventListener('loadedmetadata', () => {
         if (this._resumePosition > 0 && this._resumePosition < this.el.duration) {
           this.el.currentTime = this._resumePosition;
         }
+        // Update ring to restored position
+        this._updateRing();
       });
 
-      // Save position periodically
-      this.el.addEventListener('timeupdate', () => {
-        // Save every ~5 seconds to avoid excessive writes
-        if (Math.floor(this.el.currentTime) % 5 === 0) {
-          this._savePosition();
-        }
+      this.el.addEventListener('play', () => {
+        this.facade.classList.add('is-playing');
+        this._startRingLoop();
       });
 
-      // Save on pause/end
-      this.el.addEventListener('pause', () => this._savePosition());
+      this.el.addEventListener('pause', () => {
+        this.facade.classList.remove('is-playing');
+        this._stopRingLoop();
+        this._savePosition();
+      });
+
       this.el.addEventListener('ended', () => {
+        this.facade.classList.remove('is-playing');
+        this._stopRingLoop();
         try {
           localStorage.removeItem(this._getStorageKey());
         } catch (e) {}
       });
 
-      // Click to toggle play/pause (for video elements)
-      if (this.el.tagName === 'VIDEO') {
-        this.el.addEventListener('click', () => this.toggle());
-        this.el.style.cursor = 'pointer';
-      }
+      this.el.addEventListener('timeupdate', () => {
+        if (Math.floor(this.el.currentTime) % 5 === 0) {
+          this._savePosition();
+        }
+      });
     },
 
-    // ── Media Session API ───────────────────────────────────
+    // ── Media Session API ────────────────────────────────────
     _setupMediaSession() {
-      if (!('mediaSession' in navigator)) return;
+      if (!('mediaSession' in navigator) || !this.el) return;
 
-      // Set metadata from data attributes or page info
       const title = document.querySelector('.detail__title');
       const eyebrow = document.querySelector('.detail__eyebrow');
+      const cover = this.facade.querySelector('.media-facade__cover');
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: title ? title.textContent.trim() : document.title,
         artist: 'Higher Ed Hot Takes',
         album: eyebrow ? eyebrow.textContent.trim() : '',
-        artwork: this._getArtwork(),
+        artwork: cover ? [{ src: cover.src, sizes: '512x512', type: 'image/jpeg' }] : [],
       });
 
       navigator.mediaSession.setActionHandler('play', () => this.play());
@@ -142,21 +308,14 @@ export function initMediaController() {
         if (details.seekTime != null) this.seek(details.seekTime);
       });
     },
-
-    _getArtwork() {
-      const poster = this.el.getAttribute('poster');
-      const coverImg = document.getElementById('video-poster');
-      const src = poster || (coverImg && coverImg.src) || '';
-      if (!src) return [];
-      return [{ src, sizes: '512x512', type: 'image/jpeg' }];
-    },
   };
 
-  return controller.init();
+  activeController = controller.init();
+  return activeController;
 }
 
 // Expose for re-init after episode nav transitions
 window.initMediaController = initMediaController;
 
-// Auto-init when loaded as a standalone module (dev mode)
+// Auto-init
 initMediaController();
