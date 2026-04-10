@@ -127,9 +127,10 @@ button:focus {
 // ARIA States
 // -----------
 
-[aria-hidden="true"] {
-  display: none !important;
-}
+// Removed: [aria-hidden="true"] { display: none !important; }
+// That global rule conflicts with slide panels and decorative SVGs that
+// use aria-hidden for semantics but rely on transforms/positioning for
+// visual hiding. Components manage their own visibility.
 
 [aria-busy="true"] {
   cursor: progress;

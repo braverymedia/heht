@@ -38,29 +38,10 @@
 // --------------------------------------------------------------------------
 // Flame backdrop
 //
-// Two-layer radial: a dim ember ellipse anchored off-canvas below (the
-// candle/filament), over a wider ink wash wrapping up from the bottom. Shape
-// is ported from the original _structure.scss flame so the signature "glow
-// from under the page" feel is preserved — palette only changes, not geometry.
+// Moved to .content-column in _structure.scss so the flame only shows
+// through the content panels (rail + detail), not the video panel.
+// The gradient values are defined on .content-column's background property.
 // --------------------------------------------------------------------------
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      160.86% 142.28% at 50% 143.33%,
-      rgba(11, 12, 16, 0) 35.1%,
-      var(--ink) 100%
-    ),
-    radial-gradient(
-      24.44% 70.72% at 50% 120.72%,
-      rgba(245, 162, 93, var(--flame-alpha)) 46.15%,
-      rgba(245, 162, 93, 0) 100%
-    );
-}
 
 // --------------------------------------------------------------------------
 // Grain overlay
@@ -82,9 +63,8 @@ body::after {
 // --------------------------------------------------------------------------
 // Content-layer elevation
 //
-// The flame (z-1) and grain (z-2) are fixed pseudo-elements. Layout
-// landmarks need to sit above both. Applied broadly here so downstream
-// partials don't need to track stacking context by hand.
+// The grain (z-2) is a fixed pseudo-element. Layout landmarks need to sit
+// above it. The shell handles its own z-index: 3 in _structure.scss.
 // --------------------------------------------------------------------------
 body > header,
 body > nav,
@@ -101,22 +81,14 @@ body > div {
 // Atmosphere a11y guards
 // --------------------------------------------------------------------------
 @media (prefers-reduced-transparency: reduce) {
-  body::before,
   body::after {
     display: none;
-  }
-  body {
-    background: var(--ink);
   }
 }
 
 @media (prefers-contrast: more) {
-  body::before,
   body::after {
     display: none;
-  }
-  body {
-    background: var(--ink);
   }
 }
 

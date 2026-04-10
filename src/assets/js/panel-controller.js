@@ -14,8 +14,7 @@ export function initPanelController() {
   // Collapse/expand buttons
   const railCollapseBtn = document.getElementById('rail-collapse-btn');
   const detailCollapseBtn = document.getElementById('detail-collapse-btn');
-  const expandDetailBtn = document.getElementById('expand-detail-btn');
-  const expandRailBtn = document.getElementById('expand-rail-btn');
+  const expandRailBtn = document.getElementById('rail-expand-btn');
 
   // Slide-in panels
   const episodeListPanel = document.getElementById('episode-list-panel');
@@ -58,17 +57,13 @@ export function initPanelController() {
     });
   }
 
-  // ── Detail collapse ─────────────────────────────────────
+  // ── Detail collapse (toggle) ─────────────────────────────
   if (detailCollapseBtn) {
     detailCollapseBtn.addEventListener('click', () => {
-      shell.classList.add('detail-collapsed');
-      closeAllSlideIns();
-    });
-  }
-
-  if (expandDetailBtn) {
-    expandDetailBtn.addEventListener('click', () => {
-      shell.classList.remove('detail-collapsed');
+      shell.classList.toggle('detail-collapsed');
+      if (shell.classList.contains('detail-collapsed')) {
+        closeAllSlideIns();
+      }
     });
   }
 

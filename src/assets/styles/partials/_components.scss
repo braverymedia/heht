@@ -135,6 +135,30 @@
 .rail__hide { right: 0.75rem; }
 .detail__hide { right: 0.75rem; }
 
+// Rail expand button — visible only when collapsed
+.rail__expand {
+  appearance: none;
+  border: none;
+  background: none;
+  color: var(--bone-dim);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.15s ease;
+  &:hover {
+    color: var(--ember);
+    background: rgba(245, 162, 93, 0.08);
+  }
+}
+.shell.rail-collapsed .rail__expand {
+  display: flex;
+}
+
 // Mobile rail overrides
 @media (width < 768px) {
   .rail__brand {
@@ -516,6 +540,7 @@ button[type="submit"] {
   z-index: 1;
   overflow: hidden;
 }
+.video-panel__slide picture,
 .video-panel__slide img,
 .video-panel__slide video {
   width: 100%;
@@ -523,6 +548,7 @@ button[type="submit"] {
   object-fit: cover;
   object-position: center;
   display: block;
+  max-width: none; // override reset's max-width: 100%
 }
 
 // Episode prev/next nav arrows

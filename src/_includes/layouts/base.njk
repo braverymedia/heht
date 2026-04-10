@@ -33,20 +33,14 @@
 <body data-type="{{ pageType }}">
   <a href="#main" class="skip-link">Skip to main content</a>
 
+  {# ── Shell ───────────────────────────────────────────────────
+     Child layouts output the full shell interior:
+     - Episode/home: .content-column (rail + detail) + .video-panel
+     - Pages: .content-column (rail + page-content)
+     The nav rail is included by each child layout inside .content-column.
+  #}
   <div class="shell{% if pageType == 'episode' %} shell--media{% endif %}" id="shell">
-
-    {# ── Nav Rail ──────────────────────────────────────────── #}
-    <nav class="rail" aria-label="Site navigation">
-      {% include "../../_components/nav-rail.njk" %}
-    </nav>
-
-    {# ── Page Content ────────────────────────────────────────
-       Child layouts render their full panel structure here:
-       - Episode layouts: <article class="detail"> + <section class="video-panel">
-       - Page layouts: <main class="page-content">
-    #}
     {{ content | safe }}
-
   </div>
 
   {# ── JavaScript ──────────────────────────────────────────── #}

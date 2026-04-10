@@ -3,8 +3,14 @@ layout: layouts/base.njk
 pageType: page
 ---
 
-<main id="main" class="page-content" tabindex="-1">
-  <article class="page-layout">
-    {{ content | safe }}
-  </article>
-</main>
+<div class="content-column">
+  <nav class="rail" aria-label="Site navigation">
+    {% include "../../_components/nav-rail.njk" %}
+  </nav>
+
+  <main id="main" class="page-content" tabindex="-1">
+    <article class="page-layout">
+      {{ content | safe }}
+    </article>
+  </main>
+</div>

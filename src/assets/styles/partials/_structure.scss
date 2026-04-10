@@ -3,9 +3,11 @@
 // ==========================================================================
 // Layout Shell
 //
-// Three-column grid: nav rail | detail panel | video panel.
-// Two-column fallback for non-media pages: nav rail | content.
-// Mobile: single column with fixed bottom nav.
+// Two-column outer grid: content-column (50%) | video-panel (50%).
+// Content column contains rail + detail (or page content) and carries
+// the flame gradient background + shadow over the video panel.
+// Non-media pages: content column fills the full width.
+// Mobile: single column, video on top, nav fixed at bottom.
 // ==========================================================================
 
 html {
@@ -21,43 +23,116 @@ body {
 }
 
 // --------------------------------------------------------------------------
-// Shell grid
+// Shell grid — outer 2-column layout
 // --------------------------------------------------------------------------
 .shell {
   position: relative;
   z-index: 3;
   display: grid;
-  grid-template-columns: var(--rail-w) 1fr;
+  grid-template-columns: 1fr;
   height: 100dvh;
   overflow: hidden;
+}
+
+// Media layout: content column + video panel
+.shell--media {
+  grid-template-columns: 1fr 1fr;
   transition: grid-template-columns 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-// Three-column media layout (episode pages, home)
-.shell--media {
-  grid-template-columns: var(--rail-w) var(--detail-w) 1fr;
+// --------------------------------------------------------------------------
+// Content Column — wraps rail + detail, carries the flame
+// --------------------------------------------------------------------------
+.content-column {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+
+  // Flame gradient — moved from body::before to the content column
+  // so video panel stays clean
+  background:
+    radial-gradient(
+      160.86% 142.28% at 50% 143.33%,
+      rgba(11, 12, 16, 0) 35.1%,
+      var(--ink) 100%
+    ),
+    radial-gradient(
+      24.44% 70.72% at 50% 120.72%,
+      rgba(245, 162, 93, var(--flame-alpha)) 46.15%,
+      rgba(245, 162, 93, 0) 100%
+    ),
+    var(--ink);
+
+  // Shadow casting over the video panel
+  box-shadow: 4px 0 24px -4px rgba(0, 0, 0, 0.6);
+  z-index: 1;
 }
 
 // --------------------------------------------------------------------------
 // Collapse states
 // --------------------------------------------------------------------------
-.shell.detail-collapsed {
-  grid-template-columns: var(--rail-w) 0px 1fr;
-}
-.shell.rail-collapsed {
-  &:not(.shell--media) {
-    grid-template-columns: 0px 1fr;
+
+// Detail collapsed: content column shrinks to just rail width
+.shell--media.detail-collapsed {
+  grid-template-columns: auto 1fr;
+  .content-column {
+    flex-shrink: 0;
   }
-  &.shell--media {
-    grid-template-columns: 0px var(--detail-w) 1fr;
+  .detail {
+    width: 0;
+    overflow: hidden;
+    pointer-events: none;
+    padding: 0;
+    border-right: none;
   }
 }
-.shell.rail-collapsed.detail-collapsed {
-  grid-template-columns: 0px 0px 1fr;
+
+// Rail collapsed to icons: rail shrinks inside content column
+.shell.rail-collapsed .rail {
+  width: var(--rail-w-collapsed);
+  min-width: var(--rail-w-collapsed);
+  padding: 1rem 0;
+  align-items: center;
+  gap: 1rem;
+  .rail__brand,
+  .rail__links,
+  .rail__divider,
+  .rail__subscribe-label,
+  .panel-hide {
+    display: none;
+  }
+  .rail__subscribe-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .rail__subscribe {
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+  .rail__cta {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0;
+    overflow: hidden;
+    &::after {
+      content: "✉";
+      font-size: 1rem;
+    }
+  }
+}
+
+// Both collapsed: just icon rail + video
+.shell--media.rail-collapsed.detail-collapsed {
+  grid-template-columns: auto 1fr;
 }
 
 // --------------------------------------------------------------------------
-// Nav rail (structural — visual styles move to nav-rail.webc)
+// Nav rail
 // --------------------------------------------------------------------------
 .rail {
   display: flex;
@@ -67,34 +142,27 @@ body {
   border-right: 1px solid rgba(245, 162, 93, 0.12);
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--ink);
   min-width: 0;
-}
-.shell.rail-collapsed .rail {
-  overflow: hidden;
-  pointer-events: none;
-  padding: 0;
+  flex-shrink: 0;
+  width: clamp(160px, 15vw, 220px);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // --------------------------------------------------------------------------
-// Detail panel (structural — visual styles move to episode-detail.webc)
+// Detail panel
 // --------------------------------------------------------------------------
 .detail {
+  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 2.5rem 2rem;
-  border-right: 1px solid rgba(245, 162, 93, 0.08);
   position: relative;
   min-width: 0;
-}
-.shell.detail-collapsed .detail {
-  overflow: hidden;
-  pointer-events: none;
-  padding: 0;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // --------------------------------------------------------------------------
-// Video panel (structural — visual styles move to video-panel.webc)
+// Video panel
 // --------------------------------------------------------------------------
 .video-panel {
   position: relative;
@@ -105,9 +173,10 @@ body {
 }
 
 // --------------------------------------------------------------------------
-// Content area (non-media pages: about, terms, privacy, episode list)
+// Content area (non-media pages)
 // --------------------------------------------------------------------------
 .page-content {
+  flex: 1;
   overflow-y: auto;
   padding: 2.5rem 2rem;
   position: relative;
@@ -118,57 +187,10 @@ body {
 }
 
 // --------------------------------------------------------------------------
-// Panel toggle buttons (structural — appear when panels are collapsed)
-// --------------------------------------------------------------------------
-.panel-toggle {
-  position: absolute;
-  z-index: 10;
-  appearance: none;
-  border: 1px solid rgba(245, 162, 93, 0.3);
-  background: rgba(11, 12, 16, 0.8);
-  color: var(--bone-dim);
-  height: 32px;
-  padding: 0 10px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  display: none;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.15s ease;
-  font-family: var(--font-family);
-  &:hover {
-    border-color: var(--ember);
-    color: var(--ember);
-  }
-}
-
-.expand-detail {
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.shell.detail-collapsed .expand-detail { display: flex; }
-
-.expand-rail {
-  left: 1rem;
-  top: 1rem;
-}
-.shell.rail-collapsed .expand-rail { display: flex; }
-
-.shell.rail-collapsed.detail-collapsed .expand-rail { top: 1rem; }
-.shell.rail-collapsed.detail-collapsed .expand-detail { top: calc(50% + 1.5rem); }
-
-// --------------------------------------------------------------------------
-// Existing elements kept for backward compat until component tasks replace
+// Backward compat
 // --------------------------------------------------------------------------
 .site-footer {
-  padding: 1.5rem clamp(1rem, 4vw, 3rem);
-  font-size: var(--type-xs);
-  display: none; // hidden until redesigned or cut
+  display: none;
 }
 
 // --------------------------------------------------------------------------
@@ -183,6 +205,11 @@ body {
     padding-bottom: var(--mobile-nav-h);
   }
 
+  .content-column {
+    box-shadow: none;
+    display: contents; // Let rail and detail participate in the parent grid directly
+  }
+
   // Video: 16:9, top of stack
   .video-panel {
     order: -1;
@@ -190,18 +217,18 @@ body {
     min-height: unset;
   }
 
-  // Detail: scrollable middle
+  // Detail: scrollable
   .detail {
     padding: 1.5rem 1rem;
     border-right: none;
+    width: auto;
   }
 
-  // Content (non-media pages)
   .page-content {
     padding: 1.5rem 1rem;
   }
 
-  // Nav: fixed bottom bar with horizontal overflow
+  // Nav: fixed bottom bar
   .rail {
     position: fixed;
     bottom: 0;
@@ -209,6 +236,7 @@ body {
     right: 0;
     z-index: 20;
     height: var(--mobile-nav-h);
+    width: auto;
     flex-direction: row;
     align-items: center;
     padding: 0 1rem;
@@ -224,15 +252,28 @@ body {
   }
   .rail::-webkit-scrollbar { display: none; }
 
-  // Panel toggles hidden on mobile
-  .panel-toggle { display: none !important; }
-
+  // Don't collapse on mobile
   .shell.detail-collapsed .detail,
   .shell.rail-collapsed .rail {
     overflow: auto;
     pointer-events: auto;
+    width: auto;
+    padding: 1.5rem 1rem;
   }
 }
 
-// Newsletter modal removed — replaced by slide-in panel in detail pane.
-// See .slide-panel in _components.scss.
+// --------------------------------------------------------------------------
+// A11y: reduced transparency — kill flame gradient
+// --------------------------------------------------------------------------
+@media (prefers-reduced-transparency: reduce) {
+  .content-column {
+    background: var(--ink);
+    box-shadow: 1px 0 0 rgba(245, 162, 93, 0.15);
+  }
+}
+@media (prefers-contrast: more) {
+  .content-column {
+    background: var(--ink);
+    box-shadow: 1px 0 0 var(--ember);
+  }
+}
