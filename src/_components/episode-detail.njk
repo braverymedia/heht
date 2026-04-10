@@ -34,7 +34,7 @@
   {% endif %}
 
   <div class="detail__meta">
-    <span>{{ episode.date | readableDate }}</span>
+    <span>{{ episode.date | styledDate }}</span>
     {% if episode.audio.duration %}
     <span>{{ episode.audio.duration | durationHuman }}</span>
     {% endif %}

@@ -40,14 +40,66 @@ export default async function (eleventyConfig) {
 	markdownLib.use(container, 'transcript', {
 	  render: function (tokens, idx) {
 	    if (tokens[idx].nesting === 1) {
-	      // Opening tag
-	      return '<section class="transcript" role="region" aria-labelledby="transcript-title" itemscope itemtype="https://schema.org/PodcastEpisode">\n<h2 id="transcript-title">Transcript</h2>\n';
+	      return '<section class="transcript" role="region" aria-labelledby="transcript-title" itemscope itemtype="https://schema.org/PodcastEpisode">\n<h2 id="transcript-title" class="detail__section-title">Transcript</h2>\n';
 	    } else {
-	      // Closing tag
 	      return '</section>\n';
 	    }
 	  }
 	});
+	markdownLib.use(container, 'chapters', {
+	  render: function (tokens, idx) {
+	    if (tokens[idx].nesting === 1) {
+	      return '<div class="chapters-section">\n<h3 class="detail__section-title">Chapters</h3>\n<ol class="chapters">\n';
+	    } else {
+	      return '</ol>\n</div>\n';
+	    }
+	  }
+	});
+
+	// Custom rule: convert chapter lines (MM:SS Text) inside :::chapters to <li>
+	const defaultParagraphRender = markdownLib.renderer.rules.paragraph_open || function(tokens, idx, options, env, self) {
+	  return self.renderToken(tokens, idx, options);
+	};
+	markdownLib.renderer.rules.paragraph_open = function(tokens, idx, options, env, self) {
+	  // Check if the next inline token looks like chapter lines
+	  const nextToken = tokens[idx + 1];
+	  if (nextToken && nextToken.type === 'inline' && nextToken.content) {
+	    const lines = nextToken.content.split('\n');
+	    const allChapters = lines.every(l => /^\d{1,2}:\d{2}\s/.test(l.trim()) || l.trim() === '');
+	    if (allChapters && lines.filter(l => l.trim()).length > 1) {
+	      // Replace paragraph with chapter list items
+	      const items = lines
+	        .filter(l => l.trim())
+	        .map(l => {
+	          const match = l.trim().match(/^(\d{1,2}:\d{2})\s+(.+)/);
+	          if (match) {
+	            return `<li><time>${match[1]}</time><span>${match[2]}</span></li>`;
+	          }
+	          return '';
+	        })
+	        .join('\n');
+	      // Override the inline content and suppress the paragraph tags
+	      nextToken.content = '';
+	      nextToken.children = [];
+	      return `<ol class="chapters">\n${items}\n</ol>\n<!-- `;
+	    }
+	  }
+	  return defaultParagraphRender(tokens, idx, options, env, self);
+	};
+	const defaultParagraphClose = markdownLib.renderer.rules.paragraph_close || function(tokens, idx, options, env, self) {
+	  return self.renderToken(tokens, idx, options);
+	};
+	markdownLib.renderer.rules.paragraph_close = function(tokens, idx, options, env, self) {
+	  // Check if previous paragraph_open was converted to chapters
+	  const prevToken = tokens[idx - 2]; // paragraph_open is 2 back
+	  if (prevToken && prevToken.type === 'paragraph_open') {
+	    const inlineToken = tokens[idx - 1];
+	    if (inlineToken && inlineToken.content === '' && inlineToken.children && inlineToken.children.length === 0) {
+	      return ' -->';
+	    }
+	  }
+	  return defaultParagraphClose(tokens, idx, options, env, self);
+	};
 	// Assign our custom markdown-it instance
 	eleventyConfig.setLibrary('md', markdownLib);
 
@@ -208,6 +260,14 @@ export default async function (eleventyConfig) {
 			month: "long",
 			day: "numeric",
 		});
+	});
+
+	eleventyConfig.addFilter("styledDate", (dateObj) => {
+		const d = new Date(dateObj);
+		const y = d.getFullYear();
+		const m = String(d.getMonth() + 1).padStart(2, '0');
+		const day = String(d.getDate()).padStart(2, '0');
+		return `${y} · ${m} · ${day}`;
 	});
 
 	eleventyConfig.addFilter("json", function (obj) {

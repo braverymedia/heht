@@ -25,7 +25,7 @@
 .rail__links {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.25rem;
   list-style: none;
   a {
     color: var(--bone-dim);
@@ -35,6 +35,8 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     transition: color 0.15s ease;
+    display: block;
+    padding: 0.5rem 0;
     &:hover,
     &[aria-current] {
       color: var(--ember);
@@ -273,11 +275,11 @@
   }
   h3 {
     font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.14em;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--ember);
-    margin: 1.5rem 0 0.5rem;
+    margin: 2rem 0 0.75rem;
   }
   p { margin: 0 0 1em; }
   a { color: var(--tube); text-underline-offset: 3px; }
@@ -300,6 +302,41 @@
         0 0 0.25em rgba(245, 162, 93, 0.5),
         0 0 0.6em rgba(245, 162, 93, 0.25);
     }
+  }
+}
+
+// Section title label (Chapters, Transcript)
+.detail__section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin: 2rem 0 0.75rem;
+}
+
+// Chapter list
+.chapters {
+  list-style: none;
+  padding: 0;
+  border-top: 1px solid rgba(245, 162, 93, 0.12);
+  margin-bottom: 2rem;
+  li {
+    display: flex;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(245, 162, 93, 0.08);
+    font-size: 0.82rem;
+  }
+  time {
+    color: var(--ember);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    min-width: 3.5rem;
+    flex-shrink: 0;
+  }
+  span {
+    color: var(--bone-dim);
   }
 }
 
