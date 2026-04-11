@@ -1,0 +1,112 @@
+@use '../shared' as *;
+
+// ==========================================================================
+// Slide Panels (shared base for episode list, newsletter, etc.)
+// ==========================================================================
+.slide-panel,
+.episode-list-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: var(--ink);
+  padding: 2.5rem 2rem;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.35s var(--easing-smooth);
+  &.is-open {
+    transform: translateX(0);
+  }
+}
+
+.slide-panel__header,
+.episode-list-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-block-end: 2rem;
+}
+
+.slide-panel__back,
+.episode-list-panel__back {
+  appearance: none;
+  border: none;
+  background: none;
+  color: var(--bone-dim);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+  font-family: var(--font-display);
+  transition: color var(--transition-fast);
+  &:hover { color: var(--ember); }
+}
+
+.slide-panel__title,
+.episode-list-panel__title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone);
+  margin: 0;
+}
+
+.slide-panel__desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--bone-dim);
+  margin-block-end: 1.5rem;
+}
+
+.episode-list-panel__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.episode-list-panel__item {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-block-end: 1px solid var(--ember-wash-3);
+  text-decoration: none;
+  color: var(--bone);
+  transition: color var(--transition-fast);
+  &:hover {
+    color: var(--ember);
+  }
+}
+
+.episode-list-panel__num {
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--ember);
+  min-width: 2.5rem;
+  flex-shrink: 0;
+}
+
+.episode-list-panel__name {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.episode-list-panel__dur {
+  font-size: 0.7rem;
+  color: var(--bone-dim);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-panel,
+  .episode-list-panel {
+    transition: none;
+  }
+}

@@ -1,0 +1,148 @@
+@use '../shared' as *;
+
+// ==========================================================================
+// Media facade — cover art + play button for audio & video episodes
+// ==========================================================================
+.media-facade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-facade__cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  max-width: none;
+}
+
+.media-facade__play {
+  // Override global button reset completely
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: clamp(140px, 18vw, 200px);
+  height: clamp(140px, 18vw, 200px);
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  background: var(--ink-glass-65);
+  backdrop-filter: blur(16px) saturate(0.8);
+  box-shadow: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.2s ease;
+  &:hover {
+    background: var(--ink-glass-50);
+    box-shadow: none;
+    .media-facade__ring-track {
+      stroke: var(--ember-wash-8);
+    }
+  }
+  &:focus-visible {
+    outline: 2px solid var(--ember);
+    outline-offset: 4px;
+  }
+  .is-playing &:focus-visible {
+    outline: none;
+  }
+}
+
+// Scrub cursor when hovering ring during playback
+.media-facade.is-playing .media-facade__play {
+  cursor: grab;
+  &:active { cursor: grabbing; }
+}
+
+// SVG progress ring
+.media-facade__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.media-facade__ring-track {
+  stroke: var(--ember-wash-5);
+  transition: stroke 0.2s ease;
+}
+
+.media-facade__ring-progress {
+  stroke: var(--ember);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s linear;
+}
+
+// Play/pause icon swap
+.media-facade__icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: clamp(36px, 5vw, 56px);
+    height: clamp(36px, 5vw, 56px);
+    fill: var(--ember);
+    color: var(--ember);
+  }
+}
+
+.media-facade__icon--play {
+  // Optically center the play triangle (shift right slightly)
+  margin-inline-start: 4px;
+}
+
+.media-facade__icon--pause {
+  display: none;
+}
+
+// Playing state — toggled by JS
+.media-facade.is-playing {
+  .media-facade__icon--play { display: none; }
+  .media-facade__icon--pause { display: flex; }
+}
+
+// After video facade is activated, hide it
+.media-facade.is-video-active {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-facade__ring-progress {
+    transition: none;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Video panel slide — the video element(s) that swap in when play is hit
+// --------------------------------------------------------------------------
+.video-panel__slide {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+.video-panel__slide picture,
+.video-panel__slide img,
+.video-panel__slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  max-width: none; // override reset's max-width: 100%
+}

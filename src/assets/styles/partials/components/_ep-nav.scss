@@ -1,0 +1,49 @@
+@use '../shared' as *;
+
+// ==========================================================================
+// Episode prev/next nav arrows (pinned inside the video panel)
+// ==========================================================================
+.ep-nav {
+  position: absolute;
+  inset-block-end: 2rem;
+  inset-inline-end: 2rem;
+  z-index: 5;
+  display: flex;
+  gap: 0.5rem;
+  button {
+    appearance: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--ember-wash-9);
+    background: var(--ink-glass-70);
+    color: var(--bone);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      color var(--transition-fast),
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      opacity var(--transition-fast);
+    font-family: var(--font-display);
+    &:hover {
+      border-color: var(--ember);
+      color: var(--ember);
+      @include candle-glow;
+    }
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@include mobile {
+  .ep-nav {
+    inset-block-end: 0.75rem;
+    inset-inline-end: 0.75rem;
+  }
+}

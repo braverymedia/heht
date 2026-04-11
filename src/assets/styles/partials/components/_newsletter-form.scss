@@ -1,0 +1,54 @@
+@use '../shared' as *;
+
+// ==========================================================================
+// Newsletter form (modal slide-in panel)
+// ==========================================================================
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    label {
+        font-size: var(--type-sm);
+    }
+    .form-group .error-message {
+        color: var(--error);
+        font-size: 0.8rem;
+        display: block;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    input {
+        padding: 12px 16px;
+        border-radius: 25px;
+        border: 0;
+        box-shadow: 0;
+        margin-block-start: 8px;
+     }
+}
+
+button[type="submit"] {
+    border: 1px solid var(--ember);
+    background: var(--ink-raised);
+    color: var(--ember);
+    border-radius: 999px;
+    padding: 12px 32px;
+    &:hover {
+      background-color: var(--ember);
+      color: var(--ink);
+      @include candle-glow;
+    }
+}
+
+// Spam-trap field — rendered offscreen, populated by bots, checked by
+// newsletter-form.js on submit.
+.honeypot {
+  position: absolute;
+  inset-inline-start: -9999px;
+  inset-block-start: -9999px;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
