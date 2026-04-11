@@ -3,49 +3,44 @@
 // ==========================================================================
 // Buttons
 // ==========================================================================
-button,
+// .button-style is the shared "pill button" treatment for explicit
+// CTAs — an ink-raised pill with an ember hairline that fills with
+// ember + candle-glow on hover. Opt in with class="button-style".
+//
+// This rule is deliberately NOT scoped to bare <button> elements.
+// Every <button> in the app (.rail__cta, .rail__tab, .detail__tab,
+// .media-facade__play, .ep-nav button, the newsletter submit, the
+// slide-panel backs, etc.) has its own class with comprehensive
+// styling — applying .button-style to all of them instead leaked
+// the pill shape and the hover background/glow onto elements that
+// had to spend rules fighting it off.
 .button-style {
-    // Solid raised surface + 1px ember hairline. Kills the backdrop-blur
-    // pill and the hue-rotate/brightness hover hack (neon-poster holdover).
-    --bg: var(--ink-raised);
-    appearance: none;
-    border: 1px solid var(--ember);
-    box-shadow: none;
-    display: inline-flex;
-    padding: 8px 16px;
-    align-items: center;
-    gap: 8px;
-    position: relative;
-    background: var(--bg);
-    color: var(--bone);
-    cursor: pointer;
-    text-decoration: none;
-    border-radius: 39px;
-    transition: background-color var(--transition-fast), color var(--transition-fast);
-    &:hover {
-        background: var(--ember);
-        color: var(--ink);
-        @include candle-glow;
-    }
-    &:focus-visible {
-        outline: 2px solid var(--ember);
-        outline-offset: 2px;
-    }
-    &.cta {
-        color: var(--ember);
-        text-align: center;
-        font-size: var(--type-xs);
-        font-weight: 700;
-        text-transform: uppercase;
-        &:hover {
-            color: var(--ink);
-        }
-    }
-}
-
-.button-style {
+  --bg: var(--ink-raised);
+  appearance: none;
+  border: 1px solid var(--ember);
+  box-shadow: none;
+  display: inline-flex;
+  padding: 8px 16px;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  background: var(--bg);
+  color: var(--bone);
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 39px;
   margin-block: 1rem;
   font-size: var(--type-sm);
-  letter-spacing: 0.88px;
   font-family: var(--font-display);
+  letter-spacing: 0.88px;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  &:hover {
+    background: var(--ember);
+    color: var(--ink);
+    @include candle-glow;
+  }
+  &:focus-visible {
+    outline: 2px solid var(--ember);
+    outline-offset: 2px;
+  }
 }
