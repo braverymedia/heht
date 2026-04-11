@@ -148,35 +148,49 @@
   }
 }
 
-// Panel hide buttons — top-right of each panel
-.panel-hide {
+// Rail pull tab — single always-visible toggle for collapse/expand.
+// Sibling pattern in _structure.scss for .detail__tab.
+//
+// The <button> itself is a generous hit area (24×80px) parked at the
+// rail's right edge; a ::before pseudo renders the actual 4×48px ember
+// pill so the visible affordance stays minimal. Hover grows the pill
+// vertically and brightens it.
+.rail__tab {
   position: absolute;
-  inset-block-start: 1rem;
-  inset-inline-end: 1rem;
-  z-index: 5;
+  inset-block-start: 50%;
+  inset-inline-end: 0;
+  transform: translateY(-50%);
+  z-index: 10;
   appearance: none;
   border: none;
   background: none;
-  color: var(--bone-dim);
-  width: 28px;
-  height: 28px;
   padding: 0;
+  width: 24px;
+  height: 80px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition:
-    color var(--transition-fast),
-    background-color var(--transition-fast);
-  &:hover {
-    color: var(--ember);
-    background: var(--ember-wash-3);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: 10px;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 48px;
+    border-radius: 2px;
+    background: var(--ember);
+    opacity: 0.4;
+    transition: opacity var(--transition-fast), height var(--transition-fast);
+  }
+  &:hover::before,
+  &:focus-visible::before {
+    opacity: 0.8;
+    height: 64px;
+  }
+  &:focus-visible {
+    outline: none;
   }
 }
-// Rail hide chevron points left (‹), detail hide chevron points right (›)
-.rail__hide { inset-inline-end: 0.75rem; }
-.detail__hide { inset-inline-end: 0.75rem; }
 
 // Mobile rail overrides
 @include mobile {
@@ -217,5 +231,7 @@
     padding: 6px 14px;
     font-size: 0.65rem;
   }
-  .panel-hide { display: none; }
+  // No rail collapse on mobile — the rail is a horizontal bottom bar
+  // without a collapsed state to toggle into.
+  .rail__tab { display: none; }
 }

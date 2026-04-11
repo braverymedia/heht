@@ -3,12 +3,10 @@
    Structural layout handled by .rail in _structure.scss.
    Visual styles in _components.scss (rail section). #}
 
-{# Collapse chevron (visible when rail is expanded) #}
-<button class="panel-hide rail__hide" id="rail-collapse-btn" aria-label="Collapse navigation">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
+{# Always-visible pull tab — single toggle for rail collapse/expand.
+   Absolute-positioned at the right edge of the rail. Hit area is wider
+   than the visible ember pill rendered via ::before. #}
+<button class="rail__tab" id="rail-tab" aria-expanded="true" aria-controls="rail-content" aria-label="Toggle navigation"></button>
 
 <a href="/" class="rail__brand" aria-label="Higher Ed Hot Takes — Home">
   {% include '../assets/svg/heht-logo.svg' %}
@@ -58,7 +56,7 @@
 <div class="rail__divider" aria-hidden="true"></div>
 
 <button type="button" class="rail__cta" data-action="show-newsletter" aria-label="Subscribe to newsletter">
-  {% include '../assets/svg/icon-heart-envelope.svg' %}
+  {% include '../assets/svg/icon-envelope-flame.svg' %}
   <span class="rail__cta-label">Get Updates</span>
 </button>
 

@@ -11,12 +11,9 @@ export function initPanelController() {
   const shell = document.getElementById('shell');
   if (!shell) return;
 
-  // Collapse buttons (one per panel, visible only when expanded)
-  const railCollapseBtn = document.getElementById('rail-collapse-btn');
-  const detailCollapseBtn = document.getElementById('detail-collapse-btn');
-
-  // Panels themselves — act as click-to-expand affordances when collapsed
-  const rail = document.querySelector('.rail');
+  // Pull-tab toggles (one per panel, always visible)
+  const railTab = document.getElementById('rail-tab');
+  const detailTab = document.getElementById('detail-tab');
 
   // Slide-in panels
   const episodeListPanel = document.getElementById('episode-list-panel');
@@ -46,43 +43,23 @@ export function initPanelController() {
     panel.setAttribute('aria-hidden', 'false');
   }
 
-  // ── Rail collapse ───────────────────────────────────────
-  if (railCollapseBtn) {
-    railCollapseBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      shell.classList.add('rail-collapsed');
+  // ── Rail tab ────────────────────────────────────────────
+  // Single always-visible toggle at the rail's right edge.
+  if (railTab) {
+    railTab.addEventListener('click', () => {
+      const isCollapsed = shell.classList.toggle('rail-collapsed');
+      railTab.setAttribute('aria-expanded', String(!isCollapsed));
     });
   }
 
-  // Click anywhere in the collapsed rail to expand — mirrors the detail
-  // panel pattern. Exempt links and buttons so the nav icons, subscribe
-  // icons, CTA, and brand link still trigger their own actions.
-  if (rail) {
-    rail.addEventListener('click', (e) => {
-      if (!shell.classList.contains('rail-collapsed')) return;
-      if (e.target.closest('a, button')) return;
-      shell.classList.remove('rail-collapsed');
-    });
-  }
-
-  // ── Detail collapse ──────────────────────────────────────
-  const detail = document.getElementById('main');
-
-  if (detailCollapseBtn) {
-    detailCollapseBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      shell.classList.add('detail-collapsed');
-      closeAllSlideIns();
-    });
-  }
-
-  // Click the collapsed detail strip (pull tab) to re-expand
-  if (detail) {
-    detail.addEventListener('click', (e) => {
-      if (shell.classList.contains('detail-collapsed')) {
-        e.stopPropagation();
-        shell.classList.remove('detail-collapsed');
+  // ── Detail tab ──────────────────────────────────────────
+  // Same pattern as rail tab; also clears open slide-ins on collapse.
+  if (detailTab) {
+    detailTab.addEventListener('click', () => {
+      const isCollapsed = shell.classList.toggle('detail-collapsed');
+      detailTab.setAttribute('aria-expanded', String(!isCollapsed));
+      if (isCollapsed) {
+        closeAllSlideIns();
       }
     });
   }
