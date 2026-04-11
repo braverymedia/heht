@@ -138,9 +138,12 @@ body {
 // Panel pull tabs — always-visible collapse/expand toggles for the
 // rail and detail panels. Each tab is a generous 24×80 hit area parked
 // at its panel's right edge, rendering a 4×48 ember pill via ::before.
+//
 // Rest state is a dim pill; hover and keyboard focus brighten the pill
-// and layer on the shared candle-glow — no size change, just a warm
-// flare around the pill.
+// to near-solid. NO outer glow: an outer box-shadow's blur radius
+// paints a halo the full width of the radius around a 4px-wide pill,
+// so any glow visually "widens" the pill. Opacity-only feedback keeps
+// the shape constant.
 .rail__tab,
 .detail__tab {
   position: absolute;
@@ -167,12 +170,11 @@ body {
     border-radius: 2px;
     background: var(--ember);
     opacity: 0.4;
-    transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
+    transition: opacity var(--transition-fast);
   }
   &:hover::before,
   &:focus-visible::before {
-    opacity: 0.85;
-    @include candle-glow;
+    opacity: 0.9;
   }
   &:focus-visible {
     outline: none;
