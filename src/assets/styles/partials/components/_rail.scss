@@ -9,7 +9,7 @@
   display: block;
   svg {
     display: block;
-    width: 82px;
+    width: var(--brand-w);
     height: auto;
 
     // #shadow — the 3D-extruded depth behind each letter face.
@@ -199,7 +199,6 @@
 @include mobile {
   .rail__brand {
     flex-shrink: 0;
-    svg { width: 64px; }
   }
   .rail__links {
     flex-direction: row;

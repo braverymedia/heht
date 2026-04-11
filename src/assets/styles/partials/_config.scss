@@ -67,7 +67,10 @@ $breakpoint-mobile: 768px;
 
   // ---------- Layout shell ----------
   --rail-w: 15%;
-  --rail-w-collapsed: 60px;
+  // Brand mark width — the logo's size defines the collapsed rail.
+  // Overridden on mobile (see bottom of file) to fit the nav bar height.
+  --brand-w: 48px;
+  --rail-w-collapsed: var(--brand-w);
   --detail-w: 35%;
   --mobile-nav-h: 56px;
 
@@ -80,4 +83,13 @@ $breakpoint-mobile: 768px;
   --type-xl:   clamp(1.836rem, 1.6281rem + 1.0393vw, 2.5635rem);  // 29.38/41.02px
   --type-2xl:  clamp(2.2032rem, 1.9172rem + 1.4302vw, 3.2043rem); // 35.25/51.27px
   --type-3xl:  clamp(2.6438rem, 2.2548rem + 1.9451vw, 4.0054rem); // 42.3/64.09px
+}
+
+// Mobile bottom-bar constraint: nav is 56px tall, and a 48px-wide logo
+// at the new 233×265 aspect renders ~55px tall — bumps the ceiling.
+// Drop --brand-w here so it fits comfortably.
+@include mobile {
+  :root {
+    --brand-w: 40px;
+  }
 }

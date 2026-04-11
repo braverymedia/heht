@@ -121,14 +121,14 @@ body {
   }
 }
 
-// Rail collapsed to icons: rail shrinks inside content column
+// Rail collapsed to icons: rail shrinks inside content column.
+// .rail__brand stays visible — its width drives --rail-w-collapsed.
 .shell.rail-collapsed .rail {
   width: var(--rail-w-collapsed);
   min-width: var(--rail-w-collapsed);
   padding: 1rem 0;
   align-items: center;
   gap: 1rem;
-  .rail__brand,
   .rail__links,
   .rail__divider,
   .rail__subscribe-label,
