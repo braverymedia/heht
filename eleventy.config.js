@@ -73,7 +73,9 @@ export default async function (eleventyConfig) {
 	        .map(l => {
 	          const match = l.trim().match(/^(\d{1,2}:\d{2})\s+(.+)/);
 	          if (match) {
-	            return `<li><time>${match[1]}</time><span>${match[2]}</span></li>`;
+	            const [mm, ss] = match[1].split(':').map(Number);
+	            const seconds = mm * 60 + ss;
+	            return `<li><button type="button" class="chapters__item" data-seek="${seconds}"><time datetime="PT${mm}M${ss}S">${match[1]}</time><span>${match[2]}</span></button></li>`;
 	          }
 	          return '';
 	        })

@@ -67,7 +67,7 @@
 .detail__latest {
   display: inline-block;
   font-size: 0.6rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.16em;
   color: var(--ink);
   background: var(--tube);
@@ -169,7 +169,7 @@
     font-family: var(--font-display);
     font-weight: 900;
     color: var(--ember);
-    margin-inline-end: 0.1em;
+    margin-inline-end: 0.5em;
     padding-inline-end: 0.05em;
     text-shadow:
       0 0 0.25em oklch(78.1% 0.13 58.9 / 0.5),
@@ -191,28 +191,59 @@
   margin: 2rem 0 0.75rem;
 }
 
-// Chapter list
+// Chapter list — each chapter is an interactive button that seeks
+// the active media player to its timestamp.
 .chapters {
   list-style: none;
   padding: 0;
   border-block-start: 1px solid var(--ember-wash-5);
   margin-block-end: 2rem;
   li {
-    display: flex;
-    gap: 1rem;
-    padding: 0.6rem 0;
     border-block-end: 1px solid var(--ember-wash-3);
-    font-size: 0.82rem;
   }
+}
+
+.chapters__item {
+  // Override the global button min-size/padding/focus rules from
+  // _a11y.scss — chapter items are text rows, not pill buttons.
+  appearance: none;
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-inline-size: 0;
+  min-block-size: 0;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: start;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+
   time {
     color: var(--ember);
     font-weight: 700;
     letter-spacing: 0.08em;
     min-width: 3.5rem;
     flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
   }
   span {
     color: var(--bone-dim);
+    transition: color var(--transition-fast);
+  }
+
+  &:hover span,
+  &:focus-visible span {
+    color: var(--bone);
+  }
+  &:focus-visible {
+    outline: 1px solid var(--ember);
+    outline-offset: 2px;
+    box-shadow: none;
   }
 }
 

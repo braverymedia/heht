@@ -110,10 +110,11 @@ export function initEpisodeNav() {
       updateOdometer(newEpisodeNumber);
 
       // ── Build the reel ──────────────────────────────────
-      await animateTransition(direction, newDetailHtml, newVideoHtml);
+      // swapContent happens *inside* animateTransition — between the
+      // animation finishing and the clones being removed — so the old
+      // content never flashes back into view in the cleanup frame.
+      await animateTransition(direction, newDetailHtml, newVideoHtml, targetUrl);
 
-      // Swap content and update state
-      swapContent(newDetailHtml, newVideoHtml, targetUrl);
       currentIndex = targetIndex;
       updateButtons();
 
@@ -149,7 +150,7 @@ export function initEpisodeNav() {
     if (window.initMediaController) window.initMediaController();
   }
 
-  async function animateTransition(direction, newDetailHtml, newVideoHtml) {
+  async function animateTransition(direction, newDetailHtml, newVideoHtml, targetUrl) {
     const dur = 700;
     const stagger = 120; // detail starts 120ms after video — slight offset, not waiting
     const exitY = direction > 0 ? '-100%' : '100%';
@@ -206,15 +207,30 @@ export function initEpisodeNav() {
     await videoCurrentAnim.finished;
     await detailCurrentAnim.finished;
 
-    // Clean up
-    videoClone.remove();
-    detailClone.remove();
+    // ── Cleanup order matters ─────────────────────────────
+    // Both originals are held off-screen by fill:forwards and both
+    // clones are held on-screen at translateY(0) showing the new
+    // content. If we cancel the originals' animations first, they
+    // snap back to transform:'' (their natural on-screen position)
+    // and briefly paint their *old* content for a frame before we
+    // swap it — that's the flicker.
+    //
+    // Instead: swap the originals' content to the new content while
+    // they're still transformed off-screen (invisible swap), then
+    // cancel the animations (originals return to natural position
+    // already showing the new content, exactly where the clones are
+    // still rendering), then remove the clones in the same frame.
+    swapContent(newDetailHtml, newVideoHtml, targetUrl);
+
     videoSlide.getAnimations().forEach(a => a.cancel());
     detailContent.getAnimations().forEach(a => a.cancel());
     videoSlide.style.transform = '';
     detailContent.style.position = '';
     detailContent.style.inset = '';
     detailContent.style.transform = '';
+
+    videoClone.remove();
+    detailClone.remove();
   }
 
   // ── Event listeners ─────────────────────────────────────

@@ -21,8 +21,41 @@ const STORAGE_KEY = 'heht-media-position';
 const RING_CIRCUMFERENCE = 2 * Math.PI * 54; // r=54 in the SVG
 
 let activeController = null;
+let chaptersDelegationBound = false;
+
+// Global click delegation for chapter seek buttons. Bound once on first
+// init and never re-bound — chapter markup is re-rendered on every
+// episode nav, but since we delegate from the document, new buttons
+// work immediately without re-binding.
+function bindChaptersDelegation() {
+  if (chaptersDelegationBound) return;
+  chaptersDelegationBound = true;
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.chapters__item[data-seek]');
+    if (!btn) return;
+    if (!activeController) return;
+    const seconds = parseFloat(btn.dataset.seek);
+    if (!Number.isFinite(seconds)) return;
+
+    // Video episodes don't create the <video> element until the facade
+    // is clicked. Stash the target time as the resume position and
+    // activate the video — the loadedmetadata handler will honor it.
+    if (activeController.mediaType === 'video' && !activeController.el) {
+      activeController._resumePosition = seconds;
+      activeController._activateVideo();
+      return;
+    }
+    if (!activeController.el) return;
+
+    activeController.seek(seconds);
+    // Chapter click is a strong play intent — start playback if paused.
+    if (activeController.el.paused) activeController.play();
+  });
+}
 
 export function initMediaController() {
+  bindChaptersDelegation();
   // Clean up previous controller
   if (activeController) {
     activeController.destroy();

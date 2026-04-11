@@ -536,6 +536,9 @@ body {
 .shell--media.rail-collapsed.detail-collapsed {
   grid-template-columns: auto 1fr;
 }
+.shell--media.rail-collapsed.detail-collapsed .content-column {
+  width: calc(var(--rail-w-collapsed) + 24px);
+}
 
 .rail {
   display: flex;
@@ -589,6 +592,7 @@ body {
 }
 
 .detail__content {
+  width: calc(50vw - clamp(160px, 15vw, 220px));
   height: 100%;
   overflow-y: auto;
   padding: 2.5rem 2rem;
@@ -636,6 +640,7 @@ body {
     width: auto;
   }
   .detail__content {
+    width: auto;
     padding: 1.5rem 1rem;
   }
   .page-content {
@@ -951,7 +956,7 @@ body {
 .detail__latest {
   display: inline-block;
   font-size: 0.6rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.16em;
   color: var(--ink);
   background: var(--tube);
@@ -1070,7 +1075,7 @@ body {
   font-family: var(--font-display);
   font-weight: 900;
   color: var(--ember);
-  margin-inline-end: 0.1em;
+  margin-inline-end: 0.5em;
   padding-inline-end: 0.05em;
   text-shadow: 0 0 0.25em rgba(245, 162, 93, 0.5), 0 0 0.6em var(--glow-warm-heading);
 }
@@ -1094,21 +1099,47 @@ body {
   margin-block-end: 2rem;
 }
 .chapters li {
+  border-block-end: 1px solid var(--ember-wash-3);
+}
+
+.chapters__item {
+  appearance: none;
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-inline-size: 0;
+  min-block-size: 0;
+  width: 100%;
   display: flex;
   gap: 1rem;
   padding: 0.6rem 0;
-  border-block-end: 1px solid var(--ember-wash-3);
+  font: inherit;
   font-size: 0.82rem;
+  text-align: start;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--transition-fast);
 }
-.chapters time {
+.chapters__item time {
   color: var(--ember);
   font-weight: 700;
   letter-spacing: 0.08em;
   min-width: 3.5rem;
   flex-shrink: 0;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
-.chapters span {
+.chapters__item span {
   color: var(--bone-dim);
+  transition: color var(--transition-fast);
+}
+.chapters__item:hover span, .chapters__item:focus-visible span {
+  color: var(--bone);
+}
+.chapters__item:focus-visible {
+  outline: 1px solid var(--ember);
+  outline-offset: 2px;
+  box-shadow: none;
 }
 
 @media (prefers-contrast: more) {

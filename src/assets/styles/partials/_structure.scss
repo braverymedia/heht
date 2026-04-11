@@ -215,9 +215,16 @@ body {
   height: auto;
 }
 
-// Both collapsed: just icon rail + video
+// Both collapsed: just icon rail + video. The base .detail-collapsed
+// rule sizes content-column off the expanded rail clamp, which leaves
+// a dead flame-gradient gap when the rail is also collapsed. Re-anchor
+// the content-column width to the collapsed rail so the icon rail and
+// the 24px detail strip sit flush against each other.
 .shell--media.rail-collapsed.detail-collapsed {
   grid-template-columns: auto 1fr;
+  .content-column {
+    width: calc(var(--rail-w-collapsed) + 24px);
+  }
 }
 
 // --------------------------------------------------------------------------
@@ -302,6 +309,16 @@ body {
 }
 
 .detail__content {
+  // Lock to the expanded detail width so the text never reflows while
+  // .detail animates between the collapsed 24px strip and its expanded
+  // size. Using explicit `width` (not min-width) means the content
+  // dimension is decoupled from the parent entirely — .detail can be
+  // 24px or 45vw and the line length never changes. .detail has
+  // overflow: hidden so the content is clipped cleanly during the
+  // transition. Trade-off: if the rail also collapses, .detail gains
+  // ~100px of trailing slack that shows the panel background, but no
+  // re-wrapping happens anywhere during the animation.
+  width: calc(50vw - clamp(160px, 15vw, 220px));
   height: 100%;
   overflow-y: auto;
   padding: 2.5rem 2rem;
@@ -362,6 +379,9 @@ body {
     width: auto;
   }
   .detail__content {
+    // Drop the desktop fixed-width anchor — mobile is a vertical stack
+    // with no horizontal collapse animation to protect against.
+    width: auto;
     padding: 1.5rem 1rem;
   }
 
