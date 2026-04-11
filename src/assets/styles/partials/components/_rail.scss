@@ -1,0 +1,215 @@
+@use '../shared' as *;
+
+// ==========================================================================
+// Nav Rail (visual styles — structural layout in _structure.scss)
+// ==========================================================================
+.rail__brand {
+  color: var(--bone);
+  text-decoration: none;
+  display: block;
+  svg {
+    display: block;
+    width: 82px;
+    height: auto;
+    fill: currentColor;
+  }
+}
+
+.rail__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  list-style: none;
+  a {
+    color: var(--bone-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color var(--transition-fast);
+    display: block;
+    padding: 0.5rem 0;
+    &:hover,
+    &[aria-current] {
+      color: var(--ember);
+    }
+  }
+}
+
+.rail__divider {
+  height: 1px;
+  background: var(--ember-wash-5);
+}
+
+.rail__subscribe-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin-block-end: 0.5rem;
+}
+
+.rail__subscribe {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--ember-wash-7);
+    color: var(--bone-dim);
+    text-decoration: none;
+    transition:
+      color var(--transition-fast),
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+    &:hover {
+      color: var(--ember);
+      border-color: var(--ember);
+      @include candle-glow;
+    }
+  }
+}
+
+.rail__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 10px 16px;
+  border: 1px solid var(--ember);
+  border-radius: 999px;
+  color: var(--ember);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  margin-block-start: auto;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-display);
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  &:hover {
+    background: var(--ember);
+    color: var(--ink);
+    @include candle-glow;
+  }
+}
+
+// Panel hide buttons — top-right of each panel
+.panel-hide {
+  position: absolute;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+  z-index: 5;
+  appearance: none;
+  border: none;
+  background: none;
+  color: var(--bone-dim);
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  &:hover {
+    color: var(--ember);
+    background: var(--ember-wash-3);
+  }
+}
+// Rail hide chevron points left (‹), detail hide chevron points right (›)
+.rail__hide { inset-inline-end: 0.75rem; }
+.detail__hide { inset-inline-end: 0.75rem; }
+
+// Rail expand button — visible only when collapsed
+.rail__expand {
+  appearance: none;
+  border: none;
+  background: none;
+  color: var(--bone-dim);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  &:hover {
+    color: var(--ember);
+    background: var(--ember-wash-3);
+  }
+}
+.shell.rail-collapsed .rail__expand {
+  display: flex;
+}
+
+// Mobile rail overrides
+@include mobile {
+  .rail__brand {
+    flex-shrink: 0;
+    svg { width: 64px; }
+  }
+  .rail__links {
+    flex-direction: row;
+    gap: 1rem;
+    flex-shrink: 0;
+    a { font-size: 0.75rem; }
+  }
+  .rail__divider {
+    width: 1px;
+    height: 24px;
+    flex-shrink: 0;
+    background: var(--ember-wash-6);
+  }
+  .rail__subscribe-label { display: none; }
+  .rail__subscribe-group { flex-shrink: 0; }
+  .rail__subscribe {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    a {
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+  .rail__cta {
+    flex-shrink: 0;
+    margin-block-start: 0;
+    padding: 6px 14px;
+    font-size: 0.65rem;
+  }
+  .panel-hide { display: none; }
+}

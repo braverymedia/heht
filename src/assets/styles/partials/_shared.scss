@@ -1,0 +1,16 @@
+// _shared.scss
+// --------------------------------------------------------------------------
+// Convenience re-export for component partials.
+//
+// Component partials under components/ consume Sass members (mixins,
+// breakpoint vars) from _config.scss and _effects.scss. Instead of
+// every partial writing `@use '../config' as *; @use '../effects' as *;`
+// they can just `@use '../shared' as *;` and get both.
+//
+// This file emits no CSS of its own — it only re-exports. The :root
+// declarations in _config.scss and the mixins in _effects.scss are
+// still only emitted once (from main.scss's direct @use).
+// --------------------------------------------------------------------------
+
+@forward 'config';
+@forward 'effects';
