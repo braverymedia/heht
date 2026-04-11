@@ -148,49 +148,9 @@
   }
 }
 
-// Rail pull tab — single always-visible toggle for collapse/expand.
-// Sibling pattern in _structure.scss for .detail__tab.
-//
-// The <button> itself is a generous hit area (24×80px) parked at the
-// rail's right edge; a ::before pseudo renders the actual 4×48px ember
-// pill so the visible affordance stays minimal. Hover grows the pill
-// vertically and brightens it.
-.rail__tab {
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-end: 0;
-  transform: translateY(-50%);
-  z-index: 10;
-  appearance: none;
-  border: none;
-  background: none;
-  padding: 0;
-  width: 24px;
-  height: 80px;
-  cursor: pointer;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset-block-start: 50%;
-    inset-inline-end: 10px;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 48px;
-    border-radius: 2px;
-    background: var(--ember);
-    opacity: 0.4;
-    transition: opacity var(--transition-fast), height var(--transition-fast);
-  }
-  &:hover::before,
-  &:focus-visible::before {
-    opacity: 0.8;
-    height: 64px;
-  }
-  &:focus-visible {
-    outline: none;
-  }
-}
+// .rail__tab shared with .detail__tab in _structure.scss — both are
+// always-visible collapse/expand toggles using the same pill + glow
+// treatment.
 
 // Mobile rail overrides
 @include mobile {

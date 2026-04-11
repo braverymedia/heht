@@ -135,11 +135,13 @@ body {
   }
 }
 
-// Detail pull tab — sibling pattern of .rail__tab. Always visible
-// regardless of detail-collapsed state. Parks at the right edge of
-// the detail panel (which is the boundary with the video panel).
-// When collapsed, the 24px strip is effectively all tab: the button
-// hit area spans the full strip width.
+// Panel pull tabs — always-visible collapse/expand toggles for the
+// rail and detail panels. Each tab is a generous 24×80 hit area parked
+// at its panel's right edge, rendering a 4×48 ember pill via ::before.
+// Rest state is a dim pill; hover and keyboard focus brighten the pill
+// and layer on the shared candle-glow — no size change, just a warm
+// flare around the pill.
+.rail__tab,
 .detail__tab {
   position: absolute;
   inset-block-start: 50%;
@@ -165,12 +167,12 @@ body {
     border-radius: 2px;
     background: var(--ember);
     opacity: 0.4;
-    transition: opacity var(--transition-fast), height var(--transition-fast);
+    transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
   }
   &:hover::before,
   &:focus-visible::before {
-    opacity: 0.8;
-    height: 64px;
+    opacity: 0.85;
+    @include candle-glow;
   }
   &:focus-visible {
     outline: none;
