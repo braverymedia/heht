@@ -55,19 +55,19 @@ body {
   background:
     radial-gradient(
       160.86% 142.28% at 50% 143.33%,
-      rgba(11, 12, 16, 0) 35.1%,
+      transparent 35.1%,
       var(--ink) 100%
     ),
     radial-gradient(
       24.44% 70.72% at 50% 120.72%,
-      rgba(245, 162, 93, var(--flame-alpha)) 46.15%,
-      rgba(245, 162, 93, 0) 100%
+      oklch(78.1% 0.13 58.9 / var(--flame-alpha)) 46.15%,
+      transparent 100%
     ),
     var(--ink);
 
   // Shadow casting over the video panel (the whole stack's edge)
   box-shadow:
-    8px 0 30px -6px rgba(0, 0, 0, 0.55),
+    8px 0 30px -6px oklch(0% 0 0 / 0.55),
     2px 0 0 var(--ember-wash-1);
   z-index: 1;
 }
@@ -187,13 +187,13 @@ body {
   z-index: 2;
 
   // Gritty glass — translucent ink, lets the flame gradient bleed through
-  background: rgba(11, 12, 16, 0.82);
+  background: oklch(15.5% 0.009 274.3 / 0.82);
   backdrop-filter: blur(6px) saturate(0.85);
   border-inline-end: 1px solid var(--ember-wash-4);
 
   // Shadow casting over the detail panel (record sleeve depth)
   box-shadow:
-    6px 0 20px -4px rgba(0, 0, 0, 0.5),
+    6px 0 20px -4px oklch(0% 0 0 / 0.5),
     1px 0 0 var(--ember-wash-2);
 
   // Grain texture on the rail itself (xerox / sleeve feel)
@@ -241,7 +241,7 @@ body {
     min-width 0.4s var(--easing-smooth);
 
   // Inner shadow on left edge — the rail's "weight" pressing down
-  box-shadow: inset 4px 0 12px -4px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 4px 0 12px -4px oklch(0% 0 0 / 0.3);
 }
 
 .detail__content {

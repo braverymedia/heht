@@ -21,8 +21,8 @@
 .skip-link {
   position: absolute;
   inset-inline-start: -999px;
-  background: #fff;
-  color:#000;
+  background: oklch(100% 0 0);
+  color: oklch(0% 0 0);
 }
 
 .skip-link:focus {
@@ -185,8 +185,8 @@ a {
 @media print {
   // Ensure proper contrast in print
   * {
-    color: #000 !important;
-    background: #fff !important;
+    color: oklch(0% 0 0) !important;
+    background: oklch(100% 0 0) !important;
   }
 
   // Hide non-essential elements

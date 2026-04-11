@@ -28,11 +28,11 @@
 
   // Glow color stops — derived from --ember and --tube so a palette shift
   // only requires changing _config.scss.
-  --glow-warm-core:     rgba(245, 162, 93, 0.35);
-  --glow-warm-halo:     rgba(245, 162, 93, 0.15);
-  --glow-warm-heading:  rgba(245, 162, 93, 0.25);
-  --glow-cool-core:     rgba(127, 217, 196, 0.30);
-  --glow-cool-halo:     rgba(127, 217, 196, 0.12);
+  --glow-warm-core:     oklch(78.1% 0.13 58.9 / 0.35);
+  --glow-warm-halo:     oklch(78.1% 0.13 58.9 / 0.15);
+  --glow-warm-heading:  oklch(78.1% 0.13 58.9 / 0.25);
+  --glow-cool-core:     oklch(82.3% 0.092 177.2 / 0.30);
+  --glow-cool-halo:     oklch(82.3% 0.092 177.2 / 0.12);
 }
 
 // --------------------------------------------------------------------------
