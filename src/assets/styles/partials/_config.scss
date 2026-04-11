@@ -29,6 +29,11 @@
   --success: #10b981;
   --error:   #ef4444;
 
+  // ---------- Motion ----------
+  // Shared easing — Material "standard" curve, used across panel collapse,
+  // odometer strip, slide-panel transitions.
+  --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
   // ---------- Fonts ----------
   // Body face: Plus Jakarta Sans (via fonts.bunny.net).
   // Display face: Method — used on headings, buttons, odometer, eyebrows,
