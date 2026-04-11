@@ -48,7 +48,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--bone-dim);
-  margin-bottom: 0.5rem;
+  margin-block-end: 0.5rem;
 }
 
 .rail__subscribe {
@@ -93,7 +93,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   transition: all 0.15s ease;
-  margin-top: auto;
+  margin-block-start: auto;
   background: transparent;
   cursor: pointer;
   font-family: var(--font-display);
@@ -112,8 +112,8 @@
 // Panel hide buttons — top-right of each panel
 .panel-hide {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
   z-index: 5;
   appearance: none;
   border: none;
@@ -134,8 +134,8 @@
   }
 }
 // Rail hide chevron points left (‹), detail hide chevron points right (›)
-.rail__hide { right: 0.75rem; }
-.detail__hide { right: 0.75rem; }
+.rail__hide { inset-inline-end: 0.75rem; }
+.detail__hide { inset-inline-end: 0.75rem; }
 
 // Rail expand button — visible only when collapsed
 .rail__expand {
@@ -197,7 +197,7 @@
   }
   .rail__cta {
     flex-shrink: 0;
-    margin-top: 0;
+    margin-block-start: 0;
     padding: 6px 14px;
     font-size: 0.65rem;
   }
@@ -211,8 +211,8 @@
 // anchored to the detail panel (not the scrolling content)
 .episode-odometer {
   position: absolute;
-  top: -0.15em;
-  right: -0.1em;
+  inset-block-start: -0.15em;
+  inset-inline-end: -0.1em;
   font-family: var(--font-display);
   font-weight: 900;
   font-size: clamp(8rem, 18vw, 15rem);
@@ -249,7 +249,7 @@
 @media (width < 768px) {
   .episode-odometer {
     font-size: clamp(6rem, 32vw, 11rem);
-    right: -0.05em;
+    inset-inline-end: -0.05em;
   }
 }
 
@@ -264,7 +264,7 @@
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--ember);
-  margin-bottom: 0.5rem;
+  margin-block-end: 0.5rem;
   @include heading-glow;
 }
 
@@ -277,7 +277,7 @@
   background: var(--tube);
   padding: 2px 8px;
   border-radius: 3px;
-  margin-right: 0.5em;
+  margin-inline-end: 0.5em;
   vertical-align: 1px;
   text-shadow: none;
 }
@@ -304,10 +304,10 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--bone-dim);
-  margin-bottom: 1.5rem;
+  margin-block-end: 1.5rem;
   span + span::before {
     content: "·";
-    margin-right: 1rem;
+    margin-inline-end: 1rem;
     color: var(--ember);
   }
 }
@@ -316,7 +316,7 @@
   font-size: 0.9rem;
   line-height: 1.55;
   color: var(--bone-dim);
-  margin-bottom: 2rem;
+  margin-block-end: 2rem;
 }
 
 .detail__body {
@@ -343,8 +343,8 @@
   p { margin: 0 0 1em; }
   a { color: var(--tube); text-underline-offset: 3px; }
   a:hover { color: var(--ember); }
-  ol, ul { padding-left: 1.25rem; }
-  li { margin-bottom: 0.5rem; }
+  ol, ul { padding-inline-start: 1.25rem; }
+  li { margin-block-end: 0.5rem; }
 
   // Ragged divider above h2 section breaks (Transcript, etc.).
   // First h2 doesn't get one — the detail header is right above it.
@@ -355,7 +355,7 @@
       display: block;
       height: 12px;
       width: 100%;
-      margin-bottom: 1.5rem;
+      margin-block-end: 1.5rem;
       color: var(--ember);
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 12' preserveAspectRatio='none'><path d='M0,6 L8,4 L16,7 L24,3 L34,8 L42,2 L52,7 L60,4 L70,9 L80,3 L92,6 L102,2 L112,8 L122,4 L134,7 L144,3 L156,6 L166,2 L178,7 L188,4 L200,8 L212,3 L222,7 L234,2 L244,6 L256,4 L266,8 L278,3 L288,7 L300,2 L312,6 L322,4 L334,8 L344,3 L356,7 L368,2 L380,6 L390,4 L400,7' fill='none' stroke='%23F5A25D' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round' opacity='0.5'/></svg>");
       background-size: 100% 100%;
@@ -373,8 +373,8 @@
     font-family: var(--font-display);
     font-weight: 900;
     color: var(--ember);
-    margin-right: 0.1em;
-    padding-right: 0.05em;
+    margin-inline-end: 0.1em;
+    padding-inline-end: 0.05em;
     text-shadow:
       0 0 0.25em rgba(245, 162, 93, 0.5),
       0 0 0.6em rgba(245, 162, 93, 0.25);
@@ -399,13 +399,13 @@
 .chapters {
   list-style: none;
   padding: 0;
-  border-top: 1px solid var(--ember-wash-5);
-  margin-bottom: 2rem;
+  border-block-start: 1px solid var(--ember-wash-5);
+  margin-block-end: 2rem;
   li {
     display: flex;
     gap: 1rem;
     padding: 0.6rem 0;
-    border-bottom: 1px solid var(--ember-wash-3);
+    border-block-end: 1px solid var(--ember-wash-3);
     font-size: 0.82rem;
   }
   time {
@@ -448,7 +448,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-block-end: 2rem;
 }
 
 .slide-panel__back,
@@ -485,7 +485,7 @@
   font-size: 0.88rem;
   line-height: 1.55;
   color: var(--bone-dim);
-  margin-bottom: 1.5rem;
+  margin-block-end: 1.5rem;
 }
 
 .episode-list-panel__list {
@@ -499,7 +499,7 @@
   align-items: baseline;
   gap: 1rem;
   padding: 0.75rem 0;
-  border-bottom: 1px solid var(--ember-wash-3);
+  border-block-end: 1px solid var(--ember-wash-3);
   text-decoration: none;
   color: var(--bone);
   transition: color 0.15s ease;
@@ -599,7 +599,7 @@ button,
         font-size: var(--type-sm)
     }
     .form-messages {
-        margin-bottom: 1rem;
+        margin-block-end: 1rem;
         .form-success,
         .form-error {
             padding: 1rem;
@@ -674,8 +674,8 @@ button[type="submit"] {
 .media-facade__play {
   // Override global button reset completely
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
   width: clamp(140px, 18vw, 200px);
@@ -752,7 +752,7 @@ button[type="submit"] {
 
 .media-facade__icon--play {
   // Optically center the play triangle (shift right slightly)
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 .media-facade__icon--pause {
@@ -799,8 +799,8 @@ button[type="submit"] {
 // Episode prev/next nav arrows
 .ep-nav {
   position: absolute;
-  bottom: 2rem;
-  right: 2rem;
+  inset-block-end: 2rem;
+  inset-inline-end: 2rem;
   z-index: 5;
   display: flex;
   gap: 0.5rem;
@@ -832,15 +832,15 @@ button[type="submit"] {
 }
 @media (width < 768px) {
   .ep-nav {
-    bottom: 0.75rem;
-    right: 0.75rem;
+    inset-block-end: 0.75rem;
+    inset-inline-end: 0.75rem;
   }
 }
 
 .honeypot {
   position: absolute;
-  left: -9999px;
-  top: -9999px;
+  inset-inline-start: -9999px;
+  inset-block-start: -9999px;
   height: 0;
   width: 0;
   overflow: hidden;

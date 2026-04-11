@@ -104,8 +104,8 @@ body {
     &::before {
       content: "";
       position: absolute;
-      top: 50%;
-      left: 50%;
+      inset-block-start: 50%;
+      inset-inline-start: 50%;
       transform: translate(-50%, -50%);
       width: 4px;
       height: 48px;
@@ -191,7 +191,7 @@ body {
   background: rgba(11, 12, 16, 0.82);
   backdrop-filter: blur(6px) saturate(0.85);
   -webkit-backdrop-filter: blur(6px) saturate(0.85);
-  border-right: 1px solid var(--ember-wash-4);
+  border-inline-end: 1px solid var(--ember-wash-4);
 
   // Shadow casting over the detail panel (record sleeve depth)
   box-shadow:
@@ -294,7 +294,7 @@ body {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto 1fr;
     height: 100dvh;
-    padding-bottom: var(--mobile-nav-h);
+    padding-block-end: var(--mobile-nav-h);
   }
 
   .content-column {
@@ -311,7 +311,7 @@ body {
 
   // Detail: scrollable
   .detail {
-    border-right: none;
+    border-inline-end: none;
     width: auto;
   }
   .detail__content {
@@ -325,9 +325,8 @@ body {
   // Nav: fixed bottom bar
   .rail {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset-block-end: 0;
+    inset-inline: 0;
     z-index: 20;
     height: var(--mobile-nav-h);
     width: auto;
@@ -335,8 +334,8 @@ body {
     align-items: center;
     padding: 0 1rem;
     gap: 1.25rem;
-    border-right: none;
-    border-top: 1px solid var(--ember-wash-6);
+    border-inline-end: none;
+    border-block-start: 1px solid var(--ember-wash-6);
     background: var(--ink);
     overflow-x: auto;
     overflow-y: hidden;
