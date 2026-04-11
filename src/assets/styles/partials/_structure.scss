@@ -121,38 +121,37 @@ body {
   }
 }
 
-// Rail collapsed to icons: rail shrinks inside content column.
-// .rail__brand stays visible — its width drives --rail-w-collapsed.
-// Padding is inherited from base .rail so the edge spacing matches the
-// open state (--rail-w-collapsed already includes --rail-pad-x × 2).
+// Rail collapsed to icons: narrow the width, hide text labels, and let
+// every other layout property (padding, gap, flex flow) inherit from
+// the base .rail so sections keep their vertical positions and spacing.
+// align-items: center so each child sits at its natural width in the
+// middle of the narrow rail instead of stretching to fill it.
 .shell.rail-collapsed .rail {
   width: var(--rail-w-collapsed);
   min-width: var(--rail-w-collapsed);
   align-items: center;
-  gap: 1rem;
-  .rail__links,
-  .rail__divider,
+
+  // Hide every text affordance — only glyphs and the logo remain.
+  .rail__links a span,
   .rail__subscribe-label,
+  .rail__cta .rail__cta-label,
   .panel-hide {
     display: none;
   }
-  .rail__subscribe-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+  // Each nav link collapses to a centered icon in the narrow column.
+  .rail__links a {
+    justify-content: center;
   }
-  .rail__subscribe {
-    flex-direction: column;
-    gap: 0.5rem;
-    flex-wrap: nowrap;
-  }
+
+  // CTA shrinks to an icon-only circular button to fit the narrow rail,
+  // with a bottom margin reserving space for the absolute .rail__expand.
   .rail__cta {
     width: 36px;
     height: 36px;
     padding: 0;
     border-radius: 50%;
-    overflow: hidden;
-    .rail__cta-label { display: none; }
+    margin-block-end: 3rem;
     svg {
       width: 18px;
       height: 18px;

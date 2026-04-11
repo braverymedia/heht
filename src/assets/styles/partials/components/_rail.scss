@@ -178,14 +178,22 @@
 .rail__hide { inset-inline-end: 0.75rem; }
 .detail__hide { inset-inline-end: 0.75rem; }
 
-// Rail expand button — visible only when collapsed
+// Rail expand button — visible only when collapsed.
+// Absolute-positioned at the bottom of the rail so it never enters flex
+// flow; if it were a regular child, toggling display would shift the
+// brand logo down when the rail collapses.
 .rail__expand {
+  position: absolute;
+  inset-block-end: 1rem;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
   appearance: none;
   border: none;
   background: none;
   color: var(--bone-dim);
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   cursor: pointer;
   display: none;
