@@ -6,8 +6,13 @@ module.exports = {
     'postcss-preset-env': {
       stage: 1,
       features: {
-        'nesting-rules': true,
-        'custom-properties': true,
+        // Sass already emits flat CSS, native-nesting rewrite is a no-op.
+        'nesting-rules': false,
+        // Our browserslist (Chrome 111+, Safari 16.4+, Firefox 113+) has
+        // had native var() support for years. Disabling this stops the
+        // plugin from emitting a resolved fallback before every var()
+        // reference — which was the single biggest source of bloat.
+        'custom-properties': false,
       }
     },
     ...(isProduction && {
