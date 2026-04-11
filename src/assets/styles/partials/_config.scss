@@ -1,3 +1,14 @@
+// ---------- Breakpoints ----------
+// Sass-level (CSS custom properties can't be used inside @media queries).
+// Single source of truth — update here to retune the mobile cutoff.
+$breakpoint-mobile: 768px;
+
+@mixin mobile {
+  @media (width < #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
 :root {
   // ---------- Candle-glow palette ----------
   // Moving away from neon/UV toward dim-room / warm-filament / dim-CRT.

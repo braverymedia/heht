@@ -1,3 +1,4 @@
+@use 'config' as *;
 @use 'effects' as *;
 
 // ==========================================================================
@@ -162,7 +163,7 @@
 }
 
 // Mobile rail overrides
-@media (width < 768px) {
+@include mobile {
   .rail__brand {
     flex-shrink: 0;
     svg { width: 64px; }
@@ -246,7 +247,7 @@
   }
 }
 
-@media (width < 768px) {
+@include mobile {
   .episode-odometer {
     font-size: clamp(6rem, 32vw, 11rem);
     inset-inline-end: -0.05em;
@@ -809,7 +810,7 @@ button[type="submit"] {
     }
   }
 }
-@media (width < 768px) {
+@include mobile {
   .ep-nav {
     inset-block-end: 0.75rem;
     inset-inline-end: 0.75rem;
