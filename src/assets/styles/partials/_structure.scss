@@ -123,10 +123,11 @@ body {
 
 // Rail collapsed to icons: rail shrinks inside content column.
 // .rail__brand stays visible — its width drives --rail-w-collapsed.
+// Padding is inherited from base .rail so the edge spacing matches the
+// open state (--rail-w-collapsed already includes --rail-pad-x × 2).
 .shell.rail-collapsed .rail {
   width: var(--rail-w-collapsed);
   min-width: var(--rail-w-collapsed);
-  padding: 1rem 0;
   align-items: center;
   gap: 1rem;
   .rail__links,
@@ -176,7 +177,7 @@ body {
 .rail {
   display: flex;
   flex-direction: column;
-  padding: 2rem 1.5rem;
+  padding: 2rem var(--rail-pad-x);
   gap: 2rem;
   overflow-y: auto;
   overflow-x: hidden;

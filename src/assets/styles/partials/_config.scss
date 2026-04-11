@@ -70,7 +70,10 @@ $breakpoint-mobile: 768px;
   // Brand mark width — the logo's size defines the collapsed rail.
   // Overridden on mobile (see bottom of file) to fit the nav bar height.
   --brand-w: 48px;
-  --rail-w-collapsed: var(--brand-w);
+  // Horizontal padding inside the rail. Also factored into the collapsed
+  // rail width so the padding stays the same as in the open state.
+  --rail-pad-x: 1.5rem;
+  --rail-w-collapsed: calc(var(--brand-w) + var(--rail-pad-x) * 2);
   --detail-w: 35%;
   --mobile-nav-h: 56px;
 
