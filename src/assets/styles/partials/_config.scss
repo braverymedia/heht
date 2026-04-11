@@ -12,6 +12,23 @@
   --tube:       #7FD9C4; // secondary accent, dim CRT
   --bloodwash:  #B23A48; // rare emphasis, large text / non-text only
 
+  // ---------- Ember tint scale ----------
+  // Warm ember at opacity steps for surface fills and borders. For glow
+  // shadows see --glow-warm-* in _effects.scss (they reuse the same base).
+  --ember-wash-1: rgba(245, 162, 93, 0.04);
+  --ember-wash-2: rgba(245, 162, 93, 0.06);
+  --ember-wash-3: rgba(245, 162, 93, 0.08);
+  --ember-wash-4: rgba(245, 162, 93, 0.10);
+  --ember-wash-5: rgba(245, 162, 93, 0.12);
+  --ember-wash-6: rgba(245, 162, 93, 0.15);
+  --ember-wash-7: rgba(245, 162, 93, 0.20);
+  --ember-wash-8: rgba(245, 162, 93, 0.25);
+  --ember-wash-9: rgba(245, 162, 93, 0.30);
+
+  // ---------- Form state ----------
+  --success: #10b981;
+  --error:   #ef4444;
+
   // ---------- Fonts ----------
   // Body face: Plus Jakarta Sans (via fonts.bunny.net).
   // Display face: Method — used on headings, buttons, odometer, eyebrows,

@@ -145,7 +145,7 @@ button:focus {
 
 // Ensure keyboard navigation is visible
 nav a:focus {
-  background-color: rgba(245, 162, 93, 0.12);
+  background-color: var(--ember-wash-5);
 }
 
 // Interactive Elements

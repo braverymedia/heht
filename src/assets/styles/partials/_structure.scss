@@ -69,7 +69,7 @@ body {
   // Shadow casting over the video panel (the whole stack's edge)
   box-shadow:
     8px 0 30px -6px rgba(0, 0, 0, 0.55),
-    2px 0 0 rgba(245, 162, 93, 0.04);
+    2px 0 0 var(--ember-wash-1);
   z-index: 1;
 }
 
@@ -191,12 +191,12 @@ body {
   background: rgba(11, 12, 16, 0.82);
   backdrop-filter: blur(6px) saturate(0.85);
   -webkit-backdrop-filter: blur(6px) saturate(0.85);
-  border-right: 1px solid rgba(245, 162, 93, 0.1);
+  border-right: 1px solid var(--ember-wash-4);
 
   // Shadow casting over the detail panel (record sleeve depth)
   box-shadow:
     6px 0 20px -4px rgba(0, 0, 0, 0.5),
-    1px 0 0 rgba(245, 162, 93, 0.06);
+    1px 0 0 var(--ember-wash-2);
 
   // Grain texture on the rail itself (xerox / sleeve feel)
   &::after {
@@ -336,7 +336,7 @@ body {
     padding: 0 1rem;
     gap: 1.25rem;
     border-right: none;
-    border-top: 1px solid rgba(245, 162, 93, 0.15);
+    border-top: 1px solid var(--ember-wash-6);
     background: var(--ink);
     overflow-x: auto;
     overflow-y: hidden;
@@ -362,7 +362,7 @@ body {
 @media (prefers-reduced-transparency: reduce) {
   .content-column {
     background: var(--ink);
-    box-shadow: 1px 0 0 rgba(245, 162, 93, 0.15);
+    box-shadow: 1px 0 0 var(--ember-wash-6);
   }
 }
 @media (prefers-contrast: more) {
