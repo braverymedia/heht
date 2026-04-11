@@ -117,21 +117,36 @@ body {
     display: none;
   }
 
+  // Stretch full-row children to the rail's content box so their own
+  // inner centering has something to center against. Without this,
+  // align-items: center shrinks each item to max-content (a 20px icon,
+  // a 0-wide divider) and centering becomes meaningless.
+  .rail__links,
+  .rail__subscribe-group,
+  .rail__divider {
+    align-self: stretch;
+  }
+
   // Each nav link collapses to a centered icon in the narrow column.
   .rail__links a {
     justify-content: center;
   }
 
+  // Subscribe circles stack vertically (flex-wrap already wraps them)
+  // and center on the rail axis.
+  .rail__subscribe {
+    justify-content: center;
+  }
+
   // CTA shrinks to an icon-only circular button to fit the narrow rail.
+  // SVG size is inherited from the base .rail__cta rule so collapsed and
+  // expanded states share identical glyph sizing — only the container shape
+  // changes.
   .rail__cta {
     width: 36px;
     height: 36px;
     padding: 0;
     border-radius: 50%;
-    svg {
-      width: 18px;
-      height: 18px;
-    }
   }
 }
 
@@ -154,6 +169,10 @@ body {
   appearance: none;
   border: none;
   background: none;
+  // Override global button sizing/focus from _a11y.scss — the pull tab
+  // is a sliver, not a 44px touch target; its visual is the ::before pill.
+  min-inline-size: 0;
+  min-block-size: 0;
   padding: 0;
   width: 24px;
   height: 80px;
@@ -173,11 +192,16 @@ body {
     transition: opacity var(--transition-fast);
   }
   &:hover::before,
+  &:focus::before,
   &:focus-visible::before {
     opacity: 0.9;
   }
+  // Kill the global :focus outline + button:focus box-shadow rings —
+  // focus is communicated by brightening the ::before pill instead.
+  &:focus,
   &:focus-visible {
     outline: none;
+    box-shadow: none;
   }
 }
 
