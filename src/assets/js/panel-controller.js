@@ -11,10 +11,12 @@ export function initPanelController() {
   const shell = document.getElementById('shell');
   if (!shell) return;
 
-  // Collapse/expand buttons
+  // Collapse buttons (one per panel, visible only when expanded)
   const railCollapseBtn = document.getElementById('rail-collapse-btn');
   const detailCollapseBtn = document.getElementById('detail-collapse-btn');
-  const expandRailBtn = document.getElementById('rail-expand-btn');
+
+  // Panels themselves — act as click-to-expand affordances when collapsed
+  const rail = document.querySelector('.rail');
 
   // Slide-in panels
   const episodeListPanel = document.getElementById('episode-list-panel');
@@ -46,13 +48,19 @@ export function initPanelController() {
 
   // ── Rail collapse ───────────────────────────────────────
   if (railCollapseBtn) {
-    railCollapseBtn.addEventListener('click', () => {
+    railCollapseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       shell.classList.add('rail-collapsed');
     });
   }
 
-  if (expandRailBtn) {
-    expandRailBtn.addEventListener('click', () => {
+  // Click anywhere in the collapsed rail to expand — mirrors the detail
+  // panel pattern. Exempt links and buttons so the nav icons, subscribe
+  // icons, CTA, and brand link still trigger their own actions.
+  if (rail) {
+    rail.addEventListener('click', (e) => {
+      if (!shell.classList.contains('rail-collapsed')) return;
+      if (e.target.closest('a, button')) return;
       shell.classList.remove('rail-collapsed');
     });
   }

@@ -122,14 +122,19 @@ body {
 }
 
 // Rail collapsed to icons: narrow the width, hide text labels, and let
-// every other layout property (padding, gap, flex flow) inherit from
-// the base .rail so sections keep their vertical positions and spacing.
-// align-items: center so each child sits at its natural width in the
-// middle of the narrow rail instead of stretching to fill it.
+// every layout property (padding, gap, flex flow) inherit from the base
+// .rail so sections keep their vertical positions and spacing.
+//
+// Collapse/expand pattern matches the detail panel: the collapse button
+// at top-right handles closing, and clicking anywhere in the collapsed
+// rail expands it. The ::before pull-tab mirrors .detail's visual
+// affordance. Click handling that exempts <a>/<button> descendants
+// lives in panel-controller.js.
 .shell.rail-collapsed .rail {
   width: var(--rail-w-collapsed);
   min-width: var(--rail-w-collapsed);
   align-items: center;
+  cursor: pointer;
 
   // Hide every text affordance — only glyphs and the logo remain.
   .rail__links a span,
@@ -144,18 +149,37 @@ body {
     justify-content: center;
   }
 
-  // CTA shrinks to an icon-only circular button to fit the narrow rail,
-  // with a bottom margin reserving space for the absolute .rail__expand.
+  // CTA shrinks to an icon-only circular button to fit the narrow rail.
   .rail__cta {
     width: 36px;
     height: 36px;
     padding: 0;
     border-radius: 50%;
-    margin-block-end: 3rem;
     svg {
       width: 18px;
       height: 18px;
     }
+  }
+
+  // Pull-tab affordance — vertical ember pill in the right padding
+  // area. Same visual language as .shell--media.detail-collapsed .detail.
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: 0.75rem;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 48px;
+    border-radius: 2px;
+    background: var(--ember);
+    opacity: 0.4;
+    transition: opacity var(--transition-fast), height var(--transition-fast);
+    pointer-events: none;
+  }
+  &:hover::before {
+    opacity: 0.8;
+    height: 64px;
   }
 }
 
