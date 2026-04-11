@@ -111,7 +111,7 @@ body {
       border-radius: 2px;
       background: var(--ember);
       opacity: 0.4;
-      transition: opacity 0.15s ease, height 0.15s ease;
+      transition: opacity var(--transition-fast), height var(--transition-fast);
     }
     &:hover::before {
       opacity: 0.8;
@@ -187,7 +187,7 @@ body {
   z-index: 2;
 
   // Gritty glass — translucent ink, lets the flame gradient bleed through
-  background: oklch(15.5% 0.009 274.3 / 0.82);
+  background: var(--ink-glass-82);
   backdrop-filter: blur(6px) saturate(0.85);
   border-inline-end: 1px solid var(--ember-wash-4);
 

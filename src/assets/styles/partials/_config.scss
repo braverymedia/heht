@@ -25,6 +25,14 @@
   --ember-wash-8: oklch(78.1% 0.13 58.9 / 0.25);
   --ember-wash-9: oklch(78.1% 0.13 58.9 / 0.30);
 
+  // ---------- Ink glass scale ----------
+  // Semi-opaque --ink for scrim/glass backgrounds (play button, ep-nav,
+  // rail gritty glass). Numbered by percent opaque, low → high.
+  --ink-glass-50: oklch(15.5% 0.009 274.3 / 0.50);
+  --ink-glass-65: oklch(15.5% 0.009 274.3 / 0.65);
+  --ink-glass-70: oklch(15.5% 0.009 274.3 / 0.70);
+  --ink-glass-82: oklch(15.5% 0.009 274.3 / 0.82);
+
   // ---------- Form state ----------
   --error:   oklch(63.7% 0.208 25.3);
 
@@ -32,6 +40,10 @@
   // Shared easing — Material "standard" curve, used across panel collapse,
   // odometer strip, slide-panel transitions.
   --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Fast snap — duration + timing for hover/focus/aria-current state
+  // changes on interactive elements (rail links, buttons, panel hides).
+  --transition-fast: 0.15s ease;
 
   // ---------- Fonts ----------
   // Body face: Plus Jakarta Sans (via fonts.bunny.net).
