@@ -11,7 +11,31 @@
     display: block;
     width: 82px;
     height: auto;
-    fill: currentColor;
+
+    // #shadow — the 3D-extruded depth behind each letter face.
+    // Linear ember gradient (defined in the SVG's <defs>) runs top→bottom
+    // across the whole logo's userSpace, so the top row gets --ember and
+    // the bottom row fades into --ember-deep. Candle glow on a pole.
+    #shadow path {
+      fill: url(#heht-logo-ember);
+    }
+
+    // #outline — the sharp front face of each letter, drawn as a hollow
+    // frame over the shadow. Hidden by default, fades in on brand hover.
+    #outline path {
+      fill: var(--ember);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+  }
+  &:hover svg #outline path {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail__brand svg #outline path {
+    transition: none;
   }
 }
 
