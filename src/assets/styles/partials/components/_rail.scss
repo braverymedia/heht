@@ -42,18 +42,27 @@
 .rail__links {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   list-style: none;
+  padding: 0;        // kill browser <ul> default padding-inline-start: 40px
+  margin: 0;         // kill browser default vertical margin
   a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     color: var(--bone-dim);
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    padding: 0.35rem 0;
     transition: color var(--transition-fast);
-    display: block;
-    padding: 0.5rem 0;
+    svg {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
     &:hover,
     &[aria-current] {
       color: var(--ember);

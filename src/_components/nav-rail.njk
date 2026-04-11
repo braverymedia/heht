@@ -22,9 +22,18 @@
 </a>
 
 <ul class="rail__links" role="list">
-  <li><a href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>Home</a></li>
-  <li><a href="#" data-action="show-episodes" aria-label="Browse all episodes">Episodes</a></li>
-  <li><a href="/about/"{% if page.url == "/about/" %} aria-current="page"{% endif %}>About</a></li>
+  <li>
+    <a href="#" data-action="show-episodes" aria-label="Browse all episodes">
+      {% include '../assets/svg/icon-copies.svg' %}
+      <span>Episodes</span>
+    </a>
+  </li>
+  <li>
+    <a href="/about/"{% if page.url == "/about/" %} aria-current="page"{% endif %}>
+      {% include '../assets/svg/icon-asterisk.svg' %}
+      <span>About</span>
+    </a>
+  </li>
 </ul>
 
 <div class="rail__divider" aria-hidden="true"></div>
