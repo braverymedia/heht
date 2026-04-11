@@ -83,8 +83,9 @@ textarea:not([rows]) {
   --ember-deep: #E8833A;
   --tube: #7FD9C4;
   --bloodwash: #B23A48;
-  --font-family: NameSansVF, sans-serif;
-  --font-accent: NameSansVF, sans-serif;
+  --font-family: "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  --font-accent: "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  --font-display: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
   --rail-w: 15%;
   --rail-w-collapsed: 60px;
   --detail-w: 35%;
@@ -304,25 +305,25 @@ body:not(#\#) > div {
   }
 }
 @font-face {
-  font-family: "K2D";
-  src: url("/assets/webfont/K2D-Bold-subset.woff2") format("woff2");
+  font-family: "Method";
+  src: url("/assets/webfont/Method-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Method";
+  src: url("/assets/webfont/Method-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: NameSansVF;
-  src: url("https://bravery.b-cdn.net/AT-NameSansVariable-Upright-subset.woff2") format("woff2-variations");
-  font-weight: 1 1000;
-  font-display: swap;
+  font-family: "Method";
+  src: url("/assets/webfont/Method-Black.woff2") format("woff2");
+  font-weight: 900;
   font-style: normal;
-}
-@font-face {
-  font-family: NameSansVF;
-  src: url("https://bravery.b-cdn.net/AT-NameSansVariable-Italic-subset.woff2") format("woff2-variations");
   font-display: swap;
-  font-weight: 1 1000;
-  font-style: italic;
 }
 @font-face {
   font-family: "Arial Adjusted";
@@ -332,18 +333,18 @@ body:not(#\#) > div {
 body:not(#\#) {
   font-size: clamp(1.0625rem, 0.9911rem + 0.3571vw, 1.3125rem);
   font-size: var(--type-base);
-  font-family: NameSansVF, sans-serif;
+  font-family: "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
   font-family: var(--font-family);
 }
 
 button:not(#\#), label:not(#\#) {
-  font-family: NameSansVF, sans-serif;
-  font-family: var(--font-accent);
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
 }
 
 .rail:not(#\#) * {
-  font-family: NameSansVF, sans-serif;
-  font-family: var(--font-accent);
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
 }
 
 input:not(#\#), li:not(#\#), p:not(#\#) {
@@ -365,8 +366,8 @@ a:hover:not(#\#) {
 h1:not(#\#), h2:not(#\#), h3:not(#\#), h4:not(#\#), h5:not(#\#), h6:not(#\#) {
   color: #EDE6D6;
   color: var(--bone);
-  font-family: NameSansVF, sans-serif;
-  font-family: var(--font-family);
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
 }
 
 h1:not(#\#) {
@@ -817,8 +818,8 @@ body:not(#\#) {
   margin-top: auto;
   background: transparent;
   cursor: pointer;
-  font-family: NameSansVF, sans-serif;
-  font-family: var(--font-family);
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
 }
 .rail__cta:not(#\#) svg {
   width: 16px;
@@ -961,6 +962,53 @@ body:not(#\#) {
     display: none;
   }
 }
+.episode-odometer:not(#\#) {
+  position: absolute;
+  top: -0.15em;
+  right: -0.1em;
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: max(8rem, min(18vw, 15rem));
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  color: #14151B;
+  color: var(--ink-raised);
+  -webkit-text-stroke: 1px rgba(245, 162, 93, 0.15);
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  z-index: 0;
+  overflow: hidden;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.odo-digit:not(#\#) {
+  display: inline-block;
+  overflow: hidden;
+  height: 0.82em;
+  vertical-align: top;
+}
+
+.odo-strip:not(#\#) {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.odo-strip:not(#\#) span {
+  display: block;
+  height: 0.82em;
+  line-height: 0.82;
+}
+
+@media (max-width: 767.98px) {
+  .episode-odometer:not(#\#) {
+    font-size: max(6rem, min(32vw, 11rem));
+    right: -0.05em;
+  }
+}
 .detail__slide:not(#\#) {
   position: relative;
   z-index: 1;
@@ -986,7 +1034,7 @@ body:not(#\#) {
 .detail__latest:not(#\#) {
   display: inline-block;
   font-size: 0.6rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.16em;
   color: #0B0C10;
   color: var(--ink);
@@ -1093,20 +1141,36 @@ body:not(#\#) {
 .detail__body:not(#\#) li {
   margin-bottom: 0.5rem;
 }
+.detail__body:not(#\#) h2:not(:first-of-type) {
+  position: relative;
+}
+.detail__body:not(#\#) h2:not(:first-of-type)::before {
+  content: "";
+  display: block;
+  height: 12px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  color: #F5A25D;
+  color: var(--ember);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 12' preserveAspectRatio='none'><path d='M0,6 L8,4 L16,7 L24,3 L34,8 L42,2 L52,7 L60,4 L70,9 L80,3 L92,6 L102,2 L112,8 L122,4 L134,7 L144,3 L156,6 L166,2 L178,7 L188,4 L200,8 L212,3 L222,7 L234,2 L244,6 L256,4 L266,8 L278,3 L288,7 L300,2 L312,6 L322,4 L334,8 L344,3 L356,7 L368,2 L380,6 L390,4 L400,7' fill='none' stroke='%23F5A25D' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round' opacity='0.5'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.detail__body:not(#\#) > h2:first-child + p::first-letter {
+  -webkit-initial-letter: 3;
+  initial-letter: 3;
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: #F5A25D;
+  color: var(--ember);
+  margin-right: 0.1em;
+  padding-right: 0.05em;
+  text-shadow: 0 0 0.25em rgba(245, 162, 93, 0.5), 0 0 0.6em rgba(245, 162, 93, 0.25);
+}
 .detail__body:not(#\#) .transcript {
   color: #B9B2A2;
   color: var(--bone-dim);
-}
-.detail__body:not(#\#) .transcript p:first-of-type::first-letter {
-  font-weight: 900;
-  font-size: 5em;
-  line-height: 0.82;
-  float: left;
-  padding: 0.06em 0.14em 0 0;
-  margin-top: 0.05em;
-  color: #F5A25D;
-  color: var(--ember);
-  text-shadow: 0 0 0.25em rgba(245, 162, 93, 0.5), 0 0 0.6em rgba(245, 162, 93, 0.25);
 }
 
 .detail__section-title:not(#\#) {
@@ -1199,8 +1263,8 @@ body:not(#\#) {
   align-items: center;
   gap: 4px;
   padding: 4px 0;
-  font-family: NameSansVF, sans-serif;
-  font-family: var(--font-family);
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
   transition: color 0.15s ease;
 }
 .slide-panel__back:hover:not(#\#),
@@ -1212,7 +1276,7 @@ body:not(#\#) {
 .slide-panel__title:not(#\#),
 .episode-list-panel__title:not(#\#) {
   font-size: 0.85rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #EDE6D6;
@@ -1355,8 +1419,8 @@ button.cta:hover:not(#\#),
   font-size: clamp(0.8854rem, 0.8384rem + 0.2351vw, 1.05rem);
   font-size: var(--type-sm);
   letter-spacing: 0.88px;
-  font-family: NameSansVF, sans-serif;
-  font-family: var(--font-accent);
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
 }
 
 .newsletter-form:not(#\#) {
@@ -1623,8 +1687,8 @@ button[type=submit]:hover:not(#\#) {
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
-  font-family: NameSansVF, sans-serif;
-  font-family: var(--font-family);
+  font-family: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  font-family: var(--font-display);
 }
 .ep-nav:not(#\#) button:hover {
   border-color: #F5A25D;

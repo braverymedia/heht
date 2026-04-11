@@ -13,11 +13,13 @@
   --bloodwash:  #B23A48; // rare emphasis, large text / non-text only
 
   // ---------- Fonts ----------
-  // Display typography is deferred — user will choose and wire up separately.
-  // Accent currently points at the body face so any `var(--font-accent)`
-  // reference still resolves during the sweep.
-  --font-family: NameSansVF, sans-serif;
-  --font-accent: NameSansVF, sans-serif;
+  // Body face: Plus Jakarta Sans (via fonts.bunny.net).
+  // Display face: Method — used on headings, buttons, odometer, eyebrows,
+  // badges, and other accent type. Available weights: 500, 700, 900.
+  // "Arial Adjusted" is a size-adjusted local fallback to reduce FOUT shift.
+  --font-family: "Plus Jakarta Sans", "Arial Adjusted", system-ui, sans-serif;
+  --font-accent: "Plus Jakarta Sans", "Arial Adjusted", system-ui, sans-serif;
+  --font-display: "Method", "Plus Jakarta Sans", "Arial Adjusted", system-ui, sans-serif;
 
   // ---------- Layout shell ----------
   --rail-w: 15%;

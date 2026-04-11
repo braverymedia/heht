@@ -162,6 +162,9 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("src/assets/audio");
 	eleventyConfig.addPassthroughCopy("src/manifest.webmanifest");
 	eleventyConfig.addPassthroughCopy("src/favicon.svg");
+	eleventyConfig.addPassthroughCopy("src/icon-192.png");
+	eleventyConfig.addPassthroughCopy("src/icon-512.png");
+	eleventyConfig.addPassthroughCopy("src/apple-touch-icon.png");
 	// Add CSS inlining
 	eleventyConfig.addFilter("inlineCss", async function (css) {
 		if (isProduction) {
@@ -306,6 +309,9 @@ export default async function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("src/assets/audio");
 	eleventyConfig.addPassthroughCopy("src/manifest.webmanifest");
 	eleventyConfig.addPassthroughCopy("src/favicon.svg");
+	eleventyConfig.addPassthroughCopy("src/icon-192.png");
+	eleventyConfig.addPassthroughCopy("src/icon-512.png");
+	eleventyConfig.addPassthroughCopy("src/apple-touch-icon.png");
 	// Only copy individual JS files in development
 	if (!isProduction) {
 		eleventyConfig.addPassthroughCopy("src/assets/js");

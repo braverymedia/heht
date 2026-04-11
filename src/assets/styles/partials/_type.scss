@@ -1,31 +1,37 @@
+// Plus Jakarta Sans is loaded via <link> from fonts.bunny.net in base.njk.
+// Method is our display face for headings, buttons, odometer, etc.
+// Available weights: 500 Medium, 700 Bold, 900 Black.
+
 @font-face {
-  font-family: 'K2D';
-  src: url('/assets/webfont/K2D-Bold-subset.woff2') format('woff2');
+  font-family: "Method";
+  src: url("/assets/webfont/Method-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Method";
+  src: url("/assets/webfont/Method-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-	font-family: NameSansVF;
-	src: url("https://bravery.b-cdn.net/AT-NameSansVariable-Upright-subset.woff2")
-		format("woff2-variations");
-	font-weight: 1 1000;
-	font-display: swap;
-	font-style: normal;
+  font-family: "Method";
+  src: url("/assets/webfont/Method-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
 }
+
+// Size-adjusted Arial fallback — mitigates FOUT layout shift when the
+// webfonts swap in. Referenced in the fallback stack on --font-family.
 @font-face {
-	font-family: NameSansVF;
-	src: url("https://bravery.b-cdn.net/AT-NameSansVariable-Italic-subset.woff2")
-		format("woff2-variations");
-	font-display: swap;
-	font-weight: 1 1000;
-	font-style: italic;
-}
-@font-face {
-	font-family: 'Arial Adjusted';
-	src: local(Arial);
-	size-adjust: 93%;
+  font-family: "Arial Adjusted";
+  src: local(Arial);
+  size-adjust: 93%;
 }
 
 body {
@@ -34,10 +40,10 @@ body {
 }
 
 button, label {
-  font-family: var(--font-accent);
+  font-family: var(--font-display);
 }
 .rail * {
-  font-family: var(--font-accent);
+  font-family: var(--font-display);
 }
 input, li, p {
   font-size: inherit;
@@ -53,7 +59,7 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--bone);
-  font-family: var(--font-family);
+  font-family: var(--font-display);
 }
 
 h1 {

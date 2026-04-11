@@ -57,6 +57,27 @@ export function initEpisodeNav() {
     return slide ? slide.innerHTML : '';
   }
 
+  function extractEpisodeNumber(doc) {
+    const odo = doc.querySelector('#episode-odometer');
+    if (!odo) return null;
+    const n = parseInt(odo.dataset.episodeNumber, 10);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function updateOdometer(number) {
+    const odo = document.getElementById('episode-odometer');
+    if (!odo || number == null) return;
+    const padded = String(number).padStart(3, '0');
+    const strips = odo.querySelectorAll('.odo-strip');
+    padded.split('').forEach((d, i) => {
+      const digit = parseInt(d, 10);
+      if (strips[i]) {
+        strips[i].style.transform = `translateY(-${digit * 0.82}em)`;
+      }
+    });
+    odo.dataset.episodeNumber = String(number);
+  }
+
   async function navigate(direction) {
     if (animating) return;
 
@@ -73,15 +94,20 @@ export function initEpisodeNav() {
       const doc = await fetchEpisodePage(targetUrl);
       const newDetailHtml = extractDetailContent(doc);
       const newVideoHtml = extractVideoSlide(doc);
+      const newEpisodeNumber = extractEpisodeNumber(doc);
 
       if (reducedMotion) {
         // Instant swap
         swapContent(newDetailHtml, newVideoHtml, targetUrl);
+        updateOdometer(newEpisodeNumber);
         currentIndex = targetIndex;
         updateButtons();
         animating = false;
         return;
       }
+
+      // Start odometer roll at the same moment the slot-machine begins
+      updateOdometer(newEpisodeNumber);
 
       // ── Build the reel ──────────────────────────────────
       await animateTransition(direction, newDetailHtml, newVideoHtml);
@@ -218,6 +244,7 @@ export function initEpisodeNav() {
             extractVideoSlide(doc),
             e.state.episodeUrl
           );
+          updateOdometer(extractEpisodeNumber(doc));
           updateButtons();
         });
       }
