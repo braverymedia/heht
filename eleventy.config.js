@@ -155,8 +155,13 @@ export default async function (eleventyConfig) {
 		}
 	});
 
-	// Watch built CSS for changes
-	eleventyConfig.addWatchTarget("_site/assets/styles/main.css");
+	// Watch the compiled CSS for changes. This is the file that `inlineCss`
+	// (addGlobalData above) reads synchronously — without this watch target
+	// 11ty has no idea Rollup's watcher rebuilt the stylesheet, so the
+	// served HTML keeps whatever CSS was inlined at server startup. The
+	// previous path (`_site/assets/styles/main.css`) doesn't exist — CSS
+	// isn't copied to _site, it's embedded in every page at build time.
+	eleventyConfig.addWatchTarget("src/_includes/assets/assets/main.css");
 
 	// Passthrough copy
 	eleventyConfig.addPassthroughCopy("src/assets/img");

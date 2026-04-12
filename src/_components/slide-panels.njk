@@ -1,0 +1,59 @@
+{# Shared slide-panel markup — rendered inside .detail on any page
+   that uses the media shell (episode.njk, about.njk). Keeps the
+   episodes / newsletter / about panels in one place so they stay in
+   sync across layouts.
+
+   `initialPanel` can be set by the caller to open a specific panel
+   on load (e.g. about.njk sets it to 'about'). Defaults to none open. #}
+
+{% set initialPanel = initialPanel or '' %}
+
+{# Episode list overlay — reverse-chronological (newest first). #}
+<div class="episode-list-panel{% if initialPanel == 'episodes' %} is-open{% endif %}"
+     id="episode-list-panel"
+     aria-hidden="{{ 'false' if initialPanel == 'episodes' else 'true' }}">
+  <button class="slide-panel__close" id="episode-list-close" aria-label="Close">
+    {% include '../assets/svg/close.svg' %}
+  </button>
+  <div class="episode-list-panel__header">
+    <h2 class="episode-list-panel__title">All Episodes</h2>
+  </div>
+  <ul class="episode-list-panel__list" role="list">
+    {% for ep in collections.episodes | reverse %}
+    <li>
+      <a href="{{ ep.url }}" class="episode-list-panel__item">
+        <span class="episode-list-panel__num">{{ ep.data.number | padStart(3, '0') }}</span>
+        <span class="episode-list-panel__name">{{ ep.data.title }}</span>
+        <span class="episode-list-panel__dur">{{ ep.data.audio.duration | durationHuman }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{# Newsletter slide-in #}
+<div class="slide-panel{% if initialPanel == 'newsletter' %} is-open{% endif %}"
+     id="newsletter-panel"
+     aria-hidden="{{ 'false' if initialPanel == 'newsletter' else 'true' }}">
+  <button class="slide-panel__close" id="newsletter-close" aria-label="Close">
+    {% include '../assets/svg/close.svg' %}
+  </button>
+  <div class="slide-panel__header">
+    <h2 class="slide-panel__title">Get Updates</h2>
+  </div>
+  <p class="slide-panel__desc">{{ podcast.newsletter.description }}</p>
+  {% include "./newsletter-form.njk" %}
+</div>
+
+{# About slide-in #}
+<div class="slide-panel{% if initialPanel == 'about' %} is-open{% endif %}"
+     id="about-panel"
+     aria-hidden="{{ 'false' if initialPanel == 'about' else 'true' }}">
+  <button class="slide-panel__close" id="about-close" aria-label="Close">
+    {% include '../assets/svg/close.svg' %}
+  </button>
+  <div class="slide-panel__header">
+    <h2 class="slide-panel__title">About the Show</h2>
+  </div>
+  {% include "./about-body.njk" %}
+</div>

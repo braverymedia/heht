@@ -1,0 +1,25 @@
+{# Shared About content body. Rendered inside:
+   - .slide-panel on episode pages (slide-in overlay over the detail)
+   - about.njk standalone (direct /about/ load, shell with show cover)
+   The wrapper + header are supplied by the consumer. #}
+
+<p class="slide-panel__desc">
+  {{ podcast.description }}
+</p>
+
+<div class="about-body">
+  <h3>Our Mission</h3>
+  <p>We believe in fostering open, honest dialogue about the future of higher education. Through the podcast, we aim to:</p>
+  <ul>
+    <li>Share diverse perspectives on higher ed technology</li>
+    <li>Challenge conventional thinking about digital transformation</li>
+    <li>Connect higher ed professionals with innovative solutions</li>
+    <li>Promote best practices in educational technology</li>
+  </ul>
+
+  <h3>About the Host</h3>
+  <p>Higher Ed Hot Takes is hosted by <strong>{{ podcast.author }}</strong> of <strong>{{ podcast.owner.name }}</strong> — bringing hands-on experience and a counterculture perspective to the work of higher ed marketing.</p>
+
+  <h3>Contact</h3>
+  <p>Have a question or want to be a guest on the show? Reach out at <a href="mailto:{{ podcast.contact.email }}">{{ podcast.contact.email }}</a>.</p>
+</div>

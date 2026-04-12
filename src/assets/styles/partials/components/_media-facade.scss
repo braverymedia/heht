@@ -41,6 +41,7 @@
   backdrop-filter: blur(16px) saturate(0.8);
   box-shadow: none;
   cursor: pointer;
+  touch-action: none; // prevent scroll/pan during ring scrub drag
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,7 +63,7 @@
   }
 }
 
-// Scrub cursor when hovering ring during playback
+// Scrub cursor when hovering the ring during playback.
 .media-facade.is-playing .media-facade__play {
   cursor: grab;
   &:active { cursor: grabbing; }

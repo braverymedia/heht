@@ -43,18 +43,42 @@
      - Pages: .content-column (rail + page-content)
      The nav rail is included by each child layout inside .content-column.
   #}
-  <div class="shell{% if pageType == 'episode' %} shell--media{% endif %}" id="shell">
+  <div class="shell{% if pageType == 'episode' or pageType == 'about' %} shell--media{% endif %}" id="shell">
     {{ content | safe }}
   </div>
 
-  {# ── JavaScript ──────────────────────────────────────────── #}
+  {# Restore rail/detail collapse state from localStorage before first
+     paint. Runs synchronously after the shell element is parsed but
+     before the deferred module scripts below, so the correct layout
+     is painted on first frame — no flash of un-collapsed then jump.
+     Mobile is skipped because the collapsed desktop classes don't
+     map to the mobile bottom-bar + vertical-stack layout. #}
+  <script>
+    (function () {
+      try {
+        if (matchMedia('(max-width: 767px)').matches) return;
+        var s = JSON.parse(localStorage.getItem('heht-panel-state') || '{}');
+        var el = document.getElementById('shell');
+        if (!el) return;
+        if (s && s.railCollapsed) el.classList.add('rail-collapsed');
+        if (s && s.detailCollapsed) el.classList.add('detail-collapsed');
+      } catch (e) {}
+    })();
+  </script>
+
+  {# ── JavaScript ────────────────────────────────────────────
+     Production: single Rollup bundle.
+     Dev: index.js loaded as a module — its static imports pull in
+     panel-controller / media-controller / episode-nav / newsletter-form.
+     Both paths go through the same single entry so the init functions
+     are only called once. Previously each module had an auto-init at
+     its tail AND index.js called them explicitly, which double-bound
+     every event listener in the bundle and broke the collapse toggles.
+  #}
   {% if site.env === "production" %}
     {% include '../scripts.njk' %}
   {% else %}
-    <script src="{{ '/assets/js/newsletter-form.js' | url }}?v={{ cacheBust }}" defer></script>
-    <script src="{{ '/assets/js/panel-controller.js' | url }}?v={{ cacheBust }}" type="module"></script>
-    <script src="{{ '/assets/js/media-controller.js' | url }}?v={{ cacheBust }}" type="module"></script>
-    <script src="{{ '/assets/js/episode-nav.js' | url }}?v={{ cacheBust }}" type="module"></script>
+    <script src="{{ '/assets/js/index.js' | url }}?v={{ cacheBust }}" type="module"></script>
   {% endif %}
 </body>
 </html>

@@ -13,8 +13,22 @@
   overflow-y: auto;
   transform: translateX(-100%);
   transition: transform 0.35s var(--easing-smooth);
+
+  // Closed state MUST be transparent to hit-testing. The `translateX(-100%)`
+  // slides the panel left out of its own parent, but its bounding rect still
+  // extends into the rail's x-range (rail sits to the left of .detail, and
+  // the panel is as wide as .detail). .detail has `overflow: hidden` so the
+  // panel is visually clipped, but the browser's compositor cursor hit-test
+  // still sees the panel's rect and — because the panel has no explicit
+  // cursor rule — reports `cursor: default` to the pointer. That's why hover
+  // cursor was broken on every element the rail covers. `elementsFromPoint`
+  // from JS respects the overflow clip and won't surface this, which is why
+  // devtools/probes can't reproduce the bug — only the real cursor does.
+  pointer-events: none;
+
   &.is-open {
     transform: translateX(0);
+    pointer-events: auto;
   }
 }
 
@@ -44,6 +58,53 @@
   font-family: var(--font-display);
   transition: color var(--transition-fast);
   &:hover { color: var(--ember); }
+}
+
+// Close button — small X parked in the top-right corner of the
+// newsletter and about slide panels (episode-list keeps its "Back"
+// button because it's a browse-then-return flow, not a dismiss).
+// Explicitly zeros min-size to defeat the 44x44 button rule in
+// _a11y.scss and disables the global focus ring.
+.slide-panel__close {
+  position: absolute;
+  inset-block-start: 1.25rem;
+  inset-inline-end: 1.25rem;
+  z-index: 1;
+  appearance: none;
+  border: none;
+  background: none;
+  box-shadow: none;
+  min-inline-size: 0;
+  min-block-size: 0;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  color: var(--bone-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+
+  svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
+  &:hover {
+    color: var(--ember);
+  }
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+    color: var(--ember);
+  }
+  &:focus-visible {
+    outline: 1px solid var(--ember);
+    outline-offset: 2px;
+  }
 }
 
 .slide-panel__title,

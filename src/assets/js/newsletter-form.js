@@ -71,6 +71,10 @@
       if (currentTime - formLoadTime < 2000) {
         errorContainer.style.display = 'flex';
         errorMessage.innerText = 'Please wait a moment before submitting.';
+        // Reset button state so the form stays usable
+        submitButton.disabled = false;
+        buttonText.textContent = 'Subscribe';
+        spinner.style.display = 'none';
         return;
       }
 

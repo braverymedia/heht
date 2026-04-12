@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+pageType: about
+---
+
+{# Standalone About page layout — direct /about/ load.
+   Base.njk enables shell--media for pageType == 'about', giving us
+   the rail + detail + video-panel outer grid. The video panel renders
+   a static show cover image (no media facade, no controller). The
+   detail panel contains all three slide-ins via the shared include,
+   with initialPanel = 'about' so the about slide is open on first
+   paint. panel-controller.js reads document.body.dataset.type and
+   routes the about back button to '/' rather than closing to an
+   empty shell. #}
+
+{% set initialPanel = 'about' %}
+
+<div class="content-column">
+  <nav class="rail" aria-label="Site navigation">
+    {% include "../../_components/nav-rail.njk" %}
+  </nav>
+
+  <article class="detail" id="main" tabindex="-1">
+    <button class="detail__tab" id="detail-tab" aria-expanded="true" aria-controls="main" aria-label="Toggle details"></button>
+
+    {% include "../../_components/slide-panels.njk" %}
+
+    {# Empty detail content — the about slide fully covers it. #}
+    <div class="detail__content" id="detail-content" aria-hidden="true"></div>
+  </article>
+</div>
+
+{# Video panel — static show cover, no facade, no media controller. #}
+<section class="video-panel" id="video-panel" aria-label="Show cover art">
+  <div class="video-panel__slide" id="video-slide">
+    <img src="{{ podcast.image.url }}" alt="{{ podcast.title }} cover art">
+  </div>
+</section>

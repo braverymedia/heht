@@ -73,6 +73,8 @@ export function initMediaController() {
     mediaType,
     _resumePosition: 0,
     _raf: null,
+    _lastSavedSecond: -1,
+    _scrubRect: null,
 
     init() {
       if (mediaType === 'audio') {
@@ -153,22 +155,34 @@ export function initMediaController() {
 
       const onDown = (e) => {
         if (!this.el || !this.el.duration) return;
-        e.preventDefault();
+        // Don't call e.preventDefault() here — it suppresses the
+        // subsequent click event (per spec), which kills the
+        // play/pause toggle. The _scrubMoved flag already
+        // distinguishes drags from clicks without needing to
+        // cancel default behavior.
         this._scrubbing = true;
         this._scrubMoved = false;
-        // Don't seek on initial click — only on drag (pointermove)
+        // Cache the ring rect once per drag. getBoundingClientRect
+        // forces layout, and running it on every pointermove during a
+        // scrub is a measurable hot path on lower-end devices.
+        this._scrubRect = playBtn.getBoundingClientRect();
         document.addEventListener('pointermove', onMove);
         document.addEventListener('pointerup', onUp);
       };
 
       const onMove = (e) => {
         if (!this._scrubbing) return;
+        // Prevent text selection / default drag behavior during scrub.
+        // This is safe on pointermove (doesn't cancel click like
+        // pointerdown.preventDefault does).
+        e.preventDefault();
         this._scrubMoved = true;
-        this._scrubSeek(playBtn, e);
+        this._scrubSeek(e);
       };
 
       const onUp = () => {
         this._scrubbing = false;
+        this._scrubRect = null;
         document.removeEventListener('pointermove', onMove);
         document.removeEventListener('pointerup', onUp);
         // Reset scrubMoved flag after click event fires
@@ -178,10 +192,10 @@ export function initMediaController() {
       playBtn.addEventListener('pointerdown', onDown);
     },
 
-    _scrubSeek(playBtn, e) {
-      if (!this.el || !this.el.duration) return;
+    _scrubSeek(e) {
+      if (!this.el || !this.el.duration || !this._scrubRect) return;
 
-      const rect = playBtn.getBoundingClientRect();
+      const rect = this._scrubRect;
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
 
@@ -335,6 +349,7 @@ export function initMediaController() {
       try {
         if (this.el && this.el.currentTime > 0) {
           localStorage.setItem(this._getStorageKey(), String(this.el.currentTime));
+          this._lastSavedSecond = Math.floor(this.el.currentTime);
         }
       } catch (e) {}
     },
@@ -371,7 +386,11 @@ export function initMediaController() {
       });
 
       this.el.addEventListener('timeupdate', () => {
-        if (Math.floor(this.el.currentTime) % 5 === 0) {
+        // Save at most once per integer second divisible by 5.
+        // `timeupdate` fires ~4x/sec, so the raw mod check would write
+        // to localStorage several times inside the same matching second.
+        const second = Math.floor(this.el.currentTime);
+        if (second % 5 === 0 && second !== this._lastSavedSecond) {
           this._savePosition();
         }
       });
@@ -408,6 +427,3 @@ export function initMediaController() {
 
 // Expose for re-init after episode nav transitions
 window.initMediaController = initMediaController;
-
-// Auto-init
-initMediaController();

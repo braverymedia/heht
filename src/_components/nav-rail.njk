@@ -20,7 +20,11 @@
     </a>
   </li>
   <li>
-    <a href="/about/"{% if page.url == "/about/" %} aria-current="page"{% endif %}>
+    {# data-action opens the about slide-panel on pages that have one
+       (episode pages, and the /about/ page itself). href is the JS-off
+       fallback — hard-navigates to the standalone /about/ page, which
+       renders its own shell with the show cover in the video panel. #}
+    <a href="/about/" data-action="show-about"{% if page.url == "/about/" %} aria-current="page"{% endif %}>
       {% include '../assets/svg/icon-asterisk.svg' %}
       <span>About</span>
     </a>

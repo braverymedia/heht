@@ -53,18 +53,18 @@ body {
 
   // Flame gradient — moved from body::before to the content column
   // so video panel stays clean
-  background:
-    radial-gradient(
-      160.86% 142.28% at 50% 143.33%,
-      transparent 35.1%,
-      var(--ink) 100%
-    ),
-    radial-gradient(
-      24.44% 70.72% at 50% 120.72%,
-      oklch(78.1% 0.13 58.9 / var(--flame-alpha)) 46.15%,
-      transparent 100%
-    ),
-    var(--ink);
+  // background:
+  //   radial-gradient(
+  //     160.86% 142.28% at 50% 143.33%,
+  //     transparent 35.1%,
+  //     var(--ink) 100%
+  //   ),
+  //   radial-gradient(
+  //     24.44% 70.72% at 50% 120.72%,
+  //     oklch(78.1% 0.13 58.9 / var(--flame-alpha)) 46.15%,
+  //     transparent 100%
+  //   ),
+  //   var(--ink);
 
   // Shadow casting over the video panel (the whole stack's edge)
   box-shadow:
@@ -259,25 +259,12 @@ body {
   box-shadow:
     6px 0 20px -4px oklch(0% 0 0 / 0.5),
     1px 0 0 var(--ember-wash-2);
-
-  // Grain texture on the rail itself (xerox / sleeve feel)
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.12;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
-    z-index: -1;
-  }
 }
 
 @media (prefers-reduced-transparency: reduce) {
   .rail {
     background: var(--ink);
     backdrop-filter: none;
-    &::after { display: none; }
   }
 }
 
@@ -313,15 +300,25 @@ body {
   // .detail animates between the collapsed 24px strip and its expanded
   // size. Using explicit `width` (not min-width) means the content
   // dimension is decoupled from the parent entirely — .detail can be
-  // 24px or 45vw and the line length never changes. .detail has
-  // overflow: hidden so the content is clipped cleanly during the
-  // transition. Trade-off: if the rail also collapses, .detail gains
-  // ~100px of trailing slack that shows the panel background, but no
-  // re-wrapping happens anywhere during the animation.
+  // 24px or its expanded size and the line length never changes while
+  // the detail pull tab is toggled. .detail has overflow: hidden so
+  // the content is clipped cleanly during the transition.
   width: calc(50vw - clamp(160px, 15vw, 220px));
   height: 100%;
   overflow-y: auto;
   padding: 2.5rem 2rem;
+}
+
+// When the rail is collapsed, .detail gains ~100-124px of horizontal
+// space (rail shrinks from ~220px to var(--rail-w-collapsed) ≈ 96px).
+// Grow .detail__content to match so it actually fills .detail — without
+// this rule the trailing slack is dead air that reports the bare
+// .detail element under the cursor (no `cursor: pointer`, no children
+// to hit-test against). This is an intentional reflow: the rail
+// collapse is a layout change the user just asked for, distinct from
+// the detail collapse transition we're protecting against reflow.
+.shell.rail-collapsed .detail__content {
+  width: calc(50vw - var(--rail-w-collapsed));
 }
 
 // --------------------------------------------------------------------------

@@ -47,44 +47,9 @@ pageType: episode
        Same pattern as .rail__tab. #}
     <button class="detail__tab" id="detail-tab" aria-expanded="true" aria-controls="main" aria-label="Toggle episode details"></button>
 
-    {# Episode list overlay #}
-    <div class="episode-list-panel" id="episode-list-panel" aria-hidden="true">
-      <div class="episode-list-panel__header">
-        <button class="episode-list-panel__back" id="episode-list-back" aria-label="Back to episode">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Back
-        </button>
-        <h2 class="episode-list-panel__title">All Episodes</h2>
-      </div>
-      <ul class="episode-list-panel__list" role="list">
-        {% for ep in collections.episodes %}
-        <li>
-          <a href="{{ ep.url }}" class="episode-list-panel__item">
-            <span class="episode-list-panel__num">{{ ep.data.number | padStart(3, '0') }}</span>
-            <span class="episode-list-panel__name">{{ ep.data.title }}</span>
-            <span class="episode-list-panel__dur">{{ ep.data.audio.duration | durationHuman }}</span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-
-    {# Newsletter slide-in #}
-    <div class="slide-panel" id="newsletter-panel" aria-hidden="true">
-      <div class="slide-panel__header">
-        <button class="slide-panel__back" id="newsletter-back" aria-label="Back to episode">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Back
-        </button>
-        <h2 class="slide-panel__title">Get Updates</h2>
-      </div>
-      <p class="slide-panel__desc">{{ podcast.newsletter.description }}</p>
-      {% include "../../_components/newsletter-form.njk" %}
-    </div>
+    {# Episode list, newsletter, and about slide-ins.
+       All closed by default on episode pages. #}
+    {% include "../../_components/slide-panels.njk" %}
 
     {# Oversized ghost episode number — fixture that animates on episode nav #}
     {% set odoNum = episode.number | padStart(3, '0') %}

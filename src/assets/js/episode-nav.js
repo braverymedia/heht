@@ -143,8 +143,11 @@ export function initEpisodeNav() {
       document.title = newTitle.textContent.trim() + ' - Higher Ed Hot Takes';
     }
 
-    // Scroll detail back to top
-    detail.scrollTop = 0;
+    // Scroll the detail content back to top. .detail is overflow:hidden
+    // (it's the non-scrolling frame); .detail__content is the actual
+    // scroller, and innerHTML replacement can leave its scrollTop
+    // pinned if the new content is tall enough.
+    if (detailContent) detailContent.scrollTop = 0;
 
     // Re-init media controller for new content
     if (window.initMediaController) window.initMediaController();
@@ -290,5 +293,3 @@ export function initEpisodeNav() {
   });
 }
 
-// Auto-init
-initEpisodeNav();
