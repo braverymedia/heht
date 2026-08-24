@@ -4,10 +4,14 @@ title: Episodes
 ---
 
 <h1>Episodes</h1>
-<section class="episode-grid">
-  {% for episode in collections.episodes %}
-    {% set episodeData = episode.data %}
-    {% set isEpisodePage = true %}
-    {% include "./_components/episode.njk" %}
+<ul class="episode-list-panel__list" role="list">
+  {% for ep in collections.episodes %}
+  <li>
+    <a href="{{ ep.url }}" class="episode-list-panel__item">
+      <span class="episode-list-panel__num">{{ ep.data.number | padStart(3, '0') }}</span>
+      <span class="episode-list-panel__name">{{ ep.data.title }}</span>
+      <span class="episode-list-panel__dur">{{ ep.data.audio.duration | durationHuman }}</span>
+    </a>
+  </li>
   {% endfor %}
-</section>
+</ul>
