@@ -4,8 +4,8 @@
   "description": "Take a hard look at the hype surrounding marketing in higher education.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0B0C10",
-  "theme_color": "#0B0C10",
+  "background_color": "#100346",
+  "theme_color": "#100346",
   "icons": [
     {
       "src": "/icon-192.png",
