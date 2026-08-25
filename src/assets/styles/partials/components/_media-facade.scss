@@ -18,7 +18,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  // Biased toward the top third — cover art is composed logo-top,
+  // face-right, title-bottom on a 3000x3000 square, and a plain center
+  // crop clips the logo entirely once the box gets short (mobile's
+  // 16:9 strip, or desktop with a panel collapsed). No-op on
+  // already-square boxes: object-position only shifts a crop that's
+  // actually happening.
+  object-position: center 22%;
   display: block;
   max-width: none;
 }
@@ -143,7 +149,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  // Same top-biased crop as .media-facade__cover, for consistency and
+  // to cover the same-source poster case. A no-op on actual 16:9 video
+  // in a matched box — nothing to reposition when the box already
+  // fits the content's aspect ratio.
+  object-position: center 22%;
   display: block;
   max-width: none; // override reset's max-width: 100%
 }
