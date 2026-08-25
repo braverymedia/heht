@@ -173,6 +173,16 @@ export default async function (eleventyConfig) {
 	// isn't copied to _site, it's embedded in every page at build time.
 	eleventyConfig.addWatchTarget("src/_includes/assets/assets/main.css");
 
+	// Watch src/_components/**/*.njk for changes. .eleventyignore excludes
+	// this directory so its files don't get processed as standalone pages
+	// (they're {% include %}-only partials, most reference vars like
+	// `episode`/`ep` that only exist in a consuming template's context —
+	// rendered on their own they'd 404 on missing data or emit garbage
+	// pages). But an ignored path is also invisible to the dev watcher, so
+	// editing a partial silently never rebuilds anything that includes it.
+	// addWatchTarget re-adds just the watch behavior without the page-output.
+	eleventyConfig.addWatchTarget("src/_components/**/*.njk");
+
 	// Passthrough copy
 	eleventyConfig.addPassthroughCopy("src/assets/img");
 	eleventyConfig.addPassthroughCopy("src/assets/webfont");
