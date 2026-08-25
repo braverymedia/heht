@@ -211,6 +211,24 @@ function escapeHtml(str) {
     .replace(/'/g, "&#39;");
 }
 
+// Same wordmark as .rail__brand (src/assets/svg/heht-logo.svg), but only
+// the #shadow layer — #outline is opacity:0 at rest on the real site
+// (it only fades in on hover), so it'd be invisible here anyway.
+const HEHT_LOGO_SVG = `<svg width="58" height="66" viewBox="0 0 233 265" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Higher Ed Hot Takes">
+<defs>
+<linearGradient id="heht-logo-ember" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="265">
+<stop offset="0" stop-color="var(--ember)"/>
+<stop offset="1" stop-color="var(--ember-deep)"/>
+</linearGradient>
+</defs>
+<g fill="url(#heht-logo-ember)">
+<path d="M117.716 174.369V144.84L126.896 135.66V165.342H164.075V255H194.675L185.648 264.027H154.895V174.369H117.716ZM194.675 165.342H231.854L222.827 174.369H194.675V165.342Z"/>
+<path d="M79.101 182.019V144.687L88.281 135.66V182.019H79.101ZM0 264.027V144.84L9.18 135.66V255H39.627L30.6 264.027H0ZM88.281 255H118.881L109.854 264.027H79.101V219.657H39.627V210.63H88.281V255Z"/>
+<path d="M125.06 129.027V9.84016L134.24 0.660156V120H225.887L216.86 129.027H125.06ZM225.887 30.3422L216.86 39.3692H164.84V30.3422H225.887ZM215.024 75.1712L205.844 84.1982H164.84V75.1712H215.024Z"/>
+<path d="M79.101 47.0192V9.68716L88.281 0.660156V47.0192H79.101ZM0 129.027V9.84016L9.18 0.660156V120H39.627L30.6 129.027H0ZM88.281 120H118.881L109.854 129.027H79.101V84.6572H39.627V75.6302H88.281V120Z"/>
+</g>
+</svg>`;
+
 function htmlPage({ title, heading, body }) {
   return `<!doctype html>
 <html lang="en">
@@ -218,30 +236,59 @@ function htmlPage({ title, heading, body }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
+<link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,600,800&display=swap">
 <style>
+  @font-face {
+    font-family: "Method";
+    src: url("${PRIMARY_SITE_URL}/assets/webfont/Method-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --ink: oklch(19.7% 0.113 278.4);
+    --bone: oklch(100% 0 90);
+    --bone-dim: oklch(82% 0 90);
+    --ember: oklch(96.8% 0.211 109.8);
+    --ember-deep: oklch(82% 0.19 90);
+    --tube: oklch(88.4% 0.193 162.4);
+  }
   html, body { margin: 0; padding: 0; }
   body {
-    background: #100346; color: #ffffff;
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background: var(--ink); color: var(--bone);
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
     min-height: 100vh; display: grid; place-items: center; padding: 2rem;
     line-height: 1.55;
   }
   main { max-width: 28rem; text-align: center; }
-  h1 { font-weight: 800; font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.1rem); margin: 0 0 0.75rem; }
-  p { color: #d8d3ea; margin: 0 0 1.5rem; }
+  .logo { display: block; margin: 0 auto 1.5rem; }
+  h1 {
+    font-family: "Method", "Plus Jakarta Sans", system-ui, sans-serif;
+    font-weight: 900; text-transform: uppercase;
+    font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.1rem);
+    margin: 0 0 0.75rem;
+  }
+  p { color: var(--bone-dim); margin: 0 0 1.5rem; }
   .button {
     display: inline-block; padding: 0.75rem 1.75rem; border: none;
     font: inherit; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.14em;
     text-transform: uppercase; text-decoration: none; cursor: pointer;
-    color: #100346; background: #ffff00; border-radius: 4px;
+    color: var(--ink); background: var(--ember); border-radius: 4px;
   }
+  .back-link {
+    display: inline-block; margin-top: 0.5rem;
+    font-size: 0.85rem; color: var(--tube); text-underline-offset: 3px;
+  }
+  .back-link:hover { color: var(--ember); }
 </style>
 </head>
 <body>
 <main>
+  ${HEHT_LOGO_SVG.replace('<svg ', '<svg class="logo" ')}
   <h1>${heading}</h1>
   ${body}
-  <p><a class="button" href="${PRIMARY_SITE_URL}" style="background:transparent;color:#ffff00;border:1px solid #ffff00;">Back to Higher Ed Hot Takes</a></p>
+  <p><a class="back-link" href="${PRIMARY_SITE_URL}">Back to Higher Ed Hot Takes</a></p>
 </main>
 </body>
 </html>`;
