@@ -67,7 +67,7 @@
 
       try {
         // Serialize the actual form fields — the edge function (see
-        // src/edge/newsletter-signup.js) reads email/firstName/lastName/
+        // src/edge/newsletter.js) reads email/firstName/lastName/
         // website/formTimestamp via form.get(...). This used to send a
         // hand-built Loops-hosted-form-style body instead (a leftover
         // from before the form posted to our own Bunny edge function),

@@ -1,34 +1,53 @@
-// Bunny Edge Script — newsletter confirmation for higheredhottakes.com
+// Bunny Edge Script — newsletter signup + confirmation for
+// higheredhottakes.com
 //
-// Paired with newsletter-signup.js, which generates the token this script
-// verifies. Two-step confirm, not a bare GET:
+// Handles all three steps of a DIY double opt-in flow on a single
+// endpoint (previously split across two separate Bunny Edge Scripts —
+// consolidated to match the pattern in jggweb, which hit the same
+// maintenance problem first):
 //
-//   GET  /  ?token=…&email=…  landing: look up the token and render a
-//           confirmation page with a "Confirm subscription" button.
-//           Read-only — no contact is created here.
-//   POST /  (token, email)    confirm: the button above submits here.
-//           Looks up the token again, calls Loops /contacts/create,
-//           deletes the token, returns an HTML confirmation page.
+//   POST /   (email, firstName, lastName) signup: generate a token, store
+//            it in Bunny Object Storage, send the confirmation email via
+//            Loops /transactional. No contact is created yet.
+//   GET  /   ?token=…&email=… landing: look up the token and render a
+//            confirmation page with a "Confirm subscription" button.
+//            Read-only — no contact is created here.
+//   POST /   (token, email) confirm: the button above submits here. Looks
+//            up the token again, calls Loops /contacts/create, deletes
+//            the token, returns an HTML confirmation page.
 //
-// The confirming action must be a POST, not the initial GET — email
+// The confirmation action must be a POST, not the initial GET — email
 // security scanners and link-prefetch bots fetch every URL in an inbound
 // email, so a GET that subscribes on load lets those requests silently
-// confirm signups nobody actually clicked (including spam/list-bombed
-// addresses). Ported from the same fix in jggweb (commit 5017278).
+// confirm signups nobody actually asked for (including spam/list-bombed
+// addresses). Mirrors jggweb's fix for the same bug (commit 5017278).
+//
+// We roll our own flow because Loops' API has no double opt-in — checked
+// their full OpenAPI spec (2026-08-25): no confirmation/verification
+// field on POST /v1/contacts/create or anywhere else. Only their hosted
+// Form product supports it, and that's an embed widget, not something
+// this API-driven form can use without giving up the on-brand UI.
+//
+// The confirmation URL is self-referencing (built from the incoming
+// request's own host/path), so this script works the same whether it's
+// deployed to one Bunny Edge Script endpoint or pasted into several —
+// no hardcoded cross-endpoint URL to keep in sync.
 //
 // Env vars (set in Bunny → Compute → Edge Scripts → Environment):
-//   LOOPS_API_KEY       — from Loops › Settings › API
-//   LOOPS_MAILING_LIST  — mailing list ID to add the contact to
-//   SITE_URL            — comma-separated allowed origins, e.g.
-//                         https://higheredhottakes.com,http://localhost:8080
-//   BUNNY_CDN_URL       — storage.bunnycdn.com
-//   BUNNY_STORAGE_ZONE  — storage zone name
-//   BUNNY_API_KEY       — storage zone password (FTP & API Access)
+//   LOOPS_API_KEY           — from Loops › Settings › API
+//   LOOPS_TRANSACTIONAL_ID  — confirmation email template ID
+//   LOOPS_MAILING_LIST      — mailing list ID to add the contact to
+//   SITE_URL                — comma-separated allowed origins, e.g.
+//                             https://higheredhottakes.com,http://localhost:8080
+//   BUNNY_CDN_URL           — storage.bunnycdn.com
+//   BUNNY_STORAGE_ZONE      — storage zone name
+//   BUNNY_API_KEY           — storage zone password (FTP & API Access)
 
 import * as BunnySDK from "https://esm.sh/@bunny.net/edgescript-sdk@0.11.2";
 import process from "node:process";
 
 const LOOPS_API_KEY = process.env.LOOPS_API_KEY;
+const LOOPS_TRANSACTIONAL_ID = process.env.LOOPS_TRANSACTIONAL_ID;
 const LOOPS_MAILING_LIST = process.env.LOOPS_MAILING_LIST || "clxw13yb8004y0ml459zv0z3c";
 const ALLOWED_ORIGINS = (process.env.SITE_URL || "https://higheredhottakes.com")
   .split(",")
@@ -38,6 +57,10 @@ const PRIMARY_SITE_URL = ALLOWED_ORIGINS[0] || "https://higheredhottakes.com";
 const BUNNY_CDN_URL = process.env.BUNNY_CDN_URL;
 const BUNNY_STORAGE_ZONE = process.env.BUNNY_STORAGE_ZONE;
 const BUNNY_API_KEY = process.env.BUNNY_API_KEY;
+
+const RATE_LIMIT_MAX = 5; // max signup attempts per IP
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
+const TOKEN_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
 // ── CORS ────────────────────────────────────────────────────────────────
 function corsHeaders(req) {
@@ -51,9 +74,25 @@ function corsHeaders(req) {
   };
 }
 
+function json(req, status, body) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders(req), "Content-Type": "application/json" },
+  });
+}
+
 // ── Bunny Object Storage helpers ────────────────────────────────────────
 function storageUrl(path) {
   return `https://${BUNNY_CDN_URL}/${BUNNY_STORAGE_ZONE}/${path}`;
+}
+
+async function storagePut(path, data) {
+  const res = await fetch(storageUrl(path), {
+    method: "PUT",
+    headers: { AccessKey: BUNNY_API_KEY, "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error(`Storage PUT ${res.status}`);
 }
 
 async function storageGet(path) {
@@ -71,9 +110,64 @@ async function storageDelete(path) {
   });
 }
 
+// ── Rate limit ──────────────────────────────────────────────────────────
+async function checkAndUpdateRateLimit(ip) {
+  const path = `newsletter-rate-limit/${ip}.json`;
+  let timestamps = (await storageGet(path)) || [];
+  const now = Date.now();
+  timestamps = timestamps.filter((ts) => now - ts < RATE_LIMIT_WINDOW);
+  if (timestamps.length >= RATE_LIMIT_MAX) return false;
+  timestamps.push(now);
+  await storagePut(path, timestamps);
+  return true;
+}
+
+// ── Token ───────────────────────────────────────────────────────────────
+function generateToken(length = 32) {
+  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let token = "";
+  for (let i = 0; i < length; i++) token += chars.charAt(Math.floor(Math.random() * chars.length));
+  return token;
+}
+
+async function lookupValidToken(token, email) {
+  const path = `newsletter-tokens/${token}.json`;
+  const data = await storageGet(path);
+  if (!data || data.email !== email) return { ok: false, reason: "invalid" };
+  if (Date.now() > data.expiresAt) {
+    await storageDelete(path);
+    return { ok: false, reason: "expired" };
+  }
+  return { ok: true, path, data };
+}
+
 // ── Loops ───────────────────────────────────────────────────────────────
-// Adds the contact via a raw fetch (not the loops SDK — this edge runtime
-// only has esm.sh imports available, same as newsletter-signup.js).
+async function sendConfirmationEmail({ email, verificationUrl }) {
+  const res = await fetch("https://app.loops.so/api/v1/transactional", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${LOOPS_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      transactionalId: LOOPS_TRANSACTIONAL_ID,
+      email,
+      dataVariables: { verificationUrl },
+    }),
+  });
+  if (!res.ok) {
+    let detail = "";
+    try { detail = JSON.stringify(await res.json()); } catch (_) {}
+    console.error("Loops transactional error:", { status: res.status, detail, email });
+    throw new Error(`Loops transactional ${res.status}`);
+  }
+}
+
+// Adds the contact via a raw fetch — this edge runtime only has esm.sh
+// imports available, and the response is parsed into JSON before being
+// checked (an earlier version checked fields on the raw fetch Response
+// object instead, which doesn't have them, so every real success fell
+// through to an error path anyway).
 async function createContact({ email, firstName, lastName, referrer }) {
   const payload = {
     email: String(email).toLowerCase().trim(),
@@ -100,21 +194,14 @@ async function createContact({ email, firstName, lastName, referrer }) {
   if (res.status === 409) return;
 
   if (!res.ok) {
-    // Parse the body for a useful log line, but never surface it to the
-    // visitor (see htmlResponse callers below — always a generic message).
     let detail = "";
     try { detail = JSON.stringify(await res.json()); } catch (_) {}
     console.error("Loops contacts/create error:", { status: res.status, detail });
     throw new Error(`Loops contacts/create ${res.status}`);
   }
-  // res.ok and not 409 — success. (Previously this read `.success`/`.id`
-  // off the raw fetch Response instead of its parsed JSON body, which
-  // doesn't have those properties — every real success fell through to
-  // the error branch below and showed the visitor a failure page even
-  // though the contact really had been created.)
 }
 
-// ── Confirmation HTML ───────────────────────────────────────────────────
+// ── HTML (GET landing + POST confirm responses) ─────────────────────────
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -173,17 +260,6 @@ function htmlResponse(status, { title, heading, body }) {
   });
 }
 
-async function lookupValidToken(token, email) {
-  const path = `newsletter-tokens/${token}.json`;
-  const data = await storageGet(path);
-  if (!data || data.email !== email) return { ok: false, reason: "invalid" };
-  if (Date.now() > data.expiresAt) {
-    await storageDelete(path);
-    return { ok: false, reason: "expired" };
-  }
-  return { ok: true, path, data };
-}
-
 function invalidOrExpiredPage(reason) {
   return reason === "expired"
     ? {
@@ -196,6 +272,48 @@ function invalidOrExpiredPage(reason) {
         heading: "This link is no longer valid",
         body: "<p>The confirmation link has already been used or doesn't match. Try subscribing again.</p>",
       };
+}
+
+// ── Handlers ────────────────────────────────────────────────────────────
+async function handleSignup(req, form) {
+  const email = (form.get("email") || "").toString().trim();
+  const firstName = (form.get("firstName") || "").toString().trim();
+  const lastName = (form.get("lastName") || "").toString().trim();
+  const honeypot = (form.get("website") || "").toString();
+  const timestamp = parseInt(form.get("formTimestamp") || "0", 10);
+  const ip = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for") || "unknown";
+  const referrer = req.headers.get("referer") || "";
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return json(req, 400, { error: "A valid email is required." });
+  }
+  if (honeypot.trim() !== "") return json(req, 400, { error: "Spam detected." });
+  if (timestamp && Date.now() - timestamp < 2000) {
+    return json(req, 400, { error: "Form submitted too quickly." });
+  }
+
+  const allowed = await checkAndUpdateRateLimit(ip);
+  if (!allowed) return json(req, 429, { error: "Too many signups from this IP. Please try again later." });
+
+  try {
+    const token = generateToken();
+    await storagePut(`newsletter-tokens/${token}.json`, {
+      email, firstName, lastName, referrer, expiresAt: Date.now() + TOKEN_TTL, ip,
+    });
+
+    // Self-referencing: points back at whichever host/path this request
+    // came in on, so the same script works regardless of how many Bunny
+    // endpoints it's deployed to.
+    const reqUrl = new URL(req.url);
+    const base = `${reqUrl.protocol}//${reqUrl.host}${reqUrl.pathname}`;
+    const verificationUrl = `${base}?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+
+    await sendConfirmationEmail({ email, verificationUrl });
+    return json(req, 200, { success: true });
+  } catch (err) {
+    console.error("Signup error:", { message: err.message, stack: err.stack });
+    return json(req, 500, { error: "Subscription failed. Please try again later." });
+  }
 }
 
 // GET — read-only landing page. Does not create the contact: a plain page
@@ -278,10 +396,7 @@ BunnySDK.net.http.serve(async (req) => {
   if (req.method === "GET") return handleConfirmLanding(req);
   if (req.method === "POST") {
     const form = await req.formData();
-    return handleConfirm(form);
+    return form.get("token") ? handleConfirm(form) : handleSignup(req, form);
   }
-  return new Response(JSON.stringify({ error: "Method not allowed" }), {
-    status: 405,
-    headers: { ...corsHeaders(req), "Content-Type": "application/json" },
-  });
+  return json(req, 405, { error: "Method not allowed" });
 });
