@@ -10,6 +10,7 @@ audio:
   type: audio/mpeg
 transcript:
   srt: /assets/audio/heht-005-greatness-is-inefficient.srt
+  vtt: /assets/audio/heht-005-greatness-is-inefficient.vtt
 tags:
   - AI
   - Higher Education

@@ -80,8 +80,8 @@ pageType: episode
          {% if episode.audio and episode.audio.filename %}
          data-audio-src="{{ episode.audio.filename | episodeUrl(podcast) }}"
          {% endif %}
-         {% if episode.transcript and episode.transcript.srt %}
-         data-captions="{{ episode.transcript.srt }}"
+         {% if episode.transcript and episode.transcript.vtt %}
+         data-captions="{{ episode.transcript.vtt }}"
          {% endif %}
     >
       <img src="{{ episode.video.poster or episode.cover.image if episode.video else episode.cover.image }}"

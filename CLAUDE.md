@@ -64,8 +64,8 @@ Keep old token names aliased to new values for one commit so nothing breaks mid-
 
 The site must now handle video episodes alongside audio. Requirements:
 
-- Episode data model in `src/_data/podcast.json` (and/or episode front matter) grows a `video` object: `{ src, poster, captions, duration, aspectRatio }`.
-- Episode detail template renders a `<video>` element with `preload="metadata"`, `playsinline`, poster, and a `<track kind="captions">` pointing to the existing SRT/VTT.
+- Episode data model in `src/_data/podcast.json` (and/or episode front matter) grows a `video` object: `{ src, poster, captions, duration, aspectRatio, width, height }`. `width`/`height` (actual pixel dimensions of the encode) feed `og:video:width`/`og:video:height` — `aspectRatio` alone isn't enough for those, and the meta partial silently omits both tags without them.
+- Episode detail template renders a `<video>` element with `preload="metadata"`, `playsinline`, poster, and a `<track kind="captions">` pointing to a **WebVTT** file — `<track>` doesn't support SRT. Transcripts ship as `.srt` (correct for the RSS `podcast:transcript` tag, which does support it) with a `.vtt` companion for the caption track; see `transcript.vtt` in episode front matter.
 - Audio-only episodes keep the existing audio player; mixed episodes should prefer video but expose an "audio only" toggle.
 - The `audio-manager.js` / `audio-player.js` modules need a sibling `video-player.js` or a generalized `media-manager.js`. Prefer generalization if the diff stays small; otherwise keep them parallel and share a tiny playback-state module.
 - OG/Twitter meta must include video tags (`og:video`, `og:video:type`, `og:video:width`, `og:video:height`) when a video exists.

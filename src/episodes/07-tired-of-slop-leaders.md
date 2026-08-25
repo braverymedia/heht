@@ -10,6 +10,7 @@ audio:
   type: audio/mpeg
 transcript:
   srt: /assets/audio/heht-007-tired-of-slop-leaders.srt
+  vtt: /assets/audio/heht-007-tired-of-slop-leaders.vtt
 tags:
   - AI
   - Higher Education

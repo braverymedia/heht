@@ -10,6 +10,7 @@ audio:
   type: audio/mpeg
 transcript:
   srt: /assets/audio/heht-001-the-evangelist-and-the-critic.srt
+  vtt: /assets/audio/heht-001-the-evangelist-and-the-critic.vtt
 tags:
   - AI
   - Higher Education

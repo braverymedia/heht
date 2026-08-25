@@ -10,6 +10,7 @@ audio:
   type: audio/mpeg
 transcript:
   srt: /assets/audio/heht-003-performance-is-non-negotiable.srt
+  vtt: /assets/audio/heht-003-performance-is-non-negotiable.vtt
 tags:
   - AI
   - Higher Education

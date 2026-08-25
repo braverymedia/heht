@@ -10,6 +10,7 @@ audio:
   type: audio/mpeg
 transcript:
   srt: /assets/audio/heht-002-personalize-this.srt
+  vtt: /assets/audio/heht-002-personalize-this.vtt
 tags:
   - AI
   - Higher Education

@@ -1,0 +1,1815 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.280
+Joel Goodman: Tired of
+all the AI slop leaders.
+
+2
+00:00:02.340 --> 00:00:03.510
+This is Higher Ed Hot Takes.
+
+3
+00:00:03.510 --> 00:00:04.530
+And I'm Joel Goodman.
+
+4
+00:00:18.090 --> 00:00:23.270
+I am delighted to be joined this
+time by my good friend Shane Baglini.
+
+5
+00:00:23.445 --> 00:00:23.905
+Shane Baglini: Hey, Joel.
+
+6
+00:00:24.055 --> 00:00:24.720
+Good to see you
+
+7
+00:00:24.960 --> 00:00:27.685
+Joel Goodman: AI has infiltrated
+everything that we do.
+
+8
+00:00:27.939 --> 00:00:28.540
+Shane Baglini: It has.
+
+9
+00:00:28.560 --> 00:00:32.940
+Joel Goodman: In higher education and
+we've been back channeling a bit over the
+
+10
+00:00:32.940 --> 00:00:39.390
+weeks as we see things that pop up in our
+LinkedIns and every other place online and
+
+11
+00:00:39.390 --> 00:00:43.410
+thought it might be good to just have a
+conversation from the viewpoint of someone
+
+12
+00:00:43.410 --> 00:00:50.070
+that is inside a college, you know, has
+worked inside institutions for years.
+
+13
+00:00:50.655 --> 00:00:53.865
+While I've been working outside of
+institutions and maybe just bring a little
+
+14
+00:00:53.865 --> 00:00:59.655
+bit more grounding to this conversation
+around how we can actually use large
+
+15
+00:00:59.655 --> 00:01:03.735
+language models in this technology in
+ways that are helpful and not harmful.
+
+16
+00:01:03.885 --> 00:01:07.575
+And maybe just call out some of
+those harmful areas that we think
+
+17
+00:01:07.725 --> 00:01:09.105
+we're seeing across the industry.
+
+18
+00:01:09.135 --> 00:01:10.095
+'cause there's, there's a lot.
+
+19
+00:01:10.395 --> 00:01:10.995
+Um.
+
+20
+00:01:11.205 --> 00:01:14.354
+This was kind of initially
+kicked off by a, a couple of
+
+21
+00:01:14.354 --> 00:01:16.964
+different comments we saw online.
+
+22
+00:01:17.024 --> 00:01:19.005
+Um, some very hot takes.
+
+23
+00:01:19.005 --> 00:01:23.835
+We've seen from friends, from colleagues,
+from vendors that are all the things
+
+24
+00:01:23.835 --> 00:01:26.684
+I've been talking about on this show
+for the last several, several months.
+
+25
+00:01:26.804 --> 00:01:26.835
+I.
+
+26
+00:01:27.055 --> 00:01:31.605
+Shane Baglini: My first take is
+this conversation might come off
+
+27
+00:01:31.605 --> 00:01:32.985
+As you know, we're against ai.
+
+28
+00:01:34.200 --> 00:01:34.950
+Not the case.
+
+29
+00:01:35.075 --> 00:01:36.120
+I, I use it every day.
+
+30
+00:01:36.120 --> 00:01:37.020
+I've used it today.
+
+31
+00:01:37.170 --> 00:01:38.160
+I'll use it tomorrow.
+
+32
+00:01:38.220 --> 00:01:42.060
+I think it's incredibly useful and
+helpful and a great resource and
+
+33
+00:01:42.060 --> 00:01:45.270
+tool that everybody should, should
+use and should experiment with
+
+34
+00:01:45.270 --> 00:01:46.980
+and see, see what they figure out.
+
+35
+00:01:47.315 --> 00:01:49.980
+I, I mean, I'm still
+finding new ways to use it.
+
+36
+00:01:50.010 --> 00:01:54.930
+I'm still finding new things that it can
+do and the possibilities are are great.
+
+37
+00:01:55.455 --> 00:01:59.625
+I think the thing that I would take issue
+with, and I think one of the problems that
+
+38
+00:01:59.625 --> 00:02:06.285
+higher ed practitioners have is this idea
+that if you're not advanced in AI or if
+
+39
+00:02:06.285 --> 00:02:12.405
+you're not using AI assistance or don't
+have an AI chat bot, or if you haven't
+
+40
+00:02:12.405 --> 00:02:16.155
+optimized your entire website, you have
+for AI search, that you're somehow behind
+
+41
+00:02:16.454 --> 00:02:18.885
+the sort of the, the onslaught of ai.
+
+42
+00:02:18.935 --> 00:02:24.395
+Quote unquote thought leadership is this
+sort of, um, and I'm, it's not purposely
+
+43
+00:02:24.395 --> 00:02:26.320
+making people feel that way, but it, it.
+
+44
+00:02:26.940 --> 00:02:29.640
+It does, and I see it
+all the time on LinkedIn.
+
+45
+00:02:29.640 --> 00:02:32.580
+I hear it from colleagues, you
+know, I feel like I'm behind on ai.
+
+46
+00:02:32.580 --> 00:02:36.750
+I see all these people doing these great
+things, and the reality of it is higher
+
+47
+00:02:36.750 --> 00:02:40.950
+ed practitioners, including myself, simply
+don't have the time to do these things.
+
+48
+00:02:41.220 --> 00:02:46.440
+And so hearing from people that are
+genuinely thought leaders, both in and
+
+49
+00:02:46.440 --> 00:02:51.030
+outside of higher ed, it sort of is,
+is wearing on me this, this constant,
+
+50
+00:02:51.390 --> 00:02:52.860
+you need to be using AI in this way.
+
+51
+00:02:52.860 --> 00:02:55.110
+You can do this with AI
+and, and really there's.
+
+52
+00:02:55.829 --> 00:02:59.609
+Only a few practical things that I
+see throughout the week that actually
+
+53
+00:03:00.239 --> 00:03:01.980
+would work for higher ed practitioners.
+
+54
+00:03:01.980 --> 00:03:04.980
+And so that's kind of where you and
+I have been chatting about this,
+
+55
+00:03:04.980 --> 00:03:08.730
+that, you know, it's great, but
+how does higher ed implement it and
+
+56
+00:03:08.730 --> 00:03:09.959
+where do we get the time to do it?
+
+57
+00:03:10.200 --> 00:03:12.300
+Joel Goodman: I think there's,
+there's a multi-layered issue, right?
+
+58
+00:03:12.300 --> 00:03:16.859
+I think there's been so much hype,
+even just outside of our own circles,
+
+59
+00:03:16.890 --> 00:03:19.590
+around the ways to use this technology.
+
+60
+00:03:19.800 --> 00:03:21.810
+A lot of that hype is unfounded.
+
+61
+00:03:21.810 --> 00:03:24.391
+A lot of that hype is really just to sell.
+
+62
+00:03:24.630 --> 00:03:25.350
+Subscriptions.
+
+63
+00:03:25.350 --> 00:03:29.790
+A lot of that hype is, I think,
+detrimental to the quality levels
+
+64
+00:03:29.790 --> 00:03:33.570
+of the, of the work that we produce
+and the output that we have.
+
+65
+00:03:33.570 --> 00:03:37.260
+I think it's detrimental to parts
+of society, and I've talked about,
+
+66
+00:03:37.350 --> 00:03:38.430
+talked about that on this show.
+
+67
+00:03:38.730 --> 00:03:44.280
+And then there's the follow the leader
+style that higher Ed seems to have and
+
+68
+00:03:44.280 --> 00:03:48.570
+has always had, where the thought leaders,
+or as I've been calling them, the AI slop
+
+69
+00:03:48.570 --> 00:03:52.350
+leaders within the industry, it was within
+our industry, within a lot of industry.
+
+70
+00:03:52.710 --> 00:03:54.210
+They're following those
+hype cycles, right?
+
+71
+00:03:54.210 --> 00:03:57.660
+And then part of that is because
+you've got people that are just kinda
+
+72
+00:03:57.660 --> 00:03:59.670
+like cheerleaders for it, regardless.
+
+73
+00:03:59.670 --> 00:04:02.040
+I don't know what their motivations
+are, but they're cheerleaders.
+
+74
+00:04:02.775 --> 00:04:04.125
+Other people are just making money on it.
+
+75
+00:04:04.125 --> 00:04:07.155
+Usually those are the vendors, usually
+those are the founders of these
+
+76
+00:04:07.155 --> 00:04:11.145
+companies that are putting the hard
+sell on institutions and convincing
+
+77
+00:04:11.145 --> 00:04:15.165
+them that they have a solution for a
+problem that does not exist, but telling
+
+78
+00:04:15.165 --> 00:04:16.575
+people they have this problem, right?
+
+79
+00:04:17.055 --> 00:04:24.615
+And that constant spin and cycle of
+hype and pressure and filling of any
+
+80
+00:04:24.615 --> 00:04:28.095
+empty space in the, in the discourse
+and the conversation with this
+
+81
+00:04:28.095 --> 00:04:31.035
+information, I think does put that.
+
+82
+00:04:31.635 --> 00:04:35.445
+Downward pressure on people to think,
+oh, I have to do this, which is really
+
+83
+00:04:35.445 --> 00:04:41.835
+strange to me for an industry that has
+traditionally been so risk averse that
+
+84
+00:04:41.835 --> 00:04:46.545
+they would think that jumping into a
+technology that is as young as it is with
+
+85
+00:04:46.545 --> 00:04:52.035
+as many faults as it has, the, the amount
+of misinformation that gets generated
+
+86
+00:04:52.035 --> 00:04:56.145
+by large language models, the, you know,
+the so-called hallucinations, which.
+
+87
+00:04:56.790 --> 00:04:59.670
+Really hallucinations is just
+how it's programmed to do it.
+
+88
+00:04:59.850 --> 00:05:04.890
+You know, the mistakes that are made in
+that, and then the lack of criticality
+
+89
+00:05:04.890 --> 00:05:09.450
+on the side of a lot of people that
+are using these tools, they don't, you
+
+90
+00:05:09.450 --> 00:05:12.691
+know, they think, well, yeah, it seems
+good to me, and especially if you don't.
+
+91
+00:05:13.080 --> 00:05:15.750
+Know how to course correct for
+something like that, right?
+
+92
+00:05:15.750 --> 00:05:16.800
+Like how do you fix that?
+
+93
+00:05:17.190 --> 00:05:21.539
+Caused this extremely traditional
+industry that we've worked in for years
+
+94
+00:05:21.750 --> 00:05:27.419
+to all of a sudden abandon all of the
+criticality and thoughtfulness and
+
+95
+00:05:27.570 --> 00:05:32.669
+careful and just start throwing money at
+it and, and I don't know if that's due
+
+96
+00:05:32.669 --> 00:05:34.979
+to all of the pressure surrounding it.
+
+97
+00:05:35.310 --> 00:05:37.200
+Maybe everyone's out of ideas.
+
+98
+00:05:37.230 --> 00:05:40.470
+Maybe no one really feels like they
+know how to do their job anyway.
+
+99
+00:05:40.470 --> 00:05:43.650
+And so like that's,
+that's what the change is.
+
+100
+00:05:44.010 --> 00:05:48.330
+But those are the things that
+worry me because we're replacing
+
+101
+00:05:48.360 --> 00:05:51.090
+work that we know works.
+
+102
+00:05:51.240 --> 00:05:54.150
+The thoughtfulness and the expertise
+that we have, that our colleagues
+
+103
+00:05:54.150 --> 00:05:58.470
+have with something that's supposed
+to automate it, but we're automating
+
+104
+00:05:58.470 --> 00:06:00.180
+the wrong parts, in my opinion.
+
+105
+00:06:00.180 --> 00:06:04.320
+We're automating the stuff that like we
+as humans should still be working on.
+
+106
+00:06:04.935 --> 00:06:08.115
+Shane Baglini: I think, I think there's
+a lot that AI can, can do for us.
+
+107
+00:06:08.175 --> 00:06:11.295
+So two things on what you just said,
+the, the, the things that humans can do.
+
+108
+00:06:11.295 --> 00:06:11.625
+Right.
+
+109
+00:06:11.805 --> 00:06:15.915
+You and I were going back and forth on
+this, the CEO of perplexity talking about
+
+110
+00:06:16.065 --> 00:06:18.945
+their browser taking over recruiter jobs.
+
+111
+00:06:18.975 --> 00:06:23.115
+And when I read the headline, I mean, I
+read the article that the headline to me
+
+112
+00:06:23.115 --> 00:06:25.935
+was just, I'm not a recruiter, obviously.
+
+113
+00:06:26.565 --> 00:06:29.895
+It, it's just insulting to
+the profession of a recruiter.
+
+114
+00:06:29.985 --> 00:06:33.495
+You know, my current position at William
+and Mary, I worked with a recruiter.
+
+115
+00:06:34.125 --> 00:06:35.985
+She was outstanding.
+
+116
+00:06:36.195 --> 00:06:38.595
+She was the best recruiter
+I've ever worked with.
+
+117
+00:06:38.625 --> 00:06:43.755
+She had insights into the organization
+that were incredibly helpful, including,
+
+118
+00:06:43.815 --> 00:06:48.585
+you know, things like personality fit,
+institutional fit, and to say that your
+
+119
+00:06:48.585 --> 00:06:54.315
+browser can replace what this recruiter
+did for me in that process is insane.
+
+120
+00:06:54.465 --> 00:06:55.905
+There's a lot of uses for ai.
+
+121
+00:06:55.965 --> 00:06:57.735
+That's not one of them like that is
+
+122
+00:06:57.924 --> 00:06:58.344
+Joel Goodman: Yeah.
+
+123
+00:06:58.674 --> 00:07:00.864
+Well, and it's a huge
+overstatement too, right?
+
+124
+00:07:00.895 --> 00:07:05.875
+It's, it's an overstatement to
+think that a flawed software program
+
+125
+00:07:06.114 --> 00:07:07.765
+is better than flawed humans.
+
+126
+00:07:08.385 --> 00:07:09.974
+At least humans can course correct.
+
+127
+00:07:10.125 --> 00:07:13.335
+The flawed software is programmed
+to do that sort of thing.
+
+128
+00:07:13.335 --> 00:07:17.715
+And so like I, this has been bugging
+me like it's because it shows up.
+
+129
+00:07:17.715 --> 00:07:19.275
+This is a, I think this
+is a great example of it.
+
+130
+00:07:19.275 --> 00:07:27.554
+Like we are so content to get 70 or
+80% of the way there with software when
+
+131
+00:07:27.554 --> 00:07:29.474
+before that would've been inexcusable.
+
+132
+00:07:29.474 --> 00:07:34.515
+If we as ourselves, were only
+doing 70 or 80% to progress our
+
+133
+00:07:34.515 --> 00:07:37.094
+institutions to progress, our
+marketing, to progress, whatever.
+
+134
+00:07:37.905 --> 00:07:38.835
+We'd be fired.
+
+135
+00:07:38.835 --> 00:07:42.195
+Like that's, you know, it's fine
+'cause computers are doing it.
+
+136
+00:07:42.435 --> 00:07:45.855
+Um, but no one backfills
+the other 20% in most cases.
+
+137
+00:07:45.885 --> 00:07:48.195
+I mean, sometimes people do, but
+like in most cases like that, other
+
+138
+00:07:48.195 --> 00:07:49.455
+20 percent's not getting backfilled.
+
+139
+00:07:49.455 --> 00:07:53.205
+And when you're trying to automate
+things like a recruiter's job
+
+140
+00:07:53.925 --> 00:07:56.055
+that requires soft skills, right?
+
+141
+00:07:56.175 --> 00:08:00.615
+Like it requires those interpersonal
+skills that you really can't, you can't
+
+142
+00:08:00.615 --> 00:08:03.135
+get out of a predictive text model.
+
+143
+00:08:03.510 --> 00:08:06.479
+Shane Baglini: No, and it, you know,
+I think it unearths a bigger problem,
+
+144
+00:08:06.719 --> 00:08:09.000
+um, website as a second impression.
+
+145
+00:08:09.000 --> 00:08:12.630
+And, you know, these AI like chatbots
+and things like that, that are
+
+146
+00:08:13.200 --> 00:08:17.039
+overlaying your already existing
+websites and things like that.
+
+147
+00:08:17.190 --> 00:08:20.460
+And, you know, the idea of this
+recruiter perplexity situation, it's
+
+148
+00:08:20.460 --> 00:08:24.359
+like scanning LinkedIn for qualified
+candidates is not replacing a recruiter.
+
+149
+00:08:24.359 --> 00:08:25.650
+It's a tool for a recruiter.
+
+150
+00:08:26.295 --> 00:08:27.075
+The same way.
+
+151
+00:08:27.075 --> 00:08:30.585
+AI is a tool for our websites, for
+our marketing, for our messaging.
+
+152
+00:08:30.825 --> 00:08:34.725
+The, the bigger issue that's getting
+covered up and we're trying to bandaid
+
+153
+00:08:34.725 --> 00:08:39.135
+with AI is that most of our websites
+stink and the information is not good.
+
+154
+00:08:39.345 --> 00:08:44.444
+And so asking AI to correct
+that or using AI to mask that
+
+155
+00:08:44.865 --> 00:08:46.665
+is exacerbating your issue.
+
+156
+00:08:47.505 --> 00:08:51.975
+If you're reliant on AI search and
+then students get to your website
+
+157
+00:08:51.975 --> 00:08:54.105
+with maybe higher intent, who knows?
+
+158
+00:08:54.285 --> 00:08:55.319
+And your website stinks.
+
+159
+00:08:56.120 --> 00:08:56.410
+Joel Goodman: Yeah.
+
+160
+00:08:56.489 --> 00:08:58.829
+Shane Baglini: It doesn't matter if
+you showed up in the search results.
+
+161
+00:08:59.400 --> 00:09:03.479
+It it, it doesn't matter because
+if the student can't find what
+
+162
+00:09:03.479 --> 00:09:06.870
+they want when they get there,
+they're going to say, okay, great.
+
+163
+00:09:06.870 --> 00:09:08.250
+That came up in the AI results.
+
+164
+00:09:08.280 --> 00:09:09.930
+Let me move on to the next institution.
+
+165
+00:09:10.155 --> 00:09:10.454
+Joel Goodman: Right.
+
+166
+00:09:10.665 --> 00:09:16.844
+If your content's bad, if your website's
+not organized properly, that 80% that the
+
+167
+00:09:16.844 --> 00:09:21.584
+a that the AI tool gets you to helping
+them decreases, uh, you know, it's a, it's
+
+168
+00:09:21.584 --> 00:09:22.694
+a garbage and garbage out sort of deal.
+
+169
+00:09:23.415 --> 00:09:26.145
+To your point around man AI site
+searching, I've been having this
+
+170
+00:09:26.145 --> 00:09:29.084
+conversation with a lot of people that
+are producing these products right now.
+
+171
+00:09:29.084 --> 00:09:31.185
+I'm like, AI site search.
+
+172
+00:09:31.860 --> 00:09:33.810
+Or conversational site searches.
+
+173
+00:09:33.810 --> 00:09:37.470
+A lot of people are calling
+it on websites, I think again,
+
+174
+00:09:37.470 --> 00:09:39.510
+gets you a certain way there.
+
+175
+00:09:39.660 --> 00:09:42.810
+But remember when all those
+snippets started showing up in
+
+176
+00:09:42.810 --> 00:09:46.439
+Google searches originally, and
+we were all like, this sucks.
+
+177
+00:09:46.680 --> 00:09:47.700
+This is awful.
+
+178
+00:09:47.880 --> 00:09:49.290
+This is a terrible experience.
+
+179
+00:09:49.530 --> 00:09:53.970
+But then we put 'em on our websites like
+we're, you know, and to your point, it's
+
+180
+00:09:53.970 --> 00:09:57.390
+like we're serving up the information,
+we're summarizing something on the
+
+181
+00:09:57.390 --> 00:10:00.750
+website, which one means like the content
+on our website must not be very important.
+
+182
+00:10:00.750 --> 00:10:01.380
+And so like.
+
+183
+00:10:01.380 --> 00:10:04.290
+Maybe question how much content's
+on your website if a summary is
+
+184
+00:10:04.290 --> 00:10:05.850
+enough to give people what they need.
+
+185
+00:10:06.090 --> 00:10:08.970
+But two, those summaries
+don't lead to actions.
+
+186
+00:10:08.970 --> 00:10:10.650
+They answer a question.
+
+187
+00:10:10.650 --> 00:10:13.800
+The person leaves your website, they
+may never come back, you know, and
+
+188
+00:10:13.800 --> 00:10:15.210
+so you're leaving a lot to chance.
+
+189
+00:10:15.210 --> 00:10:17.460
+It's like kind of the exact opposite.
+
+190
+00:10:17.460 --> 00:10:19.380
+Conversion rate optimization practices.
+
+191
+00:10:19.620 --> 00:10:23.280
+If you're going to summarize something or
+provide an answer, you need to provide an
+
+192
+00:10:23.280 --> 00:10:25.290
+action as a next step for someone to do.
+
+193
+00:10:25.805 --> 00:10:27.334
+And these tools don't do that yet.
+
+194
+00:10:27.334 --> 00:10:30.574
+It's like a huge oversight
+by the producers of these,
+
+195
+00:10:30.574 --> 00:10:31.745
+of these site search tools.
+
+196
+00:10:31.925 --> 00:10:32.795
+And I keep telling them like.
+
+197
+00:10:33.420 --> 00:10:36.930
+People don't come to your
+university website or your college
+
+198
+00:10:36.930 --> 00:10:39.060
+website to just be informed.
+
+199
+00:10:39.060 --> 00:10:41.760
+And if they are doing that, like
+you're doing your job wrong because
+
+200
+00:10:41.760 --> 00:10:44.910
+you need to turn them from people that
+are learning about your institution
+
+201
+00:10:44.910 --> 00:10:48.479
+to people that are interacting and
+building affinity with your institution.
+
+202
+00:10:48.479 --> 00:10:51.510
+And that means getting them to take
+actions and connect with you, but they
+
+203
+00:10:51.510 --> 00:10:53.010
+don't, you know, that gets glossed over.
+
+204
+00:10:53.010 --> 00:10:57.150
+And unless you're a UX designer,
+unless you're someone that is deep
+
+205
+00:10:57.150 --> 00:10:59.520
+in the weeds of how this stuff works.
+
+206
+00:10:59.735 --> 00:11:02.945
+In a web interface, you're
+probably not thinking about it
+
+207
+00:11:02.945 --> 00:11:04.235
+when you get that sales pitch.
+
+208
+00:11:04.620 --> 00:11:09.125
+I, I think it, it just highlights
+one of the, one of the missing
+
+209
+00:11:09.155 --> 00:11:14.405
+pieces to this, put AI in everything
+at all costs, mentality that we
+
+210
+00:11:14.405 --> 00:11:15.905
+see just cropping up in culture.
+
+211
+00:11:16.280 --> 00:11:18.135
+Shane Baglini: And I think
+another point on the.
+
+212
+00:11:18.345 --> 00:11:23.355
+Google search AI stuff is that, go look at
+the sources of most of the search results
+
+213
+00:11:23.355 --> 00:11:28.335
+coming up, and what you're gonna find is
+Reddit and Quora and other public sites
+
+214
+00:11:28.335 --> 00:11:30.105
+that you can't control the information on.
+
+215
+00:11:30.615 --> 00:11:35.055
+So if your website is not in order, if
+the experience that students are having
+
+216
+00:11:35.055 --> 00:11:40.665
+when they get to your website is a bad
+one, it only compounds the problem because
+
+217
+00:11:40.665 --> 00:11:44.565
+there's gonna be information that this AI
+is pulling from that you can't control.
+
+218
+00:11:45.150 --> 00:11:47.340
+What you can control
+is the user experience.
+
+219
+00:11:47.340 --> 00:11:50.460
+Once somebody gets to your
+website, how you're leading them
+
+220
+00:11:50.460 --> 00:11:52.020
+to some sort of conversion action.
+
+221
+00:11:52.620 --> 00:11:57.420
+The messaging of your brand, the,
+the usefulness of the materials that
+
+222
+00:11:57.420 --> 00:12:01.440
+you're providing people, those are
+things that AI at the moment can't do.
+
+223
+00:12:02.069 --> 00:12:05.970
+It's on you to sort of build the
+foundation and then see how AI can
+
+224
+00:12:05.970 --> 00:12:09.660
+enhance it rather than understanding
+that we've got a problem.
+
+225
+00:12:09.720 --> 00:12:12.689
+Maybe our website is old, maybe
+there's too, you know, it's become
+
+226
+00:12:12.689 --> 00:12:14.490
+a repository type of situation.
+
+227
+00:12:14.880 --> 00:12:19.530
+Let's have AI fix it by having
+us show up and search results is
+
+228
+00:12:19.530 --> 00:12:20.850
+not solving your core problem.
+
+229
+00:12:21.555 --> 00:12:25.814
+Joel Goodman: Yeah, I, I think if
+anything, this sort of underscores
+
+230
+00:12:25.845 --> 00:12:29.715
+the systemic problems we've had in
+web marketing, digital marketing
+
+231
+00:12:29.715 --> 00:12:32.745
+across the, the sector forever, ever.
+
+232
+00:12:32.960 --> 00:12:36.615
+And if you know those summaries are
+drawing from sources that are not
+
+233
+00:12:36.615 --> 00:12:38.865
+your website or are not people that.
+
+234
+00:12:39.224 --> 00:12:44.564
+Have had good experiences with you or
+have not had a positive interaction
+
+235
+00:12:44.564 --> 00:12:49.365
+or you know, a reason to talk
+like good about your institution.
+
+236
+00:12:49.844 --> 00:12:51.734
+That's not an AI problem.
+
+237
+00:12:52.064 --> 00:12:53.865
+You know, an AI's not gonna fix it.
+
+238
+00:12:54.015 --> 00:12:58.604
+Like that's a systemic problem within
+how you're operating as a brand, how
+
+239
+00:12:58.604 --> 00:13:01.694
+you're operating your student experience,
+and touch points that people have
+
+240
+00:13:01.694 --> 00:13:03.104
+as they come into your institution.
+
+241
+00:13:03.525 --> 00:13:04.724
+I fear.
+
+242
+00:13:05.099 --> 00:13:08.579
+That despite that being the
+truth, the answer still becomes
+
+243
+00:13:08.579 --> 00:13:10.229
+like, yes, but AI will fix.
+
+244
+00:13:11.040 --> 00:13:12.330
+All of those things for you.
+
+245
+00:13:12.330 --> 00:13:15.450
+And then the question is, how
+does it fix it lie for you?
+
+246
+00:13:15.480 --> 00:13:20.610
+Like, is it, is it going to make things
+up because that is what it does and
+
+247
+00:13:20.610 --> 00:13:24.810
+that that becomes, you know, a bigger
+issue and, and it becomes a bigger
+
+248
+00:13:24.810 --> 00:13:29.760
+issue That is in line with how the
+slop economy kind of works in general.
+
+249
+00:13:29.760 --> 00:13:32.520
+You know, when you're seeing images and
+videos and you can't tell if they're
+
+250
+00:13:32.520 --> 00:13:34.620
+generated by a model or if they're real.
+
+251
+00:13:35.775 --> 00:13:36.225
+Slop.
+
+252
+00:13:36.225 --> 00:13:39.735
+If you're reading content that
+doesn't quite make sense or you
+
+253
+00:13:39.735 --> 00:13:43.185
+can't tell if you know if it's
+supposed to be that generic or not.
+
+254
+00:13:43.185 --> 00:13:44.355
+Like that's slop.
+
+255
+00:13:44.445 --> 00:13:48.705
+If everything that we're doing is just
+kind of regurgitating and cycling through
+
+256
+00:13:48.705 --> 00:13:53.625
+the same models over and over and over
+again, that's just building up on lop and
+
+257
+00:13:53.655 --> 00:13:58.065
+it presents a real opportunity for those
+that in this industry want to take it.
+
+258
+00:13:58.605 --> 00:14:01.185
+And that's to be human again.
+
+259
+00:14:01.215 --> 00:14:02.115
+That's to.
+
+260
+00:14:02.745 --> 00:14:09.045
+Have a point of view that is not the
+median of all of the content that
+
+261
+00:14:09.045 --> 00:14:10.725
+has been used to train these models.
+
+262
+00:14:10.905 --> 00:14:11.955
+Set yourself apart.
+
+263
+00:14:12.015 --> 00:14:13.875
+You don't have to play into it.
+
+264
+00:14:14.265 --> 00:14:18.015
+Going back to your earlier point,
+if you feel behind, you don't
+
+265
+00:14:18.015 --> 00:14:19.455
+have to play into this like.
+
+266
+00:14:20.285 --> 00:14:23.615
+Think critically when you can
+about how to use these tools.
+
+267
+00:14:24.005 --> 00:14:26.465
+Where I use these tools is for analysis.
+
+268
+00:14:26.465 --> 00:14:28.265
+I think it's good for data analysis.
+
+269
+00:14:28.265 --> 00:14:31.145
+It's good for finding
+patterns in what you're doing.
+
+270
+00:14:31.145 --> 00:14:34.295
+You know, if you wanted to do some
+information architecture work on your
+
+271
+00:14:34.295 --> 00:14:38.610
+website, I. Go and do a screaming
+Frog poll of your entire thing.
+
+272
+00:14:38.640 --> 00:14:42.240
+Take that CSV and give it to a model
+and have it analyze it and give
+
+273
+00:14:42.240 --> 00:14:43.980
+you some ideas about what it sees.
+
+274
+00:14:44.460 --> 00:14:49.410
+There are things that can give you
+superpowers as someone that is an expert
+
+275
+00:14:49.620 --> 00:14:53.400
+if you use and leverage these tools in
+the right way, because they are just
+
+276
+00:14:53.400 --> 00:14:56.640
+machine learning and that technology
+has been around for a long time.
+
+277
+00:14:57.035 --> 00:14:57.735
+Shane Baglini: Yeah, agreed.
+
+278
+00:14:58.185 --> 00:14:58.995
+That's a great point.
+
+279
+00:14:59.055 --> 00:15:04.005
+Using the tools as ways to expand
+your skillset, I think is, is
+
+280
+00:15:04.005 --> 00:15:06.225
+one of the messages that I'd
+like to get across to people.
+
+281
+00:15:06.735 --> 00:15:10.905
+I'll never, ever claim to be a
+mathematician or remotely good with
+
+282
+00:15:10.905 --> 00:15:16.605
+numbers, and so for me to have a tool to
+be able to do financial analysis and do
+
+283
+00:15:16.635 --> 00:15:21.675
+cost per acquisition modeling and things
+of that nature, that's invaluable to me.
+
+284
+00:15:21.675 --> 00:15:24.765
+That's where AI is like the best
+thing ever because it's letting
+
+285
+00:15:24.765 --> 00:15:26.235
+me do things that I can't do.
+
+286
+00:15:26.655 --> 00:15:29.324
+Based on just who I am and how I'm wired.
+
+287
+00:15:29.834 --> 00:15:33.615
+The other thing too is that I've
+found that a pretty large portion
+
+288
+00:15:33.615 --> 00:15:39.645
+of my AI use is using it to solve
+the things that take mental energy,
+
+289
+00:15:39.675 --> 00:15:41.535
+but aren't a priority for me.
+
+290
+00:15:42.495 --> 00:15:46.995
+So, you know, it could, it could
+very well be like drafting, I dunno.
+
+291
+00:15:47.444 --> 00:15:47.985
+Thank you.
+
+292
+00:15:47.985 --> 00:15:49.094
+Page language.
+
+293
+00:15:49.094 --> 00:15:52.935
+After your RFI form, could I
+do it in, in a half an hour?
+
+294
+00:15:52.935 --> 00:15:53.204
+I could.
+
+295
+00:15:53.714 --> 00:15:56.714
+Could I do it in 30 seconds
+and get 80% of the way there?
+
+296
+00:15:56.849 --> 00:16:01.485
+I, I could, and that's saving me mental
+energy to focus on other stuff, leading
+
+297
+00:16:01.485 --> 00:16:06.015
+people, teamwork dynamics, thi things
+again, that AI can't replace that I
+
+298
+00:16:06.015 --> 00:16:09.314
+need the, the brain bandwidth to do.
+
+299
+00:16:09.314 --> 00:16:14.324
+So I use it every day on things like that,
+on things that expand my skillset, but
+
+300
+00:16:14.324 --> 00:16:17.084
+I, I can't use it to mask the fact that.
+
+301
+00:16:17.520 --> 00:16:20.969
+I even have to check the numbers and
+I'm not good at math, so like you can't
+
+302
+00:16:20.969 --> 00:16:23.370
+use it as a, a, a, a, be all, end all.
+
+303
+00:16:23.370 --> 00:16:26.790
+You can't use it as a bandaid for
+things that you can't do or that
+
+304
+00:16:26.790 --> 00:16:30.120
+you're, you know, your brand can't
+do, your messaging can't do there.
+
+305
+00:16:30.120 --> 00:16:33.839
+Those are foundational things that AI
+can, that enhance once you start to
+
+306
+00:16:33.839 --> 00:16:36.209
+work on, on building that foundation.
+
+307
+00:16:36.960 --> 00:16:39.510
+Joel Goodman: And I think
+it's key to understand what
+
+308
+00:16:40.530 --> 00:16:42.450
+this technology is best at.
+
+309
+00:16:43.575 --> 00:16:45.765
+Kind of like put it in tears, right?
+
+310
+00:16:45.975 --> 00:16:47.445
+It's like financial analysis.
+
+311
+00:16:47.445 --> 00:16:48.525
+You know what it's really good at?
+
+312
+00:16:48.675 --> 00:16:51.825
+You could have it just write a script
+and have it execute the script and
+
+313
+00:16:51.825 --> 00:16:54.675
+then you know the script is gonna
+run the exact same time every time.
+
+314
+00:16:54.945 --> 00:16:57.555
+It's going to give you
+that data consistently.
+
+315
+00:16:57.555 --> 00:17:00.435
+Whenever you need that to happen, you
+plug in your numbers and let it do it.
+
+316
+00:17:00.795 --> 00:17:04.635
+Versus like assuming that when you
+go and ask it to, to conduct an
+
+317
+00:17:04.635 --> 00:17:05.985
+analysis, it's going to do that.
+
+318
+00:17:05.985 --> 00:17:08.385
+Like have it write a script,
+it'll do it, and then.
+
+319
+00:17:08.464 --> 00:17:11.554
+You can execute it with, with
+the lm you can execute it on your
+
+320
+00:17:11.554 --> 00:17:13.895
+own if you learn how to get in
+the command line or whatever.
+
+321
+00:17:14.254 --> 00:17:18.905
+But like, there are ways to make sure
+that it's doing things consistently
+
+322
+00:17:18.905 --> 00:17:22.625
+and it's doing things that you spend
+less server cycles, you spend less
+
+323
+00:17:22.625 --> 00:17:27.004
+energy, um, you know, just from a,
+from a sheer processing standpoint.
+
+324
+00:17:27.050 --> 00:17:31.639
+If it's writing a script once, rather
+than trying to write a script internally,
+
+325
+00:17:31.639 --> 00:17:34.820
+maybe slightly different every single
+time and then run the thing, you know,
+
+326
+00:17:35.120 --> 00:17:39.230
+and it's the same thing with, uh, it's
+kind of like with prompt engineering for,
+
+327
+00:17:39.409 --> 00:17:41.030
+for different, uh, generative outputs.
+
+328
+00:17:41.419 --> 00:17:44.840
+You know, if you want it to be
+consistent, you write a specific prompt
+
+329
+00:17:44.840 --> 00:17:48.139
+and you make sure that prompt gives
+it some guidelines to do that, and it
+
+330
+00:17:48.139 --> 00:17:53.030
+will generate that text consistently
+each time finding the ways to.
+
+331
+00:17:53.410 --> 00:17:58.540
+Put those guardrails in place for
+things based on what large language
+
+332
+00:17:58.540 --> 00:18:01.930
+models are actually good at versus
+what you're told they're good at,
+
+333
+00:18:02.020 --> 00:18:04.510
+or what the marketing has sold us.
+
+334
+00:18:04.510 --> 00:18:10.840
+Because generative text, I think, is one
+of the most boring things that LLMs do.
+
+335
+00:18:11.230 --> 00:18:15.520
+Like, I mean, it's cool, it's very
+cool, but it also is so prone to
+
+336
+00:18:15.520 --> 00:18:18.665
+error where writing, writing code.
+
+337
+00:18:19.965 --> 00:18:23.025
+In small subsets like full apps,
+that's a different, then we can
+
+338
+00:18:23.025 --> 00:18:24.045
+talk about that some other time.
+
+339
+00:18:24.045 --> 00:18:27.615
+But like small scripts, automating
+small things, like making sure
+
+340
+00:18:27.615 --> 00:18:29.325
+that certain routines are in place.
+
+341
+00:18:29.325 --> 00:18:32.235
+Those are the things that it's very,
+very good at doing those, doing that
+
+342
+00:18:32.235 --> 00:18:35.505
+analysis, writing a script to do that
+analysis, you know, that sort of thing.
+
+343
+00:18:35.925 --> 00:18:37.845
+So using it to do the things.
+
+344
+00:18:37.845 --> 00:18:38.595
+It's really good.
+
+345
+00:18:39.180 --> 00:18:43.980
+Um, and also kind of like cementing
+it so that it's not changing that in
+
+346
+00:18:43.980 --> 00:18:48.660
+the future as models change, but it's
+a skill A lot of people don't have.
+
+347
+00:18:48.660 --> 00:18:50.220
+What, because maybe you're not technical.
+
+348
+00:18:50.220 --> 00:18:53.730
+Maybe you know, you, you haven't looked
+into it enough like, but there are things
+
+349
+00:18:53.730 --> 00:18:58.260
+that, that large language models are a
+lot better at doing than other things.
+
+350
+00:18:58.560 --> 00:19:00.480
+And they're typically not the
+ones that we've been sold.
+
+351
+00:19:00.889 --> 00:19:04.129
+Shane Baglini: I think for higher
+ed and probably more industries,
+
+352
+00:19:04.730 --> 00:19:07.879
+we have so many things going on at
+one time and so many initiatives
+
+353
+00:19:07.879 --> 00:19:08.814
+that we're trying to push forward.
+
+354
+00:19:10.290 --> 00:19:14.850
+I think a lot of times innovating
+with AI gets left behind because of
+
+355
+00:19:15.300 --> 00:19:19.080
+deadlines, because of KPIs, because
+of things that we're responsible for.
+
+356
+00:19:19.470 --> 00:19:22.860
+And so I would just, again, drive
+home the message that if you're
+
+357
+00:19:22.860 --> 00:19:27.210
+seeing a lot about AI and you think,
+I'm not, I'm not doing any of this.
+
+358
+00:19:27.210 --> 00:19:29.490
+I'm behind, I, I, I gotta catch up.
+
+359
+00:19:29.910 --> 00:19:32.010
+You're right where you should be because.
+
+360
+00:19:33.240 --> 00:19:35.250
+You are focusing on other things.
+
+361
+00:19:35.250 --> 00:19:39.270
+You're focusing on things related
+to the mission of your institution.
+
+362
+00:19:39.270 --> 00:19:40.620
+You're focused on helping students.
+
+363
+00:19:40.620 --> 00:19:42.900
+You're focused on engaging with donors.
+
+364
+00:19:42.900 --> 00:19:47.820
+Whatever area of higher ed you're working
+in that you think I need to catch up on
+
+365
+00:19:47.820 --> 00:19:52.800
+AI to do my job better, it's probably
+not the case because the things that
+
+366
+00:19:52.800 --> 00:19:57.840
+you're doing, building relationships,
+displaying emotional intelligence, you
+
+367
+00:19:57.840 --> 00:20:01.020
+know, leadership qualities, team building.
+
+368
+00:20:01.919 --> 00:20:06.389
+All of those things that you focus on
+can't be replaced by ai, and therefore
+
+369
+00:20:06.720 --> 00:20:10.530
+you can't be replaced by AI if you don't,
+if you don't think you're up to speed.
+
+370
+00:20:11.129 --> 00:20:14.520
+So I would just enc, I just
+encourage everybody to chill out,
+
+371
+00:20:14.879 --> 00:20:17.399
+relax, do it at your own pace.
+
+372
+00:20:17.520 --> 00:20:20.909
+If your organization or your
+institution can allow you to block
+
+373
+00:20:21.270 --> 00:20:25.830
+two hours on a Friday afternoon
+to experiment with ai, if you have
+
+374
+00:20:25.830 --> 00:20:27.240
+it in your schedule, that's great.
+
+375
+00:20:28.080 --> 00:20:32.250
+But a lot of the pain points I hear
+from colleagues around the industry is
+
+376
+00:20:32.250 --> 00:20:34.320
+that I don't have time to do this stuff.
+
+377
+00:20:34.530 --> 00:20:37.290
+We are burning the candle at both ends.
+
+378
+00:20:37.860 --> 00:20:40.139
+We're short staffed, short on resources.
+
+379
+00:20:40.200 --> 00:20:41.610
+I just don't have time for this.
+
+380
+00:20:42.060 --> 00:20:45.870
+And so that's where I feel like this
+kind of pressure, this pressure complex
+
+381
+00:20:45.900 --> 00:20:47.275
+is coming from that, that I, you know.
+
+382
+00:20:47.925 --> 00:20:52.785
+Constant ai, onslaught of thought
+leadership and hot takes and all this,
+
+383
+00:20:52.875 --> 00:20:57.165
+this stuff about ai, it's, it, it, it, it
+can make you feel that way and I'm just
+
+384
+00:20:57.195 --> 00:21:01.245
+would encourage people to not feel that
+way 'cause I'm in the same boat as you.
+
+385
+00:21:01.365 --> 00:21:02.655
+Everybody's in the same boat.
+
+386
+00:21:03.015 --> 00:21:06.495
+And I think it, the reality of
+what higher ed marketers and higher
+
+387
+00:21:06.495 --> 00:21:10.335
+ed in general do and go through
+on a daily basis is being sort of
+
+388
+00:21:10.545 --> 00:21:13.125
+pushed aside for AI implementation.
+
+389
+00:21:13.530 --> 00:21:16.410
+Joel Goodman: If you need help figuring
+out how to use these technologies,
+
+390
+00:21:16.410 --> 00:21:18.930
+there are plenty of people that
+would love to help you do it.
+
+391
+00:21:19.170 --> 00:21:23.340
+Get in touch with me, subscribe to
+the newsletter, and I'll be happy to
+
+392
+00:21:23.340 --> 00:21:26.640
+connect you with folks or help you
+myself if that's something I can do.

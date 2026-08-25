@@ -10,6 +10,7 @@ audio:
   type: audio/mpeg
 transcript:
   srt: /assets/audio/heht-006-such-a-privilege.srt
+  vtt: /assets/audio/heht-006-such-a-privilege.vtt
 tags:
   - AI
   - Higher Education

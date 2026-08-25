@@ -10,6 +10,7 @@ audio:
   type: audio/mpeg
 transcript:
   srt: /assets/audio/heht-004-craft-amongst-the-slop.srt
+  vtt: /assets/audio/heht-004-craft-amongst-the-slop.vtt
 tags:
   - AI
   - Higher Education
