@@ -14,8 +14,11 @@
   font-size: clamp(8rem, 18vw, 15rem);
   line-height: 0.82;
   letter-spacing: -0.06em;
-  color: var(--ink-raised);
-  -webkit-text-stroke: 1px var(--ember-wash-6);
+  // Translucent white fill (not a flat ink color) so the ghost numeral
+  // stays readable against every zone of the flame gradient behind it,
+  // not just wherever it happens to sit relative to --ink.
+  color: oklch(100% 0 90 / 0.09);
+  -webkit-text-stroke: 1.5px var(--ember-wash-8);
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -119,6 +122,17 @@
   font-size: 0.88rem;
   line-height: 1.55;
   color: var(--bone-dim);
+
+  // Gritty glass, matching .rail — this is where AA-sensitive body copy
+  // (transcript, chapters, show notes) lives, so it needs a scrim. Scoped
+  // here rather than on .detail__content so the hero header above (large,
+  // bold, already AA-safe unscrimmed) stays transparent and the ghost
+  // odometer number can show through it.
+  background: var(--ink-glass-82);
+  backdrop-filter: blur(6px) saturate(0.85);
+  margin-inline: -2rem;
+  padding: 1.5rem 2rem 2rem;
+
   h2 {
     font-weight: 900;
     font-size: clamp(1.2rem, 2vw, 1.6rem);
@@ -130,8 +144,11 @@
   }
   h3 {
     font-weight: 700;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
+    // Was a hardcoded 0.7rem (11.2px) — off the shared type scale and
+    // too small to read comfortably. Tied to --type-sm so it scales
+    // with viewport like the rest of the system.
+    font-size: var(--type-sm);
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--ember);
     margin: 2rem 0 0.75rem;
@@ -172,12 +189,19 @@
     margin-inline-end: 0.5em;
     padding-inline-end: 0.05em;
     text-shadow:
-      0 0 0.25em oklch(78.1% 0.13 58.9 / 0.5),
+      0 0 0.25em oklch(96.8% 0.211 109.8 / 0.5),
       0 0 0.6em var(--glow-warm-heading);
   }
 
   .transcript {
     color: var(--bone-dim);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .detail__body {
+    background: var(--ink);
+    backdrop-filter: none;
   }
 }
 
