@@ -48,7 +48,11 @@ body {
   position: relative;
   overflow: hidden;
   min-width: 0;
-  width: 50vw;
+  // min() with the rail + .detail's own max-width (760px, see below)
+  // keeps this in lockstep with .detail's cap — without it, .detail
+  // stops growing on large screens but this box doesn't, leaving a
+  // dead gap of bare flame-gradient between the copy and the video.
+  width: min(50vw, calc(clamp(160px, 15vw, 220px) + 760px));
   transition: width 0.4s var(--easing-smooth);
 
   // Flame gradient — moved from body::before to the content column
@@ -100,6 +104,14 @@ body {
       pointer-events: none;
     }
   }
+}
+
+// Rail collapsed but detail expanded: same dead-gap risk as the base
+// .content-column rule above, just with the collapsed rail width
+// instead of the expanded one. The .shell--media.rail-collapsed
+// .detail-collapsed rule further down handles both-collapsed.
+.shell.rail-collapsed .content-column {
+  width: min(50vw, calc(var(--rail-w-collapsed) + 760px));
 }
 
 // Rail collapsed to icons: narrow the width, hide text labels, and let
@@ -333,7 +345,7 @@ body {
   overflow: hidden;
   width: 100%;
   max-width: 100dvh;
-  justify-self: center;
+  justify-self: start;
 }
 
 .shell--media.rail-collapsed .video-panel,
