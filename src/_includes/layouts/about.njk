@@ -23,6 +23,12 @@ pageType: about
   <article class="detail" id="main" tabindex="-1">
     <button class="detail__tab" id="detail-tab" aria-expanded="true" aria-controls="main" aria-label="Toggle details"></button>
 
+    {# The about slide-in's own heading is an h2 (correct when it overlays
+       an episode page under that page's h1). This page has no other
+       heading, so give it a real h1 — visually hidden since the panel
+       header already shows "About the Show" right below it. #}
+    <h1 class="sr-only">About — {{ podcast.title }}</h1>
+
     {% include "../../_components/slide-panels.njk" %}
 
     {# Empty detail content — the about slide fully covers it. #}
