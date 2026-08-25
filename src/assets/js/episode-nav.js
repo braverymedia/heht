@@ -127,12 +127,24 @@ export function initEpisodeNav() {
     }
   }
 
+  function updateCurrentEpisodeIndicator(url) {
+    document.querySelectorAll('.episode-list-panel__item').forEach(link => {
+      if (link.getAttribute('href') === url) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
   function swapContent(detailHtml, videoHtml, url) {
     const detailContent = detail.querySelector('.detail__content');
     const videoSlide = document.getElementById('video-slide');
 
     if (detailContent) detailContent.innerHTML = detailHtml;
     if (videoSlide) videoSlide.innerHTML = videoHtml;
+
+    updateCurrentEpisodeIndicator(url);
 
     // Update URL without reload
     history.pushState({ episodeUrl: url }, '', url);

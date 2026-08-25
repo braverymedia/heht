@@ -19,9 +19,11 @@
     <h2 class="episode-list-panel__title">All Episodes</h2>
   </div>
   <ul class="episode-list-panel__list" role="list">
-    {% for ep in collections.episodes | reverse %}
+    {% for ep in collections.episodes %}
+    {% set isCurrent = episode and ep.url == episode.url %}
     <li>
-      <a href="{{ ep.url }}" class="episode-list-panel__item">
+      <a href="{{ ep.url }}" class="episode-list-panel__item"
+         {% if isCurrent %}aria-current="true"{% endif %}>
         <span class="episode-list-panel__num">{{ ep.data.number | padStart(3, '0') }}</span>
         <span class="episode-list-panel__name">{{ ep.data.title }}</span>
         <span class="episode-list-panel__dur">{{ ep.data.audio.duration | durationHuman }}</span>

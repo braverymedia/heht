@@ -6,7 +6,7 @@ eleventyExcludeFromCollections: true
 {% filter safe %}
 {
   "episodes": [
-    {%- for episode in collections.episodes | reverse -%}
+    {%- for episode in collections.episodes -%}
       {%- if not loop.first -%},{%- endif -%}
       {
         "number": {{ episode.data.number | json }},
@@ -28,19 +28,19 @@ eleventyExcludeFromCollections: true
   "latestEpisode":
     {%- if collections.episodes.length -%}
       {
-        "number": {{ (collections.episodes | reverse | first).data.number | json }},
-        "title": {{ (collections.episodes | reverse | first).data.title | json | safe }},
-        "description": {{ (collections.episodes | reverse | first).data.description | json | safe }},
-        "date": {{ (collections.episodes | reverse | first).data.date | json | safe }},
-        "url": {{ (collections.episodes | reverse | first).url | json | safe }},
+        "number": {{ (collections.episodes | first).data.number | json }},
+        "title": {{ (collections.episodes | first).data.title | json | safe }},
+        "description": {{ (collections.episodes | first).data.description | json | safe }},
+        "date": {{ (collections.episodes | first).data.date | json | safe }},
+        "url": {{ (collections.episodes | first).url | json | safe }},
         "audio": {
-          "filename": {{ (collections.episodes | reverse | first).data.audio.filename | episodeUrl(podcast) | json | safe }},
-          "duration": {{ (collections.episodes | reverse | first).data.audio.duration | json }},
-          "type": {{ (collections.episodes | reverse | first).data.audio.type | json | safe }}
+          "filename": {{ (collections.episodes | first).data.audio.filename | episodeUrl(podcast) | json | safe }},
+          "duration": {{ (collections.episodes | first).data.audio.duration | json }},
+          "type": {{ (collections.episodes | first).data.audio.type | json | safe }}
         },
-        "tags": {{ (collections.episodes | reverse | first).data.tags | json | safe }},
-        "cover": {{ (collections.episodes | reverse | first).data.cover.image | json | safe }},
-        "html": "{{ (collections.episodes | reverse | first).templateContent | replace('"', '\\"') | replace('\n', '') | safe }}"
+        "tags": {{ (collections.episodes | first).data.tags | json | safe }},
+        "cover": {{ (collections.episodes | first).data.cover.image | json | safe }},
+        "html": "{{ (collections.episodes | first).templateContent | replace('"', '\\"') | replace('\n', '') | safe }}"
       }{%- else -%}
       null
     {%- endif -%}

@@ -134,13 +134,26 @@
   display: flex;
   align-items: baseline;
   gap: 1rem;
-  padding: 0.75rem 0;
+  padding: 0.75rem 0.75rem 0.75rem 1rem;
+  margin-inline-start: -1rem;
   border-block-end: 1px solid var(--ember-wash-3);
   text-decoration: none;
   color: var(--bone);
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
   &:hover {
     color: var(--ember);
+  }
+
+  // Currently-viewed episode — same ember-bar language as the rail's
+  // active nav state and detail/rail pull tabs.
+  &[aria-current] {
+    background: var(--ember-wash-2);
+    box-shadow: inset 3px 0 0 var(--ember);
+
+    .episode-list-panel__name {
+      color: var(--ember);
+      font-weight: 700;
+    }
   }
 }
 

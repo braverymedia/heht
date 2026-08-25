@@ -35,7 +35,7 @@ eleventyExcludeFromCollections: true
     {% endfor %}
     <itunes:explicit>{{ podcast.explicit }}</itunes:explicit>
 
-    {% for episode in collections.episodes | reverse %}
+    {% for episode in collections.episodes %}
       <item>
         <title>{{ episode.data.title }}</title>
         <itunes:title>{{ episode.data.title }}</itunes:title>

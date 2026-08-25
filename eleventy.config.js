@@ -35,6 +35,16 @@ export default async function (eleventyConfig) {
 		components: "src/_components/**/*.webc",
 	});
 
+	// Episodes collection — reverse-chronological (newest first), since
+	// this is a podcast. NOTE: this must be registered via addCollection;
+	// a `collections` key in the config return object below is not part
+	// of Eleventy's config API and is silently ignored.
+	eleventyConfig.addCollection("episodes", (collectionApi) => {
+		return collectionApi.getFilteredByTag("episodes").sort((a, b) => {
+			return new Date(b.data.date) - new Date(a.data.date);
+		});
+	});
+
 	// Custom markdown-it container for transcript blocks
 	const markdownLib = markdownIt({ html: true, breaks: true, linkify: true });
 	markdownLib.use(container, 'transcript', {
@@ -435,13 +445,6 @@ export default async function (eleventyConfig) {
 		cache: isProduction,
 		cacheDuration: !isProduction ? "0s" : "1y",
 		files: ["src/**/*.{njk,md,html}"],
-		collections: {
-			episodes: function(collection) {
-				return collection.getFilteredByTag("episodes").sort((a, b) => {
-					return new Date(b.data.date) - new Date(a.data.date);
-				});
-			}
-		},
 		data: {
 			cacheBust: Date.now(),
 			isProduction: process.env.NODE_ENV === "production",
