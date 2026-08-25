@@ -9,7 +9,6 @@
     const firstName = form.querySelector('#firstName');
     const lastName = form.querySelector('#lastName');
     const email = form.querySelector('#email');
-    const ipAddress = form.querySelector('#ipAddress');
     const success = container.querySelector('.newsletter-success');
     const errorContainer = container.querySelector('.newsletter-error');
     const errorMessage = container.querySelector('.newsletter-error-message');
@@ -18,18 +17,6 @@
 
     // Set timestamp when form is loaded
     timestampField.value = Date.now();
-
-    // Get IP address
-    async function getIpAddress() {
-      try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        return data.ip;
-      } catch (error) {
-        console.error('Failed to get IP address:', error);
-        return '';
-      }
-    }
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -44,7 +31,7 @@
       buttonText.textContent = 'Subscribing...';
       const spinnerIcon = spinner.querySelector('.spinner-icon');
       const successIcon = spinner.querySelector('.success-icon');
-      
+
       // Show spinner and hide success icon
       spinner.style.display = 'inline-block';
       spinnerIcon.style.display = 'block';
@@ -79,10 +66,20 @@
       }
 
       try {
-        // Set IP address
-        ipAddress.value = await getIpAddress();
-
-        const formBody = `formId=clmf0qar501k6mb0npy4e33r8&userGroup=&mailingLists=clxw13yb8004y0ml459zv0z3c&firstName=${encodeURIComponent(firstName.value)}&lastName=${encodeURIComponent(lastName.value)}&email=${encodeURIComponent(email.value)}&ipAddress=${encodeURIComponent(ipAddress.value)}`;
+        // Serialize the actual form fields — the edge function (see
+        // src/edge/newsletter-signup.js) reads email/firstName/lastName/
+        // website/formTimestamp via form.get(...). This used to send a
+        // hand-built Loops-hosted-form-style body instead (a leftover
+        // from before the form posted to our own Bunny edge function),
+        // which meant the server never saw the honeypot or timestamp
+        // fields and its spam checks silently never ran.
+        const formBody = new URLSearchParams({
+          email: email.value,
+          firstName: firstName.value,
+          lastName: lastName.value,
+          website: honeypotField.value,
+          formTimestamp: timestampField.value,
+        });
 
         const response = await fetch(event.target.action, {
           method: 'POST',
@@ -96,23 +93,23 @@
           // Show success state with animation
           const spinnerIcon = spinner.querySelector('.spinner-icon');
           const successIcon = spinner.querySelector('.success-icon');
-          
+
           // Hide spinner and show success icon with animation
           spinnerIcon.style.display = 'none';
           successIcon.style.display = 'block';
           // Trigger reflow to ensure the display change is applied
           void successIcon.offsetWidth;
           successIcon.classList.add('show');
-          
+
           // Update button text
           buttonText.textContent = 'Subscribed!';
-          
+
           // Show success message
           success.style.display = 'flex';
-          
+
           // Reset form
           form.reset();
-          
+
           // Reset button state after animation
           setTimeout(() => {
             submitButton.disabled = false;
