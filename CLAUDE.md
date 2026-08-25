@@ -1,12 +1,14 @@
-# CLAUDE.md — HEHT Redesign (candle-glow / video-ready)
+# CLAUDE.md — HEHT Redesign (neon / video-ready)
 
 This file briefs Claude Code on the active redesign of the Higher Ed Hot Takes (HEHT) site. Read it before making any changes.
 
 ## Project context
 
-HEHT is an Eleventy (11ty) + Sass + Rollup site. It started as an audio podcast site and is being redesigned to (a) support video episodes as a first-class format and (b) shift the visual language away from a neon/UV-poster look to a darker, warmer, analog "candle in the dark / tube glow" aesthetic inspired by emo / post-hardcore design.
+HEHT is an Eleventy (11ty) + Sass + Rollup site. It started as an audio podcast site and is being redesigned to (a) support video episodes as a first-class format and (b) shift the visual language back toward the original blueviolet/yellow/green/pink neon identity.
 
-Current branch: `redesign/candle-glow-video` (off `main`).
+**Note on direction history:** an earlier pass on this branch moved the palette to a darker, warmer "candle in the dark / tube glow" aesthetic (analog grain, dim-room vignette, muted amber/teal accents). As of 2026-08-20 that direction was reverted back to neon — the show has taken on a cohost, so the intimate solo-candlelight framing no longer fits. The structural rebuild from that pass (2-column content/video shell, rail nav, slide panels, media controller, video data model) was **kept** — only the color tokens, the flame-gradient backdrop, and the grain/vignette atmosphere effects were reverted or dropped. See `_config.scss` and `_effects.scss` for the current source of truth; the "Aesthetic direction" section below reflects the current (neon) state.
+
+Current branch: `rebuild/media-shell-candle-glow` (off `main`). Despite the branch name (predates the reversal), the active direction is neon — see above.
 Pre-redesign work is stashed as `wip: pre-redesign snapshot` — do not pop it without asking.
 
 ## Non-negotiables
@@ -21,33 +23,32 @@ Pre-redesign work is stashed as `wip: pre-redesign snapshot` — do not pop it w
 
 ## Aesthetic direction
 
-Moving from: `#21078D` blueviolet + `#FFFF00` / `#00FFB2` / `#FF2578` neon palette with `hue-rotate`/`brightness` filter tricks and heavy backdrop blur.
+Current: the exact blueviolet/yellow/green/pink neon identity live on **higheredhottakes.com** (production), re-expressed in OKLCH so it's tunable, but not reinterpreted — the values below are direct OKLCH conversions of production's literal hex (`#100346` / `#21078D` / `#FFFF00` / `#00FFB2` / `#FF2578`). Dark indigo/blueviolet room, electric yellow primary accent, neon green secondary (this is production's exact `#00FFB2` — don't drift toward a softer teal/turquoise), hot pink for rare emphasis and the ambient flame-gradient backdrop. No analog grain, no dim-room vignette — those were candle-glow-specific and were dropped in the reversal.
 
-Moving to: dim room, warm filament/tube glow, analog grain, xerox/halftone texture, stencil display type. Think basement show flyer, not rave poster.
+**If a color looks off, check the live production site first** (view-source or computed styles), not this file or git history on `main` — `main` may be stale relative to what's actually deployed.
 
-### New design tokens (replace `_config.scss`)
+### Design tokens (`_config.scss`)
 
 ```
---ink:        #0B0C10;   /* the room */
---ink-raised: #14151B;   /* cards, drawers */
---bone:       #EDE6D6;   /* body text — never pure white */
---ember:      #F5A25D;   /* primary accent, warm candle */
---ember-deep: #E8833A;   /* hover/active */
---tube:       #7FD9C4;   /* secondary accent, dim CRT */
---bloodwash:  #B23A48;   /* rare emphasis, large text / non-text only (contrast ~4.0:1) */
+--ink:        oklch(19.7% 0.113 278.4); /* the room — matches prod #100346 */
+--ink-raised: oklch(31.1% 0.189 274.6); /* cards, drawers — matches prod #21078D */
+--bone:       oklch(100%  0     90);    /* body text — pure white, matches prod */
+--bone-dim:   oklch(82%   0     90);    /* secondary text, meta, captions */
+--ember:      oklch(96.8% 0.211 109.8); /* primary accent — matches prod #FFFF00 */
+--ember-deep: oklch(82%   0.19  90);    /* hover/active — deeper gold (no direct prod ref) */
+--tube:       oklch(88.4% 0.193 162.4); /* secondary accent — matches prod #00FFB2 */
+--bloodwash:  oklch(65.3% 0.246 6.3);   /* rare emphasis, large text / non-text only — matches prod #FF2578 */
 ```
 
-Keep old token names aliased to new values for one commit so nothing breaks mid-sweep, then rename in a follow-up.
+Token *names* are unchanged from the candle-glow pass (only values changed) so every component partial that references them kept working without edits. If you're touching color, change values here and in `_effects.scss` (`--glow-warm-*`, `--glow-cool-*`, `--flame-glow`) — don't hardcode hex/oklch literals in component files.
 
 ### Glow mechanics
 
-- **Kill** the `filter: hue-rotate() brightness()` hack in `_components.scss` (around line 31).
-- **Kill** the `backdrop-filter: blur(60px)` in `_structure.scss` (around line 198). Replace with solid `--ink-raised` + 1px `--ember` hairline.
-- Warm glow is **wide, dim, low-chroma** — multi-layer shadows like:
-  `0 0 1px var(--ember), 0 0 24px -4px rgba(245,162,93,.35), 0 0 60px -20px rgba(245,162,93,.15)`
-- Add a body-level radial vignette so edges fall into `--ink`.
-- Add an inline SVG noise/grain overlay at ~4% opacity on a single fixed pseudo-element (never repeated per card).
-- Heading-only `text-shadow: 0 0 .4em rgba(245,162,93,.25)`. Never on body copy.
+- `hue-rotate()`/`brightness()` filter hacks and heavy `backdrop-filter: blur(60px)` stay dead — not reintroduced by the neon reversal. The rail/detail panels use a light `backdrop-filter: blur(6px)` "gritty glass" scrim (`--ink-glass-82`) instead, which is fine to keep.
+- Glow is still **wide, dim, low-chroma multi-layer shadows** (`@mixin candle-glow` / `@mixin tube-glow` in `_effects.scss`) — mechanism unchanged from the candle-glow pass, just recolored via the tokens above.
+- The flame-gradient backdrop (`.content-column` in `_structure.scss`) is back: indigo dome + warm glow over a hot-pink base, same geometry as the original pre-redesign neon gradient. Body copy sits on a solid `--ink-glass-82` scrim (`.rail`, `.detail__content`), never directly on the raw gradient — needed to hold WCAG AA against a much more vivid backdrop than the candle-glow version.
+- No grain overlay. It was removed along with the "dim room" atmosphere it was built to sell.
+- Heading-only `@include heading-glow` (text-shadow via `--glow-warm-heading`). Never on body copy.
 
 ### Type
 
