@@ -8,7 +8,6 @@
   position: absolute;
   inset: 0;
   z-index: 4;
-  background: var(--ink);
   padding: 2.5rem 2rem;
   overflow-y: auto;
   transform: translateX(-100%);
@@ -30,6 +29,25 @@
     transform: translateX(0);
     pointer-events: auto;
   }
+}
+
+// Newsletter and about panels carry dense paragraph copy, so they keep
+// a solid backing to hold contrast.
+.slide-panel {
+  background: var(--ink);
+}
+
+// The episode list panel repaints its own copy of the flame gradient
+// instead — it's mostly short list rows using the same bone/ember
+// tokens .detail__content already uses over the raw gradient, and this
+// matches the standalone /episodes/ page (.page-content has no scrim,
+// so the list sits directly on .content-column's gradient there too).
+// Needs to be opaque, not just "let .content-column show through":
+// the panel sits above .detail__content in stacking order, and without
+// its own paint, that underlying episode content bleeds through the
+// gaps between list rows.
+.episode-list-panel {
+  @include flame-backdrop;
 }
 
 .slide-panel__header,
@@ -142,9 +160,6 @@
     color: var(--bone);
     margin: 2rem 0 0.75rem;
     @include heading-glow;
-    &:first-child {
-      margin-block-start: 0;
-    }
   }
   h3 {
     font-weight: 700;

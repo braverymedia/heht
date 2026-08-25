@@ -42,10 +42,28 @@
 // --------------------------------------------------------------------------
 // Flame backdrop
 //
-// Moved to .content-column in _structure.scss so the flame only shows
-// through the content panels (rail + detail), not the video panel.
-// The gradient values are defined on .content-column's background property.
+// Single source of truth for the gradient itself, consumed by both
+// .content-column (_structure.scss) and .episode-list-panel
+// (_slide-panels.scss). The panel needs its own *opaque* copy rather
+// than relying on transparency to reveal .content-column underneath —
+// it sits above .detail__content in the stacking order, and a
+// transparent panel lets that content's text paint through in the gaps
+// between list rows.
 // --------------------------------------------------------------------------
+@mixin flame-backdrop {
+  background:
+    radial-gradient(
+      160.86% 142.28% at 50% 143.33%,
+      transparent 35.1%,
+      var(--ink) 100%
+    ),
+    radial-gradient(
+      24.44% 70.72% at 50% 120.72%,
+      var(--flame-glow) 46.15%,
+      transparent 100%
+    ),
+    var(--bloodwash);
+}
 
 // --------------------------------------------------------------------------
 // Atmosphere a11y guards

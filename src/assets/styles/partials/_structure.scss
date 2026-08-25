@@ -58,18 +58,7 @@ body {
   // Flame gradient — moved from body::before to the content column
   // so video panel stays clean. Same geometry as the original neon
   // reference gradient: indigo dome + warm glow over a hot-pink base.
-  background:
-    radial-gradient(
-      160.86% 142.28% at 50% 143.33%,
-      transparent 35.1%,
-      var(--ink) 100%
-    ),
-    radial-gradient(
-      24.44% 70.72% at 50% 120.72%,
-      var(--flame-glow) 46.15%,
-      transparent 100%
-    ),
-    var(--bloodwash);
+  @include flame-backdrop;
 
   // Shadow casting over the video panel (the whole stack's edge)
   box-shadow:
