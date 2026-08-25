@@ -124,6 +124,42 @@
   margin-block-end: 1.5rem;
 }
 
+// About panel body copy — had no dedicated rules at all, so its
+// headings fell back to the generic h1-h6 tokens in _type.scss
+// (--type-xl/--type-lg), sized for page-level headings, not secondary
+// copy inside a ~380px panel. Matches .detail__body's treatment
+// (_episode-detail.scss) for the same kind of content elsewhere.
+.about-body {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--bone-dim);
+
+  h2 {
+    font-weight: 900;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin: 2rem 0 0.75rem;
+    @include heading-glow;
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+  h3 {
+    font-weight: 700;
+    font-size: var(--type-sm);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin: 2rem 0 0.75rem;
+  }
+  p { margin: 0 0 1em; }
+  strong { color: var(--bone); }
+  a { color: var(--tube); text-underline-offset: 3px; }
+  a:hover { color: var(--ember); }
+}
+
 .episode-list-panel__list {
   list-style: none;
   padding: 0;
