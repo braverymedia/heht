@@ -10,39 +10,44 @@ $breakpoint-mobile: 768px;
 }
 
 :root {
-  // ---------- Candle-glow palette ----------
-  // Moving away from neon/UV toward dim-room / warm-filament / dim-CRT.
+  // ---------- Neon palette ----------
+  // Back to the original blueviolet/yellow/green/pink neon identity (now
+  // that the show has a cohost, not just Joel). Values are OKLCH
+  // conversions of the exact production hex colors on higheredhottakes.com
+  // (#100346 / #21078D / #FFFF00 / #00FFB2 / #FF2578) — not a reinterpreted
+  // palette — so the site matches the live brand exactly, just expressed
+  // in a tunable color space.
   // All colors validated for WCAG 2.2 AA against --ink and --ink-raised
-  // at body copy sizes during the spike at /spike/.
-  --ink:        oklch(15.5% 0.009 274.3); // the room
-  --ink-raised: oklch(19.7% 0.012 277.8); // cards, drawers, media frames
-  --bone:       oklch(92.6% 0.023 87.2);  // body text — never pure white
-  --bone-dim:   oklch(76.5% 0.024 87.2);  // secondary text, meta, captions
-  --ember:      oklch(78.1% 0.13 58.9);   // primary accent, warm candle
-  --ember-deep: oklch(70.8% 0.15 53.1);   // hover/active
-  --tube:       oklch(82.3% 0.092 177.2); // secondary accent, dim CRT
-  --bloodwash:  oklch(52.5% 0.155 17.6);  // rare emphasis, large text / non-text only
+  // at body copy sizes — see contrast table in the redesign notes.
+  --ink:        oklch(19.7% 0.113 278.4); // the room — matches prod #100346
+  --ink-raised: oklch(31.1% 0.189 274.6); // cards, drawers — matches prod #21078D
+  --bone:       oklch(100%  0     90);    // body text — pure white, matches prod
+  --bone-dim:   oklch(82%   0     90);    // secondary text, meta, captions
+  --ember:      oklch(96.8% 0.211 109.8); // primary accent — matches prod #FFFF00
+  --ember-deep: oklch(82%   0.19  90);    // hover/active — deeper gold (no direct prod ref, decorative only)
+  --tube:       oklch(88.4% 0.193 162.4); // secondary accent — matches prod #00FFB2
+  --bloodwash:  oklch(65.3% 0.246 6.3);   // rare emphasis, large text / non-text only — matches prod #FF2578
 
   // ---------- Ember tint scale ----------
-  // Warm ember at opacity steps for surface fills and borders. For glow
+  // Yellow ember at opacity steps for surface fills and borders. For glow
   // shadows see --glow-warm-* in _effects.scss (they reuse the same base).
-  --ember-wash-1: oklch(78.1% 0.13 58.9 / 0.04);
-  --ember-wash-2: oklch(78.1% 0.13 58.9 / 0.06);
-  --ember-wash-3: oklch(78.1% 0.13 58.9 / 0.08);
-  --ember-wash-4: oklch(78.1% 0.13 58.9 / 0.10);
-  --ember-wash-5: oklch(78.1% 0.13 58.9 / 0.12);
-  --ember-wash-6: oklch(78.1% 0.13 58.9 / 0.15);
-  --ember-wash-7: oklch(78.1% 0.13 58.9 / 0.20);
-  --ember-wash-8: oklch(78.1% 0.13 58.9 / 0.25);
-  --ember-wash-9: oklch(78.1% 0.13 58.9 / 0.30);
+  --ember-wash-1: oklch(96.8% 0.211 109.8 / 0.04);
+  --ember-wash-2: oklch(96.8% 0.211 109.8 / 0.06);
+  --ember-wash-3: oklch(96.8% 0.211 109.8 / 0.08);
+  --ember-wash-4: oklch(96.8% 0.211 109.8 / 0.10);
+  --ember-wash-5: oklch(96.8% 0.211 109.8 / 0.12);
+  --ember-wash-6: oklch(96.8% 0.211 109.8 / 0.15);
+  --ember-wash-7: oklch(96.8% 0.211 109.8 / 0.20);
+  --ember-wash-8: oklch(96.8% 0.211 109.8 / 0.25);
+  --ember-wash-9: oklch(96.8% 0.211 109.8 / 0.30);
 
   // ---------- Ink glass scale ----------
   // Semi-opaque --ink for scrim/glass backgrounds (play button, ep-nav,
   // rail gritty glass). Numbered by percent opaque, low → high.
-  --ink-glass-50: oklch(15.5% 0.009 274.3 / 0.50);
-  --ink-glass-65: oklch(15.5% 0.009 274.3 / 0.65);
-  --ink-glass-70: oklch(15.5% 0.009 274.3 / 0.70);
-  --ink-glass-82: oklch(15.5% 0.009 274.3 / 0.82);
+  --ink-glass-50: oklch(19.7% 0.113 278.4 / 0.50);
+  --ink-glass-65: oklch(19.7% 0.113 278.4 / 0.65);
+  --ink-glass-70: oklch(19.7% 0.113 278.4 / 0.70);
+  --ink-glass-82: oklch(19.7% 0.113 278.4 / 0.82);
 
   // ---------- Form state ----------
   --error:   oklch(63.7% 0.208 25.3);
