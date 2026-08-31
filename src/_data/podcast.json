@@ -39,6 +39,7 @@
 	},
 	"newsletter": {
 		"action": "https://heht-newsletter-signup-8c5nz.bunny.run/",
-		"description": "Sign up for the Higher Ed Hot Takes newsletter and get the latest episodes and news in your inbox."
+		"description": "Sign up for the Higher Ed Hot Takes newsletter and get the latest episodes and news in your inbox.",
+		"turnstileSiteKey": ""
 	}
 }

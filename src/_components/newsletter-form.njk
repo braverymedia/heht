@@ -25,6 +25,17 @@
       <span class="error-message"></span>
     </div>
 
+    {# Cloudflare Turnstile — opt-in bot check, off unless a site key is
+       configured (pairs with TURNSTILE_SECRET_KEY on the edge script, see
+       src/edge/newsletter.js). The widget injects its own hidden
+       cf-turnstile-response field; newsletter-form.js reads it explicitly
+       since this form serializes a fixed field list rather than the whole
+       form. #}
+    {% if podcast.newsletter.turnstileSiteKey %}
+    <div class="cf-turnstile" data-sitekey="{{ podcast.newsletter.turnstileSiteKey }}"></div>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    {% endif %}
+
     <button type="submit" class="newsletter-form-button">
       <span class="button-text">Subscribe</span>
       <span class="spinner" style="display: none;">

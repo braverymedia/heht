@@ -73,6 +73,12 @@
         // from before the form posted to our own Bunny edge function),
         // which meant the server never saw the honeypot or timestamp
         // fields and its spam checks silently never ran.
+        //
+        // cf-turnstile-response only exists when the Turnstile widget is
+        // rendered (turnstileSiteKey configured in podcast.json) — this
+        // form doesn't serialize all fields generically, so it has to be
+        // picked up by name explicitly, unlike jggweb's generic serializer.
+        const turnstileField = form.querySelector('[name="cf-turnstile-response"]');
         const formBody = new URLSearchParams({
           email: email.value,
           firstName: firstName.value,
@@ -80,6 +86,9 @@
           website: honeypotField.value,
           formTimestamp: timestampField.value,
         });
+        if (turnstileField) {
+          formBody.set('cf-turnstile-response', turnstileField.value);
+        }
 
         const response = await fetch(event.target.action, {
           method: 'POST',

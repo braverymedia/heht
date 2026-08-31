@@ -33,6 +33,14 @@
 // deployed to one Bunny Edge Script endpoint or pasted into several —
 // no hardcoded cross-endpoint URL to keep in sync.
 //
+// Bot defenses (honeypot, timing, disposable-domain, placeholder-name,
+// optional Turnstile, per-IP + site-wide rate limiting) mirror jggweb's
+// newsletter-signup.js, ported after a botnet hammered joelgoodman.co's
+// raw form endpoint at ~2/min with fake "Test User" signups from rotating
+// IPs — the per-IP rate limit alone didn't catch it because no single IP
+// crossed its threshold. The site-wide limit is what actually stopped it;
+// Turnstile is the strongest layer on top, opt-in via env var.
+//
 // Env vars (set in Bunny → Compute → Edge Scripts → Environment):
 //   LOOPS_API_KEY           — from Loops › Settings › API
 //   LOOPS_TRANSACTIONAL_ID  — confirmation email template ID
@@ -42,6 +50,12 @@
 //   BUNNY_CDN_URL           — storage.bunnycdn.com
 //   BUNNY_STORAGE_ZONE      — storage zone name
 //   BUNNY_API_KEY           — storage zone password (FTP & API Access)
+//   TURNSTILE_SECRET_KEY    — optional. If set, a Cloudflare Turnstile
+//                             token (field "cf-turnstile-response") is
+//                             required and verified server-side. Pairs with
+//                             podcast.newsletter.turnstileSiteKey in the
+//                             front-end form. If unset, Turnstile checking
+//                             is skipped entirely.
 
 import * as BunnySDK from "https://esm.sh/@bunny.net/edgescript-sdk@0.11.2";
 import process from "node:process";
@@ -57,10 +71,32 @@ const PRIMARY_SITE_URL = ALLOWED_ORIGINS[0] || "https://higheredhottakes.com";
 const BUNNY_CDN_URL = process.env.BUNNY_CDN_URL;
 const BUNNY_STORAGE_ZONE = process.env.BUNNY_STORAGE_ZONE;
 const BUNNY_API_KEY = process.env.BUNNY_API_KEY;
+const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
 
 const RATE_LIMIT_MAX = 5; // max signup attempts per IP
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
+const GLOBAL_RATE_LIMIT_MAX = 10; // max signups site-wide...
+const GLOBAL_RATE_LIMIT_WINDOW = 10 * 60 * 1000; // ...per 10 minutes — the layer
+// that actually stopped the jggweb botnet, which rotated IPs to stay under
+// the per-IP limit above.
 const TOKEN_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+// Not exhaustive — covers common disposable/temp-mail providers. Extend as
+// new ones show up in abuse traffic. Mirrors jggweb's list.
+const DISPOSABLE_DOMAINS = new Set([
+  "mailinator.com", "guerrillamail.com", "10minutemail.com", "tempmail.com",
+  "temp-mail.org", "throwawaymail.com", "yopmail.com", "trashmail.com",
+  "getnada.com", "fakeinbox.com", "sharklasers.com", "dispostable.com",
+  "maildrop.cc", "mintemail.com", "spamgourmet.com", "moakt.com",
+  "emailondeck.com", "mohmal.com", "discard.email", "mailnesia.com",
+  "33mail.com", "guerrillamailblock.com", "tempinbox.com",
+]);
+
+// Exact firstName+lastName pairs seen from bot scripts (case-insensitive).
+// Cheap, targeted block — not a substitute for the checks above, but free.
+const PLACEHOLDER_NAMES = new Set([
+  "test user", "john doe", "jane doe", "foo bar", "test test", "asdf asdf",
+]);
 
 // ── CORS ────────────────────────────────────────────────────────────────
 function corsHeaders(req) {
@@ -110,16 +146,47 @@ async function storageDelete(path) {
   });
 }
 
-// ── Rate limit ──────────────────────────────────────────────────────────
-async function checkAndUpdateRateLimit(ip) {
-  const path = `newsletter-rate-limit/${ip}.json`;
+// ── Rate limits ─────────────────────────────────────────────────────────
+async function checkAndUpdateWindow(path, max, windowMs) {
   let timestamps = (await storageGet(path)) || [];
   const now = Date.now();
-  timestamps = timestamps.filter((ts) => now - ts < RATE_LIMIT_WINDOW);
-  if (timestamps.length >= RATE_LIMIT_MAX) return false;
+  timestamps = timestamps.filter((ts) => now - ts < windowMs);
+  if (timestamps.length >= max) return false;
   timestamps.push(now);
   await storagePut(path, timestamps);
   return true;
+}
+
+function checkAndUpdateRateLimit(ip) {
+  return checkAndUpdateWindow(`newsletter-rate-limit/${ip}.json`, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW);
+}
+
+function checkAndUpdateGlobalRateLimit() {
+  return checkAndUpdateWindow("newsletter-rate-limit/_global.json", GLOBAL_RATE_LIMIT_MAX, GLOBAL_RATE_LIMIT_WINDOW);
+}
+
+// ── Bot signal checks ──────────────────────────────────────────────────
+function isDisposableDomain(email) {
+  const domain = email.split("@")[1]?.toLowerCase().trim();
+  return !!domain && DISPOSABLE_DOMAINS.has(domain);
+}
+
+function isPlaceholderName(firstName, lastName) {
+  const pair = `${firstName} ${lastName}`.toLowerCase().trim();
+  return PLACEHOLDER_NAMES.has(pair);
+}
+
+async function verifyTurnstile(token, ip) {
+  if (!TURNSTILE_SECRET_KEY) return true; // not configured — skip
+  if (!token) return false;
+  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ secret: TURNSTILE_SECRET_KEY, response: token, remoteip: ip }),
+  });
+  if (!res.ok) return false;
+  const data = await res.json().catch(() => null);
+  return !!data?.success;
 }
 
 // ── Token ───────────────────────────────────────────────────────────────
@@ -328,6 +395,7 @@ async function handleSignup(req, form) {
   const lastName = (form.get("lastName") || "").toString().trim();
   const honeypot = (form.get("website") || "").toString();
   const timestamp = parseInt(form.get("formTimestamp") || "0", 10);
+  const turnstileToken = (form.get("cf-turnstile-response") || "").toString();
   const ip = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for") || "unknown";
   const referrer = req.headers.get("referer") || "";
 
@@ -338,9 +406,21 @@ async function handleSignup(req, form) {
   if (timestamp && Date.now() - timestamp < 2000) {
     return json(req, 400, { error: "Form submitted too quickly." });
   }
+  if (isDisposableDomain(email)) {
+    return json(req, 400, { error: "Please use a permanent email address." });
+  }
+  if (isPlaceholderName(firstName, lastName)) {
+    return json(req, 400, { error: "Something went wrong. Please try again." });
+  }
+  if (!(await verifyTurnstile(turnstileToken, ip))) {
+    return json(req, 400, { error: "Verification failed. Please try again." });
+  }
 
   const allowed = await checkAndUpdateRateLimit(ip);
   if (!allowed) return json(req, 429, { error: "Too many signups from this IP. Please try again later." });
+
+  const globalAllowed = await checkAndUpdateGlobalRateLimit();
+  if (!globalAllowed) return json(req, 429, { error: "Too many signups right now. Please try again in a little while." });
 
   try {
     const token = generateToken();
